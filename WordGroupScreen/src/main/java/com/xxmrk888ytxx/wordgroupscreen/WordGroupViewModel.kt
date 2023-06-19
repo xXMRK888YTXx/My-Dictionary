@@ -19,7 +19,17 @@ class WordGroupViewModel @Inject constructor(
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
 
+        when(event) {
+           is LocalUiEvent.FloatButtonClickEvent,is LocalUiEvent.AddFirstWordGroupButtonClickEvent -> {
+               val navigator = (event as? LocalUiEvent.FloatButtonClickEvent)?.navigator
+                   ?: (event as? LocalUiEvent.AddFirstWordGroupButtonClickEvent)?.navigator ?: return
 
+               navigator.toCreateWordGroupScreen()
+           }
+
+
+
+        }
     }
 
     private val _state:MutableStateFlow<ScreenState> = MutableStateFlow(ScreenState.EmptyWordGroupState)

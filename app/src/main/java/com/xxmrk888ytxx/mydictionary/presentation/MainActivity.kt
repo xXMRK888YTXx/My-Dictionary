@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.mydictionary.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -33,6 +34,10 @@ class MainActivity : ComponentActivity() {
         appComponent.inject(this)
         setContentWithTheme {
             val navController = rememberNavController()
+
+            LaunchedEffect(key1 = navController, block = {
+                activityViewModel.navController = navController
+            })
 
             NavigationHost(
                 navController = navController,

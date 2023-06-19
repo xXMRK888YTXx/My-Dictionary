@@ -12,7 +12,7 @@ class ActivityViewModel @Inject constructor(
 
 ) : ViewModel(),Navigator {
 
-    private val navController:NavController? = null
+    var navController:NavController? = null
 
 
     override fun toCreateWordGroupScreen() = runOnUiThread {
@@ -25,9 +25,7 @@ class ActivityViewModel @Inject constructor(
 
 
     private fun navigate(screen:Screen) {
-        if(navController == null) return
-
-        navController.navigate(screen.route) {
+        navController?.navigate(screen.route) {
             launchSingleTop = true
         }
     }
