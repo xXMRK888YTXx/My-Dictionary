@@ -55,6 +55,7 @@ android {
 dependencies {
     implementation(project(Project.CoreCompose))
     implementation(project(Project.WordGroupScreen))
+    implementation(project(Project.CreateWordGroupScreen))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

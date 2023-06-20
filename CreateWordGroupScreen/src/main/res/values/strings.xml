@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_group_name">Enter group name</string>
+    <string name="select_languages">Select languages</string>
+    <string name="select_image">Select image</string>
+    <string name="enter_name_of_new_word_group">Enter name of new word group</string>
+    <string name="group_name">Group name</string>
+</resources>

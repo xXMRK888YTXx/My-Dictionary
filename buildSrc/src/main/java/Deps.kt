@@ -147,5 +147,9 @@ object Deps {
         const val gmsServiceClassPath = "com.google.gms:google-services:4.3.15"
     }
 
+    object Lottie {
+        const val lottie = "com.airbnb.android:lottie-compose:6.0.1"
+    }
+
 
 }

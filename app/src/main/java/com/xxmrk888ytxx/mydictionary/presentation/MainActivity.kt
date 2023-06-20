@@ -10,6 +10,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
+import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
@@ -25,6 +27,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var activityViewModelFactory: ActivityViewModel.Factory
+
+    @Inject
+    lateinit var createWordGroupViewModel:Provider<CreateWordGroupViewModel>
 
     private val activityViewModel by viewModels<ActivityViewModel> { activityViewModelFactory }
 
@@ -53,6 +58,19 @@ class MainActivity : ComponentActivity() {
                     val screenState by viewModel.state.collectAsStateWithLifecycle(viewModel.defValue)
 
                     WordGroupScreen(
+                        screenState = screenState,
+                        onEvent = viewModel::handleEvent
+                    )
+                }
+
+                composable(Screen.CreateWordGroupScreen.route) {
+                    val viewModel = composeViewModel {
+                        createWordGroupViewModel.get()
+                    }
+
+                    val screenState by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
+
+                    CreateWordGroupScreen(
                         screenState = screenState,
                         onEvent = viewModel::handleEvent
                     )
