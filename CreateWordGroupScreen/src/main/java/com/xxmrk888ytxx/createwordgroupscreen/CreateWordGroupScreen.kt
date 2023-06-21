@@ -1,8 +1,22 @@
 package com.xxmrk888ytxx.createwordgroupscreen
 
 import android.content.res.Configuration
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.with
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,11 +30,13 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,15 +50,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithLocalProviderForPreview
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
@@ -64,6 +84,8 @@ fun CreateWordGroupScreen(
 
     val scope = rememberCoroutineScope()
 
+    val navigator = LocalNavigator.current
+
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
@@ -78,7 +100,7 @@ fun CreateWordGroupScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { }) {
+                    IconButton(onClick = { onEvent(LocalUiEvent.BackPageEvent(pagerState,scope,navigator)) }) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                             contentDescription = "",
@@ -126,19 +148,172 @@ fun CreateWordGroupScreen(
                             screenState.languages,
                             primaryLanguage = screenState.selectedPrimaryLanguage,
                             secondaryLanguage = screenState.selectedSecondaryLanguage,
-                            onSelectPrimaryLanguage = { onEvent(LocalUiEvent.SelectNewPrimaryLanguageEvent(it)) },
-                            onSelectSecondaryLanguage = { onEvent(LocalUiEvent.SelectNewSecondaryLanguageEvent(it)) },
+                            onSelectPrimaryLanguage = {
+                                onEvent(
+                                    LocalUiEvent.SelectNewPrimaryLanguageEvent(
+                                        it
+                                    )
+                                )
+                            },
+                            onSelectSecondaryLanguage = {
+                                onEvent(
+                                    LocalUiEvent.SelectNewSecondaryLanguageEvent(
+                                        it
+                                    )
+                                )
+                            },
                             onNewLanguageRequest = {},
-                            onLanguageSelectCompleted = { onEvent(LocalUiEvent.LanguageSelectCompletedEvent(pagerState,scope)) }
+                            onLanguageSelectCompleted = {
+                                onEvent(
+                                    LocalUiEvent.LanguageSelectCompletedEvent(
+                                        pagerState,
+                                        scope
+                                    )
+                                )
+                            }
                         )
                     }
 
                     Pages.SELECT_IMAGE -> {
+                        SelectImageState(
+                            screenState.imageGroupUrl,
+                            onImageSelectCompleted = {},
+                            onImageSelected = { onEvent(LocalUiEvent.ImagePickedEvent(it)) },
+                            onPickImageRequest = {
+                                onEvent(LocalUiEvent.PickImageRequestEvent(it))
+                            },
 
+                        )
                     }
                 }
             }
 
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun SelectImageState(
+    selectedImageUrl: String?,
+    onImageSelectCompleted: () -> Unit,
+    onImageSelected:(Uri?) -> Unit,
+    onPickImageRequest:(ActivityResultLauncher<PickVisualMediaRequest>) -> Unit
+) {
+    val selectImageContract = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = onImageSelected
+    )
+
+    Scaffold(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        bottomBar = {
+            Button(
+                onClick = onImageSelectCompleted,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = stringResource(R.string.finish))
+            }
+        }
+    ) { padding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.image_animation))
+
+            val progress by animateLottieCompositionAsState(
+                composition,
+                restartOnPlay = true,
+                speed = 0.6f,
+                iterations = 5,
+            )
+
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp),
+            )
+
+            Text(
+                text = stringResource(R.string.you_can_add_image_to_you_word_group_it_is_optional_but_make_your_group_more_beautiful),
+                style = MaterialTheme.typography.titleLarge
+            )
+
+
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(MaterialTheme.shapes.large),
+                contentAlignment = Alignment.Center
+            ) {
+                Scaffold(
+                    Modifier.fillMaxSize(),
+                    floatingActionButton = {
+                        FloatingActionButton(onClick = { onPickImageRequest(selectImageContract) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_image_search_24),
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
+                ) { padding ->
+                    
+                    AnimatedContent(
+                        targetState = selectedImageUrl,
+                        transitionSpec = {
+                            slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(700)
+                            ) with slideOutHorizontally(
+                                targetOffsetX = { 0 },
+                                animationSpec = tween(0)
+                            )
+                        }
+                    ) {isImageSelected ->
+                        if(isImageSelected != null) {
+                            AsyncImage(
+                                model = selectedImageUrl,
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(padding),
+                                contentScale = ContentScale.Crop
+                            )       
+                        } else {
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(MaterialTheme.colorScheme.onSecondary),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(
+                                        id = R.drawable.baseline_image_24
+                                    ),
+                                    contentDescription = "",
+                                    modifier = Modifier.size(48.dp)
+                                )
+                            }
+                        }
+                        
+                    }
+                }
+                
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }
@@ -152,7 +327,7 @@ fun SelectLanguagesState(
     onSelectPrimaryLanguage: (Language) -> Unit,
     onSelectSecondaryLanguage: (Language) -> Unit,
     onNewLanguageRequest: () -> Unit,
-    onLanguageSelectCompleted:() -> Unit
+    onLanguageSelectCompleted: () -> Unit,
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.translate_language_animation))
 
@@ -160,7 +335,7 @@ fun SelectLanguagesState(
         composition,
         restartOnPlay = true,
         speed = 0.6f,
-        iterations = 3,
+        iterations = 5,
     )
 
     Scaffold(
@@ -171,7 +346,8 @@ fun SelectLanguagesState(
             Button(
                 onClick = onLanguageSelectCompleted,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = primaryLanguage != null && secondaryLanguage != null
             ) {
                 Text(text = stringResource(id = R.string.next))
             }
@@ -270,7 +446,8 @@ fun EnterGroupNameState(
             Button(
                 onClick = onNameInputCompleted,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                enabled = titleText.isNotEmpty()
             ) {
                 Text(text = stringResource(R.string.next))
             }
@@ -313,6 +490,8 @@ fun EnterGroupNameState(
                 singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 }

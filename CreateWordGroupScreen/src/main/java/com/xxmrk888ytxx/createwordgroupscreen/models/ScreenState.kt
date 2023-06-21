@@ -8,5 +8,6 @@ data class ScreenState(
     val imageGroupUrl:String? = null,
     val languages: ImmutableList<Language> = persistentListOf(),
     val selectedPrimaryLanguage: Language? = null,
-    val selectedSecondaryLanguage: Language? = null
+    val selectedSecondaryLanguage: Language? = null,
+    val isAddWordGroupInProcess:Boolean = false
 )

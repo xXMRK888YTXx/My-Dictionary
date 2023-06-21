@@ -9,4 +9,6 @@
     <string name="choose_the_language_you_will_translate_into">Выберите язык, с которого вы будете переводить</string>
     <string name="choose_the_language_on_which_you_will_translate">Выберите язык, на который вы будете переводить</string>
     <string name="add_language">Добавить язык</string>
+    <string name="you_can_add_image_to_you_word_group_it_is_optional_but_make_your_group_more_beautiful">You can add image to you word group. It is optional, but make your group more beautiful</string>
+    <string name="finish">Finish</string>
 </resources>
