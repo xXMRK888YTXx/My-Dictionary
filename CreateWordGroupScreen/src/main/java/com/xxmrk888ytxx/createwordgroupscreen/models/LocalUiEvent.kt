@@ -12,4 +12,11 @@ internal sealed class LocalUiEvent : UiEvent {
     class TitleTextChangedEvent(val text: String) : LocalUiEvent()
 
     class WordGroupNameInputCompletedEvent(val pagerState: PagerState,val uiScope:CoroutineScope) : LocalUiEvent()
+
+    data class SelectNewPrimaryLanguageEvent(val language: Language) : LocalUiEvent()
+
+    data class SelectNewSecondaryLanguageEvent(val language: Language) : LocalUiEvent()
+
+    class LanguageSelectCompletedEvent(val pagerState: PagerState, val uiScope: CoroutineScope) : LocalUiEvent()
+
 }

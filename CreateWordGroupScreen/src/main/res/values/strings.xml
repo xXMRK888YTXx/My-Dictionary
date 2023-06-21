@@ -5,4 +5,8 @@
     <string name="select_image">Select image</string>
     <string name="enter_name_of_new_word_group">Enter name of new word group</string>
     <string name="group_name">Group name</string>
+    <string name="next">Next</string>
+    <string name="choose_the_language_you_will_translate_into">Select the language from which you will translate</string>
+    <string name="choose_the_language_on_which_you_will_translate">Choose the language on which you will translate</string>
+    <string name="add_language">Add language</string>
 </resources>

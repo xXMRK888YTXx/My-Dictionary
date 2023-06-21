@@ -1,13 +1,13 @@
 package com.xxmrk888ytxx.createwordgroupscreen
 
-import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
+import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
+import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
-import com.xxmrk888ytxx.createwordgroupscreen.models.Pages
 import com.xxmrk888ytxx.createwordgroupscreen.models.ScreenState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -18,15 +18,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CreateWordGroupViewModel @Inject constructor(
-
-) : ViewModel(),UiModel<ScreenState> {
+    private val createLanguageContract: CreateLanguageContract,
+    private val provideLanguagesContract: ProvideLanguagesContract,
+) : ViewModel(), UiModel<ScreenState> {
 
 
     @OptIn(ExperimentalFoundationApi::class)
     override fun handleEvent(event: UiEvent) {
-        if(event !is LocalUiEvent) return
+        if (event !is LocalUiEvent) return
 
-        when(event) {
+        when (event) {
             is LocalUiEvent.TitleTextChangedEvent -> {
                 groupNameFlow.update { event.text }
             }
@@ -37,17 +38,42 @@ class CreateWordGroupViewModel @Inject constructor(
                     event.pagerState.animateScrollToPage(event.pagerState.currentPage + 1)
                 }
             }
+
+            is LocalUiEvent.SelectNewPrimaryLanguageEvent -> {
+                selectedPrimaryLanguage.update { event.language }
+            }
+
+            is LocalUiEvent.SelectNewSecondaryLanguageEvent -> {
+                selectedSecondaryLanguage.update { event.language }
+            }
+
+            is LocalUiEvent.LanguageSelectCompletedEvent -> {
+                event.uiScope.launch {
+                    event.pagerState.animateScrollToPage(event.pagerState.currentPage + 1)
+                }
+            }
         }
     }
 
-    private val groupNameFlow:MutableStateFlow<String> = MutableStateFlow("")
+    private val groupNameFlow: MutableStateFlow<String> = MutableStateFlow("")
 
-    private val selectedImagePathFlow:MutableStateFlow<String?> = MutableStateFlow(null)
+    private val selectedImagePathFlow: MutableStateFlow<String?> = MutableStateFlow(null)
+
+    private val selectedPrimaryLanguage: MutableStateFlow<Language?> = MutableStateFlow(null)
+
+    private val selectedSecondaryLanguage: MutableStateFlow<Language?> = MutableStateFlow(null)
 
     override val state: Flow<ScreenState> = combine(
-        groupNameFlow,selectedImagePathFlow
-    ) { groupName,selectedImagePath ->
-        ScreenState(groupName,selectedImagePath)
+        groupNameFlow,
+        selectedImagePathFlow,
+        provideLanguagesContract.languages,
+        selectedPrimaryLanguage,
+        selectedSecondaryLanguage
+    ) { groupName, selectedImagePath, availableLanguages, selectedPrimaryLanguage, selectedSecondaryLanguage ->
+        ScreenState(
+            groupName, selectedImagePath, availableLanguages, selectedPrimaryLanguage,
+            selectedSecondaryLanguage
+        )
     }
 
     override val defValue: ScreenState

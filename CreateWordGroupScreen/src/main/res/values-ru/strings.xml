@@ -5,4 +5,8 @@
     <string name="select_image">Выберите изображение</string>
     <string name="enter_name_of_new_word_group">Введите название новой группы слов</string>
     <string name="group_name">Название группы</string>
+    <string name="next">Далее</string>
+    <string name="choose_the_language_you_will_translate_into">Выберите язык, с которого вы будете переводить</string>
+    <string name="choose_the_language_on_which_you_will_translate">Выберите язык, на который вы будете переводить</string>
+    <string name="add_language">Добавить язык</string>
 </resources>
