@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "9c097daff896da3adad966322a8be97f",
+    "identityHash": "72d27eff70dfcd46d0a5c5cb91080f0a",
     "entities": [
       {
         "tableName": "Languages",
@@ -39,12 +39,101 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "WordGroups",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `primaryLanguageId` INTEGER NOT NULL, `secondaryLanguageId` INTEGER NOT NULL, `imageUrl` TEXT, FOREIGN KEY(`primaryLanguageId`) REFERENCES `Languages`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT , FOREIGN KEY(`secondaryLanguageId`) REFERENCES `Languages`(`id`) ON UPDATE NO ACTION ON DELETE RESTRICT )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "primaryLanguageId",
+            "columnName": "primaryLanguageId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "secondaryLanguageId",
+            "columnName": "secondaryLanguageId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_WordGroups_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_WordGroups_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_WordGroups_primaryLanguageId",
+            "unique": false,
+            "columnNames": [
+              "primaryLanguageId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordGroups_primaryLanguageId` ON `${TABLE_NAME}` (`primaryLanguageId`)"
+          },
+          {
+            "name": "index_WordGroups_secondaryLanguageId",
+            "unique": false,
+            "columnNames": [
+              "secondaryLanguageId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordGroups_secondaryLanguageId` ON `${TABLE_NAME}` (`secondaryLanguageId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Languages",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "primaryLanguageId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Languages",
+            "onDelete": "RESTRICT",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "secondaryLanguageId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '9c097daff896da3adad966322a8be97f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '72d27eff70dfcd46d0a5c5cb91080f0a')"
     ]
   }
 }

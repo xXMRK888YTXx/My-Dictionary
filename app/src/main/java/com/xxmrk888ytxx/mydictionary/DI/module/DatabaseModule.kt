@@ -18,4 +18,8 @@ class DatabaseModule {
     @Provides
     @AppScope
     fun provideLanguageLocalDataSource(database: Database) = database.languageLocalDataSource
+
+    @Provides
+    @AppScope
+    fun provideWordGroupLocalDataSource(database: Database) = database.wordGroupLocalDataSource
 }
