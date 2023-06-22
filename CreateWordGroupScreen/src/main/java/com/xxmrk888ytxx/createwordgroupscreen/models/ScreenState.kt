@@ -9,5 +9,6 @@ data class ScreenState(
     val languages: ImmutableList<Language> = persistentListOf(),
     val selectedPrimaryLanguage: Language? = null,
     val selectedSecondaryLanguage: Language? = null,
-    val isAddWordGroupInProcess:Boolean = false
+    val isAddWordGroupInProcess:Boolean = false,
+    val createNewLanguageDialogState:CreateNewLanguageDialogState = CreateNewLanguageDialogState.Hidden
 )

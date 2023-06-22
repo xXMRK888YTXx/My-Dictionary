@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
@@ -18,6 +17,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,8 +30,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,11 +40,14 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -64,6 +68,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithLocalProviderForPreview
+import com.xxmrk888ytxx.createwordgroupscreen.models.CreateNewLanguageDialogState
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.createwordgroupscreen.models.Pages
@@ -100,7 +105,15 @@ fun CreateWordGroupScreen(
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = { onEvent(LocalUiEvent.BackPageEvent(pagerState,scope,navigator)) }) {
+                    IconButton(onClick = {
+                        onEvent(
+                            LocalUiEvent.BackPageEvent(
+                                pagerState,
+                                scope,
+                                navigator
+                            )
+                        )
+                    }) {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
                             contentDescription = "",
@@ -162,7 +175,7 @@ fun CreateWordGroupScreen(
                                     )
                                 )
                             },
-                            onNewLanguageRequest = {},
+                            onNewLanguageRequest = { onEvent(LocalUiEvent.ShowCreateNewLanguageDialogEvent) },
                             onLanguageSelectCompleted = {
                                 onEvent(
                                     LocalUiEvent.LanguageSelectCompletedEvent(
@@ -183,12 +196,22 @@ fun CreateWordGroupScreen(
                                 onEvent(LocalUiEvent.PickImageRequestEvent(it))
                             },
 
-                        )
+                            )
                     }
                 }
             }
 
         }
+    }
+
+    if(screenState.createNewLanguageDialogState is CreateNewLanguageDialogState.Showed) {
+        CreateNewLanguageDialog(
+            onHideDialog = { onEvent(LocalUiEvent.HideCreateNewLanguageDialogEvent) },
+            newLanguageText = screenState.createNewLanguageDialogState.newLanguageText,
+            onNewLanguageTextInputted = { onEvent(LocalUiEvent.InputTextForLanguageNameEvent(it)) },
+            onNewLanguageCreated = { onEvent(LocalUiEvent.ConfigurationNewLanguageCompletedEvent) },
+            isAddingInProcess = screenState.createNewLanguageDialogState.isAddingInProcess
+        )
     }
 }
 
@@ -197,8 +220,8 @@ fun CreateWordGroupScreen(
 fun SelectImageState(
     selectedImageUrl: String?,
     onImageSelectCompleted: () -> Unit,
-    onImageSelected:(Uri?) -> Unit,
-    onPickImageRequest:(ActivityResultLauncher<PickVisualMediaRequest>) -> Unit
+    onImageSelected: (Uri?) -> Unit,
+    onPickImageRequest: (ActivityResultLauncher<PickVisualMediaRequest>) -> Unit,
 ) {
     val selectImageContract = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -269,7 +292,7 @@ fun SelectImageState(
                         }
                     }
                 ) { padding ->
-                    
+
                     AnimatedContent(
                         targetState = selectedImageUrl,
                         transitionSpec = {
@@ -281,8 +304,8 @@ fun SelectImageState(
                                 animationSpec = tween(0)
                             )
                         }
-                    ) {isImageSelected ->
-                        if(isImageSelected != null) {
+                    ) { isImageSelected ->
+                        if (isImageSelected != null) {
                             AsyncImage(
                                 model = selectedImageUrl,
                                 contentDescription = "",
@@ -290,7 +313,7 @@ fun SelectImageState(
                                     .fillMaxSize()
                                     .padding(padding),
                                 contentScale = ContentScale.Crop
-                            )       
+                            )
                         } else {
                             Box(
                                 Modifier
@@ -307,10 +330,10 @@ fun SelectImageState(
                                 )
                             }
                         }
-                        
+
                     }
                 }
-                
+
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -496,6 +519,89 @@ fun EnterGroupNameState(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CreateNewLanguageDialog(
+    onHideDialog: () -> Unit,
+    newLanguageText: String,
+    onNewLanguageTextInputted: (String) -> Unit,
+    onNewLanguageCreated: () -> Unit,
+    isAddingInProcess:Boolean
+) {
+    AlertDialog(onDismissRequest = onHideDialog) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.large,
+            tonalElevation = AlertDialogDefaults.TonalElevation
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Text(text = "Input language name",style = MaterialTheme.typography.titleLarge)
+
+                OutlinedTextField(
+                    value = newLanguageText,
+                    onValueChange = onNewLanguageTextInputted,
+                    label = { Text(text = "Language name") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !isAddingInProcess
+                )
+
+                Row(
+                    Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp,Alignment.End)
+                ) {
+
+                    if(!isAddingInProcess) {
+                        TextButton(onClick = onHideDialog) {
+                            Text(text = "Cancel")
+                        }
+
+                        TextButton(
+                            onClick = onNewLanguageCreated,
+                            enabled = newLanguageText.isNotEmpty()
+                        ) {
+                            Text(text = "Add")
+                        }
+                    } else {
+                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+                    }
+                }
+
+
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CreateNewLanguageDialogPrevWhite() = WithLocalProviderForPreview {
+    CreateNewLanguageDialog(
+        onHideDialog = {},
+        newLanguageText = "",
+        onNewLanguageCreated = {},
+        onNewLanguageTextInputted = {},
+        isAddingInProcess = true
+    )
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+fun CreateNewLanguageDialogPrevDark() = WithLocalProviderForPreview {
+    CreateNewLanguageDialog(
+        onHideDialog = {},
+        newLanguageText = "",
+        onNewLanguageCreated = {},
+        onNewLanguageTextInputted = {},
+        isAddingInProcess = true
+    )
+}
 
 @Preview
 @Composable

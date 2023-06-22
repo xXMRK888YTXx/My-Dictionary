@@ -4,11 +4,13 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
 import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
+import com.xxmrk888ytxx.createwordgroupscreen.models.CreateNewLanguageDialogState
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.createwordgroupscreen.models.ScreenState
@@ -19,13 +21,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 import javax.inject.Inject
 
 class CreateWordGroupViewModel @Inject constructor(
     private val createLanguageContract: CreateLanguageContract,
     private val provideLanguagesContract: ProvideLanguagesContract,
-    private val logger: Logger
+    private val logger: Logger,
 ) : ViewModel(), UiModel<ScreenState> {
 
 
@@ -64,16 +67,18 @@ class CreateWordGroupViewModel @Inject constructor(
             }
 
             is LocalUiEvent.ImagePickedEvent -> {
-                if(event.imageUri == null) return
+                if (event.imageUri == null) return
 
                 try {
                     selectedImagePathFlow.update { event.imageUri.toString() }
-                }catch (e:Exception) { logger.error(e, LOG_TAG) }
+                } catch (e: Exception) {
+                    logger.error(e, LOG_TAG)
+                }
             }
 
             is LocalUiEvent.BackPageEvent -> {
                 event.apply {
-                    if(pagerState.currentPage == 0) {
+                    if (pagerState.currentPage == 0) {
                         navigator.backScreen()
                     } else {
                         uiScope.launch {
@@ -81,6 +86,45 @@ class CreateWordGroupViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+
+            LocalUiEvent.ConfigurationNewLanguageCompletedEvent -> {
+                val dialogState = createNewLanguageDialogState.value
+
+                if (dialogState is CreateNewLanguageDialogState.Showed) {
+                    createNewLanguageDialogState.update {
+                        if (it is CreateNewLanguageDialogState.Showed) it.copy(
+                            isAddingInProcess = true
+                        ) else it
+                    }
+
+                    viewModelScope.launch(Dispatchers.IO) {
+                        createLanguageContract.newLanguage(dialogState.newLanguageText)
+
+                        createNewLanguageDialogState.update { CreateNewLanguageDialogState.Hidden }
+                    }
+                }
+            }
+
+            LocalUiEvent.HideCreateNewLanguageDialogEvent -> {
+
+                if (
+                    (createNewLanguageDialogState.value as? CreateNewLanguageDialogState.Showed)
+                        ?.isAddingInProcess == true
+                ) return
+
+                createNewLanguageDialogState.update { CreateNewLanguageDialogState.Hidden }
+            }
+
+            is LocalUiEvent.InputTextForLanguageNameEvent -> {
+                createNewLanguageDialogState.update {
+                    if (it is CreateNewLanguageDialogState.Showed) it.copy(newLanguageText = event.text)
+                    else it
+                }
+            }
+
+            LocalUiEvent.ShowCreateNewLanguageDialogEvent -> {
+                createNewLanguageDialogState.update { CreateNewLanguageDialogState.Showed() }
             }
         }
     }
@@ -95,13 +139,17 @@ class CreateWordGroupViewModel @Inject constructor(
 
     private val isAddWordGroupInProcess = MutableStateFlow(false)
 
+    private val createNewLanguageDialogState: MutableStateFlow<CreateNewLanguageDialogState> =
+        MutableStateFlow(CreateNewLanguageDialogState.Hidden)
+
     override val state: Flow<ScreenState> = combine(
         groupNameFlow,
         selectedImagePathFlow,
         provideLanguagesContract.languages,
         selectedPrimaryLanguage,
         selectedSecondaryLanguage,
-        isAddWordGroupInProcess
+        isAddWordGroupInProcess,
+        createNewLanguageDialogState
     ) { flowArray ->
         try {
             ScreenState(
@@ -110,10 +158,12 @@ class CreateWordGroupViewModel @Inject constructor(
                 languages = flowArray[2] as ImmutableList<Language>,
                 selectedPrimaryLanguage = flowArray[3] as Language?,
                 selectedSecondaryLanguage = flowArray[4] as Language?,
-                isAddWordGroupInProcess = flowArray[5] as Boolean
-
+                isAddWordGroupInProcess = flowArray[5] as Boolean,
+                createNewLanguageDialogState = flowArray[6] as CreateNewLanguageDialogState
             )
-        }catch (e:ClassCastException) { logger.error(e, LOG_TAG);defValue }
+        } catch (e: ClassCastException) {
+            logger.error(e, LOG_TAG);defValue
+        }
     }
 
     override val defValue: ScreenState
