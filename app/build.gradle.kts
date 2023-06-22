@@ -56,6 +56,9 @@ dependencies {
     implementation(project(Project.CoreCompose))
     implementation(project(Project.WordGroupScreen))
     implementation(project(Project.CreateWordGroupScreen))
+    implementation(project(Project.Database))
+
+
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 
