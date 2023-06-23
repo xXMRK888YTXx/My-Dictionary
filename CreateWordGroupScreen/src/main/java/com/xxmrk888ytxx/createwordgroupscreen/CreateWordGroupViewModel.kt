@@ -9,6 +9,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
+import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWorkGroupContract
 import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.CreateNewLanguageDialogState
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
@@ -29,6 +30,7 @@ class CreateWordGroupViewModel @Inject constructor(
     private val createLanguageContract: CreateLanguageContract,
     private val provideLanguagesContract: ProvideLanguagesContract,
     private val logger: Logger,
+    private val createWorkGroupContract: CreateWorkGroupContract
 ) : ViewModel(), UiModel<ScreenState> {
 
 
@@ -126,6 +128,23 @@ class CreateWordGroupViewModel @Inject constructor(
             LocalUiEvent.ShowCreateNewLanguageDialogEvent -> {
                 createNewLanguageDialogState.update { CreateNewLanguageDialogState.Showed() }
             }
+
+            is LocalUiEvent.WordGroupCreateCompleted -> {
+                if(isCreateWordGroupInProcess.value) return
+
+                isCreateWordGroupInProcess.update { true }
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    createWorkGroupContract.createWordGroup(
+                        groupName = groupNameFlow.value,
+                        primaryLanguage = selectedPrimaryLanguage.value ?: return@launch,
+                        secondLanguage = selectedSecondaryLanguage.value ?: return@launch,
+                        imageUrl = selectedImagePathFlow.value
+                    )
+
+                    event.navigator.backScreen()
+                }
+            }
         }
     }
 
@@ -142,6 +161,8 @@ class CreateWordGroupViewModel @Inject constructor(
     private val createNewLanguageDialogState: MutableStateFlow<CreateNewLanguageDialogState> =
         MutableStateFlow(CreateNewLanguageDialogState.Hidden)
 
+    private val isCreateWordGroupInProcess:MutableStateFlow<Boolean> = MutableStateFlow(false)
+
     override val state: Flow<ScreenState> = combine(
         groupNameFlow,
         selectedImagePathFlow,
@@ -149,7 +170,8 @@ class CreateWordGroupViewModel @Inject constructor(
         selectedPrimaryLanguage,
         selectedSecondaryLanguage,
         isAddWordGroupInProcess,
-        createNewLanguageDialogState
+        createNewLanguageDialogState,
+        isCreateWordGroupInProcess
     ) { flowArray ->
         try {
             ScreenState(
@@ -159,10 +181,13 @@ class CreateWordGroupViewModel @Inject constructor(
                 selectedPrimaryLanguage = flowArray[3] as Language?,
                 selectedSecondaryLanguage = flowArray[4] as Language?,
                 isAddWordGroupInProcess = flowArray[5] as Boolean,
-                createNewLanguageDialogState = flowArray[6] as CreateNewLanguageDialogState
+                createNewLanguageDialogState = flowArray[6] as CreateNewLanguageDialogState,
+                isCreateWordGroupInProcess = flowArray[7] as Boolean
             )
         } catch (e: ClassCastException) {
-            logger.error(e, LOG_TAG);defValue
+            logger.error(e, LOG_TAG)
+
+            defValue
         }
     }
 

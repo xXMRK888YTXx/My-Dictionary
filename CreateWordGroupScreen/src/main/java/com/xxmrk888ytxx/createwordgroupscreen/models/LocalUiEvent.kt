@@ -43,4 +43,6 @@ internal sealed class LocalUiEvent : UiEvent {
 
     data class InputTextForLanguageNameEvent(val text: String) : LocalUiEvent()
 
+    class WordGroupCreateCompleted(val navigator: Navigator) : LocalUiEvent()
+
 }

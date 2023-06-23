@@ -10,5 +10,6 @@ data class ScreenState(
     val selectedPrimaryLanguage: Language? = null,
     val selectedSecondaryLanguage: Language? = null,
     val isAddWordGroupInProcess:Boolean = false,
-    val createNewLanguageDialogState:CreateNewLanguageDialogState = CreateNewLanguageDialogState.Hidden
+    val createNewLanguageDialogState:CreateNewLanguageDialogState = CreateNewLanguageDialogState.Hidden,
+    val isCreateWordGroupInProcess:Boolean = false
 )

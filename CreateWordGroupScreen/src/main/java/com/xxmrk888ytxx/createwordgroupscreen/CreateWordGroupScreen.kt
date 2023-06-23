@@ -74,6 +74,7 @@ import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.createwordgroupscreen.models.Pages
 import com.xxmrk888ytxx.createwordgroupscreen.models.ScreenState
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -190,13 +191,20 @@ fun CreateWordGroupScreen(
                     Pages.SELECT_IMAGE -> {
                         SelectImageState(
                             screenState.imageGroupUrl,
-                            onImageSelectCompleted = {},
+                            onImageSelectCompleted = {
+                                onEvent(
+                                    LocalUiEvent.WordGroupCreateCompleted(
+                                        navigator
+                                    )
+                                )
+                            },
                             onImageSelected = { onEvent(LocalUiEvent.ImagePickedEvent(it)) },
                             onPickImageRequest = {
                                 onEvent(LocalUiEvent.PickImageRequestEvent(it))
                             },
+                            isAddWordGroupInProcess = screenState.isAddWordGroupInProcess
 
-                            )
+                        )
                     }
                 }
             }
@@ -204,7 +212,7 @@ fun CreateWordGroupScreen(
         }
     }
 
-    if(screenState.createNewLanguageDialogState is CreateNewLanguageDialogState.Showed) {
+    if (screenState.createNewLanguageDialogState is CreateNewLanguageDialogState.Showed) {
         CreateNewLanguageDialog(
             onHideDialog = { onEvent(LocalUiEvent.HideCreateNewLanguageDialogEvent) },
             newLanguageText = screenState.createNewLanguageDialogState.newLanguageText,
@@ -222,6 +230,7 @@ fun SelectImageState(
     onImageSelectCompleted: () -> Unit,
     onImageSelected: (Uri?) -> Unit,
     onPickImageRequest: (ActivityResultLauncher<PickVisualMediaRequest>) -> Unit,
+    isAddWordGroupInProcess: Boolean,
 ) {
     val selectImageContract = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
@@ -233,12 +242,17 @@ fun SelectImageState(
             .fillMaxWidth()
             .padding(16.dp),
         bottomBar = {
-            Button(
-                onClick = onImageSelectCompleted,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                Text(text = stringResource(R.string.finish))
+
+            if (isAddWordGroupInProcess) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            } else {
+                Button(
+                    onClick = onImageSelectCompleted,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(text = stringResource(R.string.finish))
+                }
             }
         }
     ) { padding ->
@@ -341,7 +355,7 @@ fun SelectImageState(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SelectLanguagesState(
     availableLanguage: ImmutableList<Language>,
@@ -399,14 +413,16 @@ fun SelectLanguagesState(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                items(availableLanguage) {
-                    FilterChip(
-                        selected = it.id == primaryLanguage?.id,
-                        onClick = { onSelectPrimaryLanguage(it) },
-                        label = { Text(text = it.name) },
-                        enabled = it.id != secondaryLanguage?.id,
-                        modifier = Modifier.padding(end = 10.dp)
-                    )
+                items(availableLanguage, key = { it.id }) {
+                    Box(modifier = Modifier.animateItemPlacement()) {
+                        FilterChip(
+                            selected = it.id == primaryLanguage?.id,
+                            onClick = { onSelectPrimaryLanguage(it) },
+                            label = { Text(text = it.name) },
+                            enabled = it.id != secondaryLanguage?.id,
+                            modifier = Modifier.padding(end = 10.dp)
+                        )
+                    }
                 }
 
                 buttonForAddNewLanguage(onNewLanguageRequest)
@@ -438,7 +454,7 @@ fun SelectLanguagesState(
 }
 
 private fun LazyListScope.buttonForAddNewLanguage(onNewLanguageRequest: () -> Unit) {
-    item {
+    item(key = -1) {
         SuggestionChip(
             onClick = onNewLanguageRequest,
             label = {
@@ -526,7 +542,7 @@ private fun CreateNewLanguageDialog(
     newLanguageText: String,
     onNewLanguageTextInputted: (String) -> Unit,
     onNewLanguageCreated: () -> Unit,
-    isAddingInProcess:Boolean
+    isAddingInProcess: Boolean,
 ) {
     AlertDialog(onDismissRequest = onHideDialog) {
         Surface(
@@ -538,35 +554,35 @@ private fun CreateNewLanguageDialog(
                 Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text(text = "Input language name",style = MaterialTheme.typography.titleLarge)
+                Text(text = stringResource(R.string.input_language_name), style = MaterialTheme.typography.titleLarge)
 
                 OutlinedTextField(
                     value = newLanguageText,
                     onValueChange = onNewLanguageTextInputted,
-                    label = { Text(text = "Language name") },
+                    label = { Text(text = stringResource(R.string.language_name)) },
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !isAddingInProcess
                 )
 
                 Row(
                     Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp,Alignment.End)
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)
                 ) {
 
-                    if(!isAddingInProcess) {
+                    if (!isAddingInProcess) {
                         TextButton(onClick = onHideDialog) {
-                            Text(text = "Cancel")
+                            Text(text = stringResource(R.string.cancel))
                         }
 
                         TextButton(
                             onClick = onNewLanguageCreated,
                             enabled = newLanguageText.isNotEmpty()
                         ) {
-                            Text(text = "Add")
+                            Text(text = stringResource(R.string.add))
                         }
                     } else {
                         LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
@@ -579,6 +595,8 @@ private fun CreateNewLanguageDialog(
     }
 }
 
+//Preview
+
 @Preview
 @Composable
 fun CreateNewLanguageDialogPrevWhite() = WithLocalProviderForPreview {
@@ -587,7 +605,7 @@ fun CreateNewLanguageDialogPrevWhite() = WithLocalProviderForPreview {
         newLanguageText = "",
         onNewLanguageCreated = {},
         onNewLanguageTextInputted = {},
-        isAddingInProcess = true
+        isAddingInProcess = false
     )
 }
 
@@ -599,22 +617,72 @@ fun CreateNewLanguageDialogPrevDark() = WithLocalProviderForPreview {
         newLanguageText = "",
         onNewLanguageCreated = {},
         onNewLanguageTextInputted = {},
-        isAddingInProcess = true
+        isAddingInProcess = false
     )
 }
 
 @Preview
 @Composable
-fun EnterGroupNamePagePrevWhite() = WithLocalProviderForPreview {
-    val screenState = ScreenState()
+fun EnterGroupNameStatePrevWhite() = WithLocalProviderForPreview {
 
-    CreateWordGroupScreen(screenState) {}
+    EnterGroupNameState(
+        titleText = "",
+        {},
+        {}
+    )
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 @Composable
-fun EnterGroupNamePrevDark() = WithLocalProviderForPreview {
-    val screenState = ScreenState()
+fun EnterGroupNameStatePrevDark() = WithLocalProviderForPreview {
 
-    CreateWordGroupScreen(screenState) {}
+    EnterGroupNameState(
+        titleText = "",
+        {},
+        {}
+    )
+}
+
+@Preview
+@Composable
+fun SelectLanguagesStatePrevWhite() = WithLocalProviderForPreview {
+
+    SelectLanguagesState(
+        availableLanguage = persistentListOf(Language(0,"English"),Language(1,"Russian")),
+        primaryLanguage = null,
+        secondaryLanguage = Language(1,"Russian"),
+        {},{},{},{}
+    )
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+fun SelectLanguagesStatePrevDark() = WithLocalProviderForPreview {
+
+    SelectLanguagesState(
+        availableLanguage = persistentListOf(Language(0,"English"),Language(1,"Russian")),
+        primaryLanguage = null,
+        secondaryLanguage = Language(1,"Russian"),
+        {},{},{},{}
+    )
+}
+
+@Preview
+@Composable
+fun SelectImageStatePrevWhite() = WithLocalProviderForPreview {
+
+    SelectImageState(
+        selectedImageUrl = null,
+        {},{},{},false
+    )
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+fun SelectImageStatePrevDark() = WithLocalProviderForPreview {
+
+    SelectImageState(
+        selectedImageUrl = null,
+        {},{},{},false
+    )
 }
