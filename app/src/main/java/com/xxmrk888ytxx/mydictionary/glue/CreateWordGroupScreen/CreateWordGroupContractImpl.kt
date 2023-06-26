@@ -1,6 +1,6 @@
 package com.xxmrk888ytxx.mydictionary.glue.CreateWordGroupScreen
 
-import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWorkGroupContract
+import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWordGroupContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.mydictionary.data.Repositoryes.ImageRepository.ImageRepository
 import com.xxmrk888ytxx.mydictionary.data.Repositoryes.WordGroupRepository.WordGroupRepository
@@ -8,10 +8,10 @@ import com.xxmrk888ytxx.mydictionary.models.LanguageModel
 import com.xxmrk888ytxx.mydictionary.models.WordGroupModel
 import javax.inject.Inject
 
-class CreateWorkGroupContractImpl @Inject constructor(
+class CreateWordGroupContractImpl @Inject constructor(
     private val imageRepository: ImageRepository,
     private val wordGroupRepository: WordGroupRepository,
-) : CreateWorkGroupContract {
+) : CreateWordGroupContract {
 
     override suspend fun createWordGroup(
         groupName: String,
@@ -24,6 +24,7 @@ class CreateWorkGroupContractImpl @Inject constructor(
         wordGroupRepository.insertWordGroup(
             WordGroupModel(
                 0,
+                groupName,
                 primaryLanguage.toLanguageModel(),
                 secondLanguage.toLanguageModel(),
                 imagePath

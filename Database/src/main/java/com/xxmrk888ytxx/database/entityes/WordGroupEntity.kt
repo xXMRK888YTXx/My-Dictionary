@@ -30,6 +30,7 @@ import androidx.room.PrimaryKey
 )
 internal data class WordGroupEntity(
     @PrimaryKey(autoGenerate = true) val id: Int,
+    val name:String,
     val primaryLanguageId: Int,
     val secondaryLanguageId: Int,
     val imageUrl:String?

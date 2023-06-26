@@ -9,7 +9,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
-import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWorkGroupContract
+import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWordGroupContract
 import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.CreateNewLanguageDialogState
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.ClassCastException
 import javax.inject.Inject
 
@@ -30,7 +29,7 @@ class CreateWordGroupViewModel @Inject constructor(
     private val createLanguageContract: CreateLanguageContract,
     private val provideLanguagesContract: ProvideLanguagesContract,
     private val logger: Logger,
-    private val createWorkGroupContract: CreateWorkGroupContract
+    private val createWordGroupContract: CreateWordGroupContract
 ) : ViewModel(), UiModel<ScreenState> {
 
 
@@ -135,7 +134,7 @@ class CreateWordGroupViewModel @Inject constructor(
                 isCreateWordGroupInProcess.update { true }
 
                 viewModelScope.launch(Dispatchers.IO) {
-                    createWorkGroupContract.createWordGroup(
+                    createWordGroupContract.createWordGroup(
                         groupName = groupNameFlow.value,
                         primaryLanguage = selectedPrimaryLanguage.value ?: return@launch,
                         secondLanguage = selectedSecondaryLanguage.value ?: return@launch,

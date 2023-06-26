@@ -26,7 +26,7 @@ class WordGroupRepositoryImpl @Inject constructor(
     }
 
     private fun WordGroupLocalModel.toModel(): WordGroupModel {
-        return WordGroupModel(id, primaryLanguage.toModel(), secondaryLanguage.toModel(), imageUrl)
+        return WordGroupModel(id,name,primaryLanguage.toModel(), secondaryLanguage.toModel(), imageUrl)
     }
 
     private fun LanguageLocalModel.toModel(): LanguageModel = LanguageModel(id, name)
@@ -34,7 +34,7 @@ class WordGroupRepositoryImpl @Inject constructor(
     private fun LanguageModel.toDataSourceModel() = LanguageLocalModel(id, name)
 
     private fun WordGroupModel.toDataSourceModel() = WordGroupLocalModel(
-        id, primaryLanguage.toDataSourceModel(),
+        id,name,primaryLanguage.toDataSourceModel(),
         secondaryLanguage.toDataSourceModel(), imageUrl
     )
 }

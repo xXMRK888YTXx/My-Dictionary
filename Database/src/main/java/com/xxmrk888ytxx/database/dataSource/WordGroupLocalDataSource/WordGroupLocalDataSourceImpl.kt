@@ -24,6 +24,7 @@ internal class WordGroupLocalDataSourceImpl(
         wordGroupList.map {
             WordGroupLocalModel(
                 it.id,
+                name = it.name,
                 languagesMap[it.primaryLanguageId]!!.toLocalDataModel(),
                 languagesMap[it.secondaryLanguageId]!!.toLocalDataModel(),
                 imageUrl = it.imageUrl
@@ -56,6 +57,6 @@ internal class WordGroupLocalDataSourceImpl(
     }
 
     private fun WordGroupLocalModel.toEntity() : WordGroupEntity {
-        return WordGroupEntity(id,primaryLanguage.id,secondaryLanguage.id,imageUrl)
+        return WordGroupEntity(id,name,primaryLanguage.id,secondaryLanguage.id,imageUrl)
     }
 }
