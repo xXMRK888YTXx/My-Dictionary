@@ -77,14 +77,18 @@ fun WordGroupScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordListState(onEvent: (UiEvent) -> Unit, screenState: ScreenState.WordList) {
+    val navigator = LocalNavigator.current
+
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(screenState.wordList, key = { it.id }) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp),
+                onClick = { onEvent(LocalUiEvent.OpenWordGroupEvent(navigator,it)) }
             ) {
                 Column(
                     Modifier

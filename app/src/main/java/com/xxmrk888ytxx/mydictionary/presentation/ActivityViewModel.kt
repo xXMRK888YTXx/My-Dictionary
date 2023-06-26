@@ -19,6 +19,14 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.CreateWordGroupScreen)
     }
 
+    override fun toViewGroupWordsScreen(wordGroupId: Int) {
+        navController?.navigate(
+            route = "${Screen.ViewGroupWordsScreen.route}/$wordGroupId"
+        ) {
+            launchSingleTop = true
+        }
+    }
+
     override fun backScreen() = runOnUiThread {
         navController?.navigateUp()
     }

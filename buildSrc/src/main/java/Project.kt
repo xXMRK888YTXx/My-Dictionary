@@ -5,4 +5,5 @@ object Project {
     const val WordGroupScreen = ":WordGroupScreen"
     const val CreateWordGroupScreen = ":CreateWordGroupScreen"
     const val Database = ":Database"
+    const val ViewGroupWordsScreen = ":ViewGroupWordsScreen"
 }

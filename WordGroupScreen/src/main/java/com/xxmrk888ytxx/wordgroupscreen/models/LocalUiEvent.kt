@@ -7,4 +7,6 @@ sealed class LocalUiEvent : UiEvent {
     class FloatButtonClickEvent(val navigator: Navigator) : LocalUiEvent()
     class AddFirstWordGroupButtonClickEvent(val navigator: Navigator): LocalUiEvent()
 
+    class OpenWordGroupEvent(val navigator: Navigator,val wordGroup: WordGroup) : LocalUiEvent()
+
 }

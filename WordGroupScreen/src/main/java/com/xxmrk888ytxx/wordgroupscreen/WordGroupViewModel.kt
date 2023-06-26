@@ -27,8 +27,9 @@ class WordGroupViewModel @Inject constructor(
                navigator.toCreateWordGroupScreen()
            }
 
-
-
+            is LocalUiEvent.OpenWordGroupEvent -> {
+                event.navigator.toViewGroupWordsScreen(event.wordGroup.id)
+            }
         }
     }
 

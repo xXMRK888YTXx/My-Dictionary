@@ -6,15 +6,23 @@ import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavArgument
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
+import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
+import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupScreen
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupViewModel
 import javax.inject.Inject
@@ -32,6 +40,12 @@ class MainActivity : ComponentActivity() {
     lateinit var createWordGroupViewModel:Provider<CreateWordGroupViewModel>
 
     private val activityViewModel by viewModels<ActivityViewModel> { activityViewModelFactory }
+
+    @Inject
+    lateinit var logger: Logger
+
+    @Inject
+    lateinit var viewGroupWordsViewModel: ViewGroupWordsViewModel.Factory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +89,46 @@ class MainActivity : ComponentActivity() {
                         onEvent = viewModel::handleEvent
                     )
                 }
+
+                composable(
+                    route = "${Screen.ViewGroupWordsScreen.route}/{${NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key}}",
+                    arguments = listOf(
+                        navArgument(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key) {
+                            type = NavType.IntType
+                            defaultValue = Int.MIN_VALUE
+                        }
+                    )
+                ) {
+                    val wordGroupId = it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key) ?: return@composable
+
+                    val navigator = LocalNavigator.current
+
+
+                    LaunchedEffect(key1 = wordGroupId, block = {
+                        if(wordGroupId == Int.MIN_VALUE) {
+                            logger.debug("wordGroupId not setup")
+
+                            navigator.backScreen()
+                        }
+                    })
+
+                    val viewModel = composeViewModel {
+                        viewGroupWordsViewModel.create(wordGroupId)
+                    }
+
+                    val screenState by viewModel.state.collectAsStateWithLifecycle(
+                        initialValue = viewModel.defValue
+                    )
+
+                    ViewGroupWordsScreen(
+                        screenState,viewModel::handleEvent
+                    )
+                }
             }
         }
+    }
+
+    companion object {
+        private const val LOG_TAG = "MainActivity"
     }
 }

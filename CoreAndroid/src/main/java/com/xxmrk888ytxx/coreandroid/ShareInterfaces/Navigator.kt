@@ -4,5 +4,7 @@ interface Navigator {
 
     fun toCreateWordGroupScreen()
 
+    fun toViewGroupWordsScreen(wordGroupId:Int)
+
     fun backScreen()
 }
