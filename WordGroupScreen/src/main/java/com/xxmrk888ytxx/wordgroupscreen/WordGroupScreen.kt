@@ -6,10 +6,15 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,18 +23,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithLocalProviderForPreview
 import com.xxmrk888ytxx.wordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordgroupscreen.models.ScreenState
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WordGroupScreen(
     screenState: ScreenState,
@@ -49,7 +56,7 @@ fun WordGroupScreen(
                     modifier = Modifier.size(24.dp)
                 )
             }
-        }
+        },
     ) { paddings ->
         
         AnimatedContent(
@@ -58,9 +65,57 @@ fun WordGroupScreen(
         ) { state ->
             when(state) {
                 ScreenState.EmptyWordGroupState::class -> EmptyWordGroupState(onEvent)
+
+                ScreenState.WordList::class -> {
+                    if(screenState is ScreenState.WordList) {
+                        WordListState(onEvent,screenState)
+                    }
+                }
             }
         }
         
+    }
+}
+
+@Composable
+fun WordListState(onEvent: (UiEvent) -> Unit, screenState: ScreenState.WordList) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
+        items(screenState.wordList, key = { it.id }) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if(it.imageUrl != null) {
+                        AsyncImage(
+                            model = it.imageUrl,
+                            contentDescription = "",
+                            modifier = Modifier.size(250.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+
+                    Text(
+                        text = it.name,
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    Text(
+                        text = "${it.primaryLanguage.name} - ${it.secondaryLanguage.name}",
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+
+
+            }
+        }
     }
 }
 
@@ -93,7 +148,7 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
 fun EmptyWordGroupStateWhite() = WithLocalProviderForPreview {
     val screenState = ScreenState.EmptyWordGroupState
 
-        WordGroupScreen(screenState = screenState, onEvent = {})
+    WordGroupScreen(screenState = screenState, onEvent = {})
 }
 
 @Composable
