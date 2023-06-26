@@ -182,7 +182,7 @@ class CreateWordGroupViewModel @Inject constructor(
                 isAddWordGroupInProcess = flowArray[5] as Boolean,
                 createNewLanguageDialogState = flowArray[6] as CreateNewLanguageDialogState,
                 isCreateWordGroupInProcess = flowArray[7] as Boolean
-            )
+            ).also { state -> cachedScreenState = state }
         } catch (e: ClassCastException) {
             logger.error(e, LOG_TAG)
 
@@ -190,8 +190,10 @@ class CreateWordGroupViewModel @Inject constructor(
         }
     }
 
+    private var cachedScreenState: ScreenState = ScreenState()
+
     override val defValue: ScreenState
-        get() = ScreenState()
+        get() = cachedScreenState
 
     companion object {
         private const val LOG_TAG = "CreateWordGroupViewModel"

@@ -34,13 +34,17 @@ class WordGroupViewModel @Inject constructor(
     }
 
     override val state: Flow<ScreenState> = provideWordGroupContract.wordsGroup.map {
-        if(it.isEmpty()) ScreenState.EmptyWordGroupState
+        val result = if(it.isEmpty()) ScreenState.EmptyWordGroupState
         else ScreenState.WordList(it.toImmutableList())
+
+        result.also { state -> cachedScreenState = state }
     }
+
+    private var cachedScreenState:ScreenState = ScreenState.EmptyWordGroupState
 
 
     override val defValue: ScreenState
-        get() = ScreenState.EmptyWordGroupState
+        get() = cachedScreenState
 
 
 }
