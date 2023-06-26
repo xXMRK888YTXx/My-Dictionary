@@ -6,6 +6,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DataModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
+import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -15,7 +16,8 @@ import dagger.Component
         CoreModule::class,
         CreateWordGroupScreenModule::class,
         DatabaseModule::class,
-        DataModule::class
+        DataModule::class,
+        ViewGroupWordsScreenModule::class
     ]
 )
 @AppScope
