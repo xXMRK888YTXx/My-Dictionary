@@ -58,6 +58,7 @@ dependencies {
     implementation(project(Project.CreateWordGroupScreen))
     implementation(project(Project.Database))
     implementation(project(Project.ViewGroupWordsScreen))
+    implementation(project(Project.AddWordScreen))
 
 
 

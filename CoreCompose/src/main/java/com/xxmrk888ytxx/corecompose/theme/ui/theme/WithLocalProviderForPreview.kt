@@ -18,6 +18,10 @@ fun WithLocalProviderForPreview(content:@Composable () -> Unit) {
 
             }
 
+            override fun toAddWordScreen(wordGroupId: Int) {
+
+            }
+
             override fun backScreen() {
 
             }

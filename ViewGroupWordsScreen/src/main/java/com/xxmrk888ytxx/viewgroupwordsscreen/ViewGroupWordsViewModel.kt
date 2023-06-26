@@ -31,7 +31,7 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
     }
 
     private fun toAddNewWordScreen(navigator: Navigator) {
-
+        navigator.toAddWordScreen(wordGroupId)
     }
 
     override val state: Flow<ScreenState> = provideWordForWordGroupContract.words.map { wordList ->

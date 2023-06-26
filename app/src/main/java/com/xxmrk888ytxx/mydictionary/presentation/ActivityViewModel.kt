@@ -27,6 +27,14 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
+    override fun toAddWordScreen(wordGroupId: Int) {
+        navController?.navigate(
+            route = "${Screen.AddWordScreen.route}/$wordGroupId"
+        ) {
+            launchSingleTop = true
+        }
+    }
+
     override fun backScreen() = runOnUiThread {
         navController?.navigateUp()
     }

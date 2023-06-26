@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="in_this_group_haven_t_words">In this group haven\'t words</string>
-    <string name="add_new_word">Add new word</string>
+    <string name="in_this_group_haven_t_words">В группе нет слов</string>
+    <string name="add_new_word">Добавить новое слово</string>
 </resources>

@@ -14,6 +14,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.xxmrk888ytxx.addwordscreen.AddWordScreen
+import com.xxmrk888ytxx.addwordscreen.AddWordViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
@@ -37,7 +39,7 @@ class MainActivity : ComponentActivity() {
     lateinit var activityViewModelFactory: ActivityViewModel.Factory
 
     @Inject
-    lateinit var createWordGroupViewModel:Provider<CreateWordGroupViewModel>
+    lateinit var createWordGroupViewModel: Provider<CreateWordGroupViewModel>
 
     private val activityViewModel by viewModels<ActivityViewModel> { activityViewModelFactory }
 
@@ -47,6 +49,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var viewGroupWordsViewModel: ViewGroupWordsViewModel.Factory
 
+    @Inject
+    lateinit var addWordViewModel: AddWordViewModel.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,14 +103,16 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 ) {
-                    val wordGroupId = it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key) ?: return@composable
+                    val wordGroupId =
+                        it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key,Int.MIN_VALUE)
+                            ?: return@composable
 
                     val navigator = LocalNavigator.current
 
 
                     LaunchedEffect(key1 = wordGroupId, block = {
-                        if(wordGroupId == Int.MIN_VALUE) {
-                            logger.debug("wordGroupId not setup")
+                        if (wordGroupId == Int.MIN_VALUE) {
+                            logger.debug("wordGroupId not setup for ${Screen.ViewGroupWordsScreen.route}")
 
                             navigator.backScreen()
                         }
@@ -121,8 +127,43 @@ class MainActivity : ComponentActivity() {
                     )
 
                     ViewGroupWordsScreen(
-                        screenState,viewModel::handleEvent
+                        screenState, viewModel::handleEvent
                     )
+                }
+
+                composable(
+                    route = "${Screen.AddWordScreen.route}/{${NavigationKeys.WordGroupKeyForAddWordScreen.key}}",
+                    arguments = listOf(
+                        navArgument(NavigationKeys.WordGroupKeyForAddWordScreen.key) {
+                            type = NavType.IntType
+                            defaultValue = Int.MIN_VALUE
+                        }
+                    )
+                ) {
+                    val wordGroupId =
+                        it.arguments?.getInt(NavigationKeys.WordGroupKeyForAddWordScreen.key,Int.MIN_VALUE)
+                            ?: return@composable
+
+                    val navigator = LocalNavigator.current
+
+
+                    LaunchedEffect(key1 = wordGroupId, block = {
+                        if (wordGroupId == Int.MIN_VALUE) {
+                            logger.debug("wordGroupId not setup for ${Screen.AddWordScreen.route}")
+
+                            navigator.backScreen()
+                        }
+                    })
+
+                    val viewModel = composeViewModel() {
+                        addWordViewModel.create(wordGroupId)
+                    }
+
+                    val screenState by viewModel.state.collectAsStateWithLifecycle(
+                        initialValue = viewModel.defValue
+                    )
+
+                    AddWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
                 }
             }
         }
