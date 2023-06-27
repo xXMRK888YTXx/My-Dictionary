@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_the_word_you_want_to_add">Enter the word you want to add</string>
+    <string name="word">Word</string>
+    <string name="enter_a_translate_for_this_word">Enter a translate for this word</string>
+    <string name="translate_of_word">Translate of word</string>
+    <string name="enter_a_transcription_for_this_word">Enter a transcription for this word</string>
+    <string name="transcription_of_word">Transcription of word</string>
+    <string name="phrases_with_this_word">Phrases with this word</string>
+    <string name="add_new_phrase">Add new Phrase</string>
+</resources>
