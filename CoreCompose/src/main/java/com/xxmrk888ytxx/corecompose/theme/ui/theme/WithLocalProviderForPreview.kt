@@ -34,6 +34,7 @@ fun WithLocalProviderForPreview(content:@Composable () -> Unit) {
     ) {
         CompositionLocalProvider(
             LocalNavigator provides navigator,
+            LocalUiEventHandler provides {},
             content = content
         )
     }
