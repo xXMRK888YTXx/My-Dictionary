@@ -7,7 +7,7 @@ interface WordPhraseLocalDataSource {
 
     val wordPhrasesFlow : Flow<List<WordPhraseLocalModel>>
 
-    suspend fun insertWordPhrase(wordPhraseLocalModel: WordPhraseLocalModel) : Int
+    suspend fun insertWordPhrase(wordPhraseLocalModel: WordPhraseLocalModel)
 
     suspend fun removeWordPhrase(id:Int)
 }

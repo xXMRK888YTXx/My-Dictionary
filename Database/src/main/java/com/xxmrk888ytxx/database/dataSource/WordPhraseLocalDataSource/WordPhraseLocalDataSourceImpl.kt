@@ -19,11 +19,9 @@ internal class WordPhraseLocalDataSourceImpl(
 
     private val mutex = Mutex()
 
-    override suspend fun insertWordPhrase(wordPhraseLocalModel: WordPhraseLocalModel) : Int = withContext(Dispatchers.IO) {
+    override suspend fun insertWordPhrase(wordPhraseLocalModel: WordPhraseLocalModel) = withContext(Dispatchers.IO) {
         return@withContext mutex.withLock {
             wordPhraseDao.insertWordPhrase(wordPhraseLocalModel.toEntity())
-
-            wordPhraseDao.getLastId()
         }
     }
 

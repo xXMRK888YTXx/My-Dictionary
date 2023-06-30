@@ -15,8 +15,8 @@ class WordRepositoryImpl @Inject constructor(
         list.map { it.toModel() }
     }
 
-    override suspend fun addWord(wordModel: WordModel) {
-        wordsLocalDataSource.addWord(wordModel.toLocalModel())
+    override suspend fun addWord(wordModel: WordModel) : Int {
+        return wordsLocalDataSource.addWord(wordModel.toLocalModel())
     }
 
     override suspend fun removeWord(id: Int) {

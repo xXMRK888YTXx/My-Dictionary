@@ -17,4 +17,7 @@ internal interface WordDao {
 
     @Query("DELETE FROM WordsTable WHERE id = :id")
     suspend fun removeWord(id:Int)
+
+    @Query("SELECT MAX(id) FROM WordsTable")
+    suspend fun getLastId() : Int
 }

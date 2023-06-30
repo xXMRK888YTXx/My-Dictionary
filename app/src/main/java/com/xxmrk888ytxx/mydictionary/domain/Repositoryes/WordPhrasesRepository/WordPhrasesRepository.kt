@@ -8,7 +8,7 @@ interface WordPhrasesRepository {
 
     val wordPhrasesFlowModel : Flow<List<WordPhraseModel>>
 
-    suspend fun insertWordPhrase(wordPhraseModel: WordPhraseModel) : Int
+    suspend fun insertWordPhrase(wordPhraseModel: WordPhraseModel)
 
     suspend fun removeWordPhrase(id:Int)
 }

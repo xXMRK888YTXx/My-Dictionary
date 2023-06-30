@@ -18,7 +18,7 @@ class WordGroupRepositoryImpl @Inject constructor(
         }
 
     override suspend fun insertWordGroup(wordGroupModel: WordGroupModel) {
-        wordGroupLocalDataSource.insertWordGroup(wordGroupModel.toDataSourceModel())
+        return wordGroupLocalDataSource.insertWordGroup(wordGroupModel.toDataSourceModel())
     }
 
     override suspend fun removeWordGroup(id: Int) {

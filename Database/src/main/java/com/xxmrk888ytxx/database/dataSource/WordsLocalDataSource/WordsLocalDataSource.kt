@@ -9,7 +9,7 @@ interface WordsLocalDataSource {
 
     fun getWordsFlow() : Flow<List<WordLocalModel>>
 
-    suspend fun addWord(wordGroupLocalModel: WordLocalModel)
+    suspend fun addWord(wordGroupLocalModel: WordLocalModel) : Int
 
     suspend fun removeWord(id:Int)
 }
