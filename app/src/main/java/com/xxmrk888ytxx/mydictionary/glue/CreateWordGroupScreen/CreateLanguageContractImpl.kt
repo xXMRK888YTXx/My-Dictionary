@@ -2,7 +2,7 @@ package com.xxmrk888ytxx.mydictionary.glue.CreateWordGroupScreen
 
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
-import com.xxmrk888ytxx.mydictionary.data.Repositoryes.LanguageRepository.LanguageRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepository
 import com.xxmrk888ytxx.mydictionary.models.LanguageModel
 import javax.inject.Inject
 

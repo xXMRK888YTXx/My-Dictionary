@@ -2,7 +2,7 @@ package com.xxmrk888ytxx.mydictionary.glue.CreateWordGroupScreen
 
 import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
-import com.xxmrk888ytxx.mydictionary.data.Repositoryes.LanguageRepository.LanguageRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepository
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList

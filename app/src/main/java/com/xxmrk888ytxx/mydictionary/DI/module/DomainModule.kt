@@ -1,0 +1,23 @@
+package com.xxmrk888ytxx.mydictionary.DI.module
+
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepositoryImpl
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepositoryImpl
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepositoryImpl
+import dagger.Binds
+import dagger.Module
+
+@Module
+interface DomainModule {
+
+    @Binds
+    fun bindLanguageRepository(languageRepositoryImpl: LanguageRepositoryImpl) : LanguageRepository
+
+    @Binds
+    fun bindWordGroupRepository(wordGroupRepository: WordGroupRepositoryImpl) : WordGroupRepository
+
+    @Binds
+    fun bindImageRepository(imageRepository: ImageRepositoryImpl) : ImageRepository
+}

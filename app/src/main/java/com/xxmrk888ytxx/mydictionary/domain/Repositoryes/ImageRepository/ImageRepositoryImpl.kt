@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.data.Repositoryes.ImageRepository
+package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository
 
 import android.content.Context
 import android.content.ContextWrapper
@@ -59,7 +59,7 @@ class ImageRepositoryImpl @Inject constructor(
 
     override suspend fun removeImage(imagePath: String) : Unit = withContext(Dispatchers.IO) {
         try {
-            logger.info("Remove image result: ${File(imagePath).delete()}",LOG_TAG)
+            logger.info("Remove image result: ${File(imagePath).delete()}", LOG_TAG)
         }catch (e:Exception) {
             logger.error("In remove file process, has been throw exception", LOG_TAG)
             logger.error(e, LOG_TAG)

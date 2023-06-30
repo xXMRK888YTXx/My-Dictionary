@@ -2,8 +2,8 @@ package com.xxmrk888ytxx.mydictionary.glue.CreateWordGroupScreen
 
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWordGroupContract
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
-import com.xxmrk888ytxx.mydictionary.data.Repositoryes.ImageRepository.ImageRepository
-import com.xxmrk888ytxx.mydictionary.data.Repositoryes.WordGroupRepository.WordGroupRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepository
 import com.xxmrk888ytxx.mydictionary.models.LanguageModel
 import com.xxmrk888ytxx.mydictionary.models.WordGroupModel
 import javax.inject.Inject

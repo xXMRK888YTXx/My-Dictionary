@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.data.Repositoryes.LanguageRepository
+package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository
 
 import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLocalDataSource
 import com.xxmrk888ytxx.database.models.LanguageLocalModel

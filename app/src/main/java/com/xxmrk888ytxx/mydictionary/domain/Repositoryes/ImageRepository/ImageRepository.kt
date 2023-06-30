@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.data.Repositoryes.ImageRepository
+package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository
 
 import android.net.Uri
 

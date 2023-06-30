@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.data.Repositoryes.WordGroupRepository
+package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository
 
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSource
 import com.xxmrk888ytxx.database.models.LanguageLocalModel
