@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.corecompose.theme.ui.theme
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.compositionLocalOf
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
@@ -11,4 +12,8 @@ val LocalNavigator = compositionLocalOf<Navigator> {
 
 val LocalUiEventHandler = compositionLocalOf<(UiEvent) -> Unit> {
     error("Ui event handler not provided")
+}
+
+val LocalSnackbarHostState = compositionLocalOf<SnackbarHostState> {
+    error("Snackbar host not provided")
 }

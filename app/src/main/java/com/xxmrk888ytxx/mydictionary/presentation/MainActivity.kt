@@ -62,108 +62,111 @@ class MainActivity : ComponentActivity() {
                 activityViewModel.navController = navController
             })
 
-            NavigationHost(
-                navController = navController,
-                startDestination = Screen.WordGroupScreen.route,
-                navigator = activityViewModel
-            ) {
-
-                composable(Screen.WordGroupScreen.route) {
-                    val viewModel = composeViewModel() {
-                        wordGroupViewModel.get()
-                    }
-
-                    val screenState by viewModel.state.collectAsStateWithLifecycle(viewModel.defValue)
-
-                    WordGroupScreen(
-                        screenState = screenState,
-                        onEvent = viewModel::handleEvent
-                    )
-                }
-
-                composable(Screen.CreateWordGroupScreen.route) {
-                    val viewModel = composeViewModel {
-                        createWordGroupViewModel.get()
-                    }
-
-                    val screenState by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
-
-                    CreateWordGroupScreen(
-                        screenState = screenState,
-                        onEvent = viewModel::handleEvent
-                    )
-                }
-
-                composable(
-                    route = "${Screen.ViewGroupWordsScreen.route}/{${NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key}}",
-                    arguments = listOf(
-                        navArgument(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key) {
-                            type = NavType.IntType
-                            defaultValue = Int.MIN_VALUE
-                        }
-                    )
+            SnackBarScaffold { paddings ->
+                NavigationHost(
+                    paddingValues = paddings,
+                    navController = navController,
+                    startDestination = Screen.WordGroupScreen.route,
+                    navigator = activityViewModel
                 ) {
-                    val wordGroupId =
-                        it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key,Int.MIN_VALUE)
-                            ?: return@composable
 
-                    val navigator = LocalNavigator.current
-
-
-                    LaunchedEffect(key1 = wordGroupId, block = {
-                        if (wordGroupId == Int.MIN_VALUE) {
-                            logger.debug("wordGroupId not setup for ${Screen.ViewGroupWordsScreen.route}")
-
-                            navigator.backScreen()
+                    composable(Screen.WordGroupScreen.route) {
+                        val viewModel = composeViewModel() {
+                            wordGroupViewModel.get()
                         }
-                    })
 
-                    val viewModel = composeViewModel {
-                        viewGroupWordsViewModel.create(wordGroupId)
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(viewModel.defValue)
+
+                        WordGroupScreen(
+                            screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
                     }
 
-                    val screenState by viewModel.state.collectAsStateWithLifecycle(
-                        initialValue = viewModel.defValue
-                    )
-
-                    ViewGroupWordsScreen(
-                        screenState, viewModel::handleEvent
-                    )
-                }
-
-                composable(
-                    route = "${Screen.AddWordScreen.route}/{${NavigationKeys.WordGroupKeyForAddWordScreen.key}}",
-                    arguments = listOf(
-                        navArgument(NavigationKeys.WordGroupKeyForAddWordScreen.key) {
-                            type = NavType.IntType
-                            defaultValue = Int.MIN_VALUE
+                    composable(Screen.CreateWordGroupScreen.route) {
+                        val viewModel = composeViewModel {
+                            createWordGroupViewModel.get()
                         }
-                    )
-                ) {
-                    val wordGroupId =
-                        it.arguments?.getInt(NavigationKeys.WordGroupKeyForAddWordScreen.key,Int.MIN_VALUE)
-                            ?: return@composable
 
-                    val navigator = LocalNavigator.current
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
 
-
-                    LaunchedEffect(key1 = wordGroupId, block = {
-                        if (wordGroupId == Int.MIN_VALUE) {
-                            logger.debug("wordGroupId not setup for ${Screen.AddWordScreen.route}")
-
-                            navigator.backScreen()
-                        }
-                    })
-
-                    val viewModel = composeViewModel() {
-                        addWordViewModel.create(wordGroupId)
+                        CreateWordGroupScreen(
+                            screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
                     }
 
-                    val screenState by viewModel.state.collectAsStateWithLifecycle(
-                        initialValue = viewModel.defValue
-                    )
+                    composable(
+                        route = "${Screen.ViewGroupWordsScreen.route}/{${NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key}}",
+                        arguments = listOf(
+                            navArgument(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key) {
+                                type = NavType.IntType
+                                defaultValue = Int.MIN_VALUE
+                            }
+                        )
+                    ) {
+                        val wordGroupId =
+                            it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key,Int.MIN_VALUE)
+                                ?: return@composable
 
-                    AddWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
+                        val navigator = LocalNavigator.current
+
+
+                        LaunchedEffect(key1 = wordGroupId, block = {
+                            if (wordGroupId == Int.MIN_VALUE) {
+                                logger.debug("wordGroupId not setup for ${Screen.ViewGroupWordsScreen.route}")
+
+                                navigator.backScreen()
+                            }
+                        })
+
+                        val viewModel = composeViewModel {
+                            viewGroupWordsViewModel.create(wordGroupId)
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        ViewGroupWordsScreen(
+                            screenState, viewModel::handleEvent
+                        )
+                    }
+
+                    composable(
+                        route = "${Screen.AddWordScreen.route}/{${NavigationKeys.WordGroupKeyForAddWordScreen.key}}",
+                        arguments = listOf(
+                            navArgument(NavigationKeys.WordGroupKeyForAddWordScreen.key) {
+                                type = NavType.IntType
+                                defaultValue = Int.MIN_VALUE
+                            }
+                        )
+                    ) {
+                        val wordGroupId =
+                            it.arguments?.getInt(NavigationKeys.WordGroupKeyForAddWordScreen.key,Int.MIN_VALUE)
+                                ?: return@composable
+
+                        val navigator = LocalNavigator.current
+
+
+                        LaunchedEffect(key1 = wordGroupId, block = {
+                            if (wordGroupId == Int.MIN_VALUE) {
+                                logger.debug("wordGroupId not setup for ${Screen.AddWordScreen.route}")
+
+                                navigator.backScreen()
+                            }
+                        })
+
+                        val viewModel = composeViewModel() {
+                            addWordViewModel.create(wordGroupId)
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        AddWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
+                    }
                 }
             }
         }

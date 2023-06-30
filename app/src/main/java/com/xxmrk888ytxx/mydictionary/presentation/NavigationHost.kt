@@ -1,7 +1,9 @@
 package com.xxmrk888ytxx.mydictionary.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,6 +16,7 @@ import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 
 @Composable
 fun NavigationHost(
+    paddingValues: PaddingValues,
     navController: NavHostController,
     navigator: Navigator,
     startDestination: String,
@@ -25,6 +28,7 @@ fun NavigationHost(
         NavHost(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background),
             navController = navController,
             startDestination = startDestination,
