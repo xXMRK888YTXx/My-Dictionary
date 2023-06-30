@@ -8,6 +8,8 @@ import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLoca
 import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLocalDataSourceImpl
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSource
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSourceImpl
+import com.xxmrk888ytxx.database.dataSource.WordPhraseLocalDataSource.WordPhraseLocalDataSource
+import com.xxmrk888ytxx.database.dataSource.WordPhraseLocalDataSource.WordPhraseLocalDataSourceImpl
 import com.xxmrk888ytxx.database.dataSource.WordsLocalDataSource.WordsLocalDataSource
 import com.xxmrk888ytxx.database.dataSource.WordsLocalDataSource.WordsLocalDataSourceImpl
 
@@ -29,11 +31,17 @@ internal class DatabaseImpl(private val context: Context) : Database {
     override val languageLocalDataSource: LanguageLocalDataSource by lazy {
         LanguageLocalDataSourceImpl(languageDao)
     }
+
     override val wordGroupLocalDataSource: WordGroupLocalDataSource by lazy {
         WordGroupLocalDataSourceImpl(languageDao, wordGroupDao)
     }
+
     override val wordsLocalDataSource: WordsLocalDataSource by lazy {
         WordsLocalDataSourceImpl(appDatabase.wordDao)
+    }
+
+    override val wordPhraseLocalDataSource: WordPhraseLocalDataSource by lazy {
+        WordPhraseLocalDataSourceImpl(appDatabase.wordPhraseDao)
     }
 
 

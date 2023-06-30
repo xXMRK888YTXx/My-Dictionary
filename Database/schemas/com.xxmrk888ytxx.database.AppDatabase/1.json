@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ea991111fd525c0f7a39bcbc65b01796",
+    "identityHash": "732623313a3c89cc47ec5845ed1d61f7",
     "entities": [
       {
         "tableName": "Languages",
@@ -209,12 +209,81 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "WordPhraseTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `wordId` INTEGER NOT NULL, `phraseText` TEXT NOT NULL, `translateText` TEXT NOT NULL, FOREIGN KEY(`wordId`) REFERENCES `WordsTable`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordId",
+            "columnName": "wordId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "phraseText",
+            "columnName": "phraseText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "translateText",
+            "columnName": "translateText",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_WordPhraseTable_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_WordPhraseTable_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_WordPhraseTable_wordId",
+            "unique": false,
+            "columnNames": [
+              "wordId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordPhraseTable_wordId` ON `${TABLE_NAME}` (`wordId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "WordsTable",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "wordId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea991111fd525c0f7a39bcbc65b01796')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '732623313a3c89cc47ec5845ed1d61f7')"
     ]
   }
 }
