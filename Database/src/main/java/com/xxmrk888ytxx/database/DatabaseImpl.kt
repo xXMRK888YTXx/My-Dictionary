@@ -8,19 +8,21 @@ import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLoca
 import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLocalDataSourceImpl
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSource
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSourceImpl
+import com.xxmrk888ytxx.database.dataSource.WordsLocalDataSource.WordsLocalDataSource
+import com.xxmrk888ytxx.database.dataSource.WordsLocalDataSource.WordsLocalDataSourceImpl
 
 internal class DatabaseImpl(private val context: Context) : Database {
 
-    private val appDatabase:AppDatabase by lazy {
-        Room.databaseBuilder(context,AppDatabase::class.java,"database.db")
+    private val appDatabase: AppDatabase by lazy {
+        Room.databaseBuilder(context, AppDatabase::class.java, "database.db")
             .build()
     }
 
-    private val languageDao:LanguageDao by lazy {
+    private val languageDao: LanguageDao by lazy {
         appDatabase.languageDao
     }
 
-    private val wordGroupDao:WordGroupDao by lazy {
+    private val wordGroupDao: WordGroupDao by lazy {
         appDatabase.wordGroupDao
     }
 
@@ -28,7 +30,10 @@ internal class DatabaseImpl(private val context: Context) : Database {
         LanguageLocalDataSourceImpl(languageDao)
     }
     override val wordGroupLocalDataSource: WordGroupLocalDataSource by lazy {
-        WordGroupLocalDataSourceImpl(languageDao,wordGroupDao)
+        WordGroupLocalDataSourceImpl(languageDao, wordGroupDao)
+    }
+    override val wordsLocalDataSource: WordsLocalDataSource by lazy {
+        WordsLocalDataSourceImpl(appDatabase.wordDao)
     }
 
 

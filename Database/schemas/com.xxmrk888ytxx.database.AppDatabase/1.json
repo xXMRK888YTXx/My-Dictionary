@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c30d5caa92bb4dd5fd6c6abd0c93e687",
+    "identityHash": "ea991111fd525c0f7a39bcbc65b01796",
     "entities": [
       {
         "tableName": "Languages",
@@ -134,12 +134,87 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "WordsTable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `wordGroupId` INTEGER NOT NULL, `wordText` TEXT NOT NULL, `translateText` TEXT NOT NULL, `transcriptionText` TEXT NOT NULL, FOREIGN KEY(`wordGroupId`) REFERENCES `WordGroups`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordGroupId",
+            "columnName": "wordGroupId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wordText",
+            "columnName": "wordText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "translateText",
+            "columnName": "translateText",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transcriptionText",
+            "columnName": "transcriptionText",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_WordsTable_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_WordsTable_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_WordsTable_wordGroupId",
+            "unique": false,
+            "columnNames": [
+              "wordGroupId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_WordsTable_wordGroupId` ON `${TABLE_NAME}` (`wordGroupId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "WordGroups",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "wordGroupId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c30d5caa92bb4dd5fd6c6abd0c93e687')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ea991111fd525c0f7a39bcbc65b01796')"
     ]
   }
 }
