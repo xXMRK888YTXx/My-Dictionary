@@ -6,6 +6,8 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.Lang
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepositoryImpl
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
 import dagger.Binds
 import dagger.Module
 
@@ -20,4 +22,7 @@ interface DomainModule {
 
     @Binds
     fun bindImageRepository(imageRepository: ImageRepositoryImpl) : ImageRepository
+
+    @Binds
+    fun bindWordRepository(wordRepository: WordRepositoryImpl) : WordRepository
 }

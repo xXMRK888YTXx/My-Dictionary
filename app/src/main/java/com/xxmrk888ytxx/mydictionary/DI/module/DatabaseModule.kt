@@ -22,4 +22,8 @@ class DatabaseModule {
     @Provides
     @AppScope
     fun provideWordGroupLocalDataSource(database: Database) = database.wordGroupLocalDataSource
+
+    @Provides
+    @AppScope
+    fun provideWordLocalDataSource(database: Database) = database.wordsLocalDataSource
 }

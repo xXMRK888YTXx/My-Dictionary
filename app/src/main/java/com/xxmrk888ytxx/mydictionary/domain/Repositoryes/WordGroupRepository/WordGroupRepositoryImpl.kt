@@ -3,8 +3,8 @@ package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository
 import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLocalDataSource
 import com.xxmrk888ytxx.database.models.LanguageLocalModel
 import com.xxmrk888ytxx.database.models.WordGroupLocalModel
-import com.xxmrk888ytxx.mydictionary.models.LanguageModel
-import com.xxmrk888ytxx.mydictionary.models.WordGroupModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.LanguageModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordGroupModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

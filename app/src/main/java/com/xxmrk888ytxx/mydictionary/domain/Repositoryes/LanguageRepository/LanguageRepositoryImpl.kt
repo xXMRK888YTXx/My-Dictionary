@@ -2,7 +2,7 @@ package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository
 
 import com.xxmrk888ytxx.database.dataSource.LanguageLocalDataSource.LanguageLocalDataSource
 import com.xxmrk888ytxx.database.models.LanguageLocalModel
-import com.xxmrk888ytxx.mydictionary.models.LanguageModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.LanguageModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject

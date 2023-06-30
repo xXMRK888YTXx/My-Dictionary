@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.models
+package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models
 
 data class WordGroupModel(
     val id:Int,

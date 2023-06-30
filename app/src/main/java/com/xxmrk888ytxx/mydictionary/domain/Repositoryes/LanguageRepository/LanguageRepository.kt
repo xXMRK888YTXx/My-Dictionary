@@ -1,7 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository
 
 import com.xxmrk888ytxx.database.models.LanguageLocalModel
-import com.xxmrk888ytxx.mydictionary.models.LanguageModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.LanguageModel
 import kotlinx.coroutines.flow.Flow
 
 interface LanguageRepository {

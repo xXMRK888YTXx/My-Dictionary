@@ -1,8 +1,8 @@
 package com.xxmrk888ytxx.mydictionary.glue.CreateWordGroupScreen
 
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepository
-import com.xxmrk888ytxx.mydictionary.models.LanguageModel
-import com.xxmrk888ytxx.mydictionary.models.WordGroupModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.LanguageModel
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordGroupModel
 import com.xxmrk888ytxx.wordgroupscreen.contract.ProvideWordGroupContract
 import com.xxmrk888ytxx.wordgroupscreen.models.Language
 import com.xxmrk888ytxx.wordgroupscreen.models.WordGroup
