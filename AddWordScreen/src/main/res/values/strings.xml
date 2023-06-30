@@ -14,4 +14,5 @@
     <string name="translate_phrase">Translate phrase</string>
     <string name="remove">Remove</string>
     <string name="please_wait">Please, wait</string>
+    <string name="word_and_its_phrases_saved">Word and its phrases are saved</string>
 </resources>

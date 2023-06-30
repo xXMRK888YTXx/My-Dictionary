@@ -39,6 +39,7 @@ import com.xxmrk888ytxx.addwordscreen.models.PhrasesModel
 import com.xxmrk888ytxx.addwordscreen.models.ScreenState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalSnackbarHostState
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithUiEventHandler
 import kotlinx.collections.immutable.ImmutableList
 
@@ -50,6 +51,8 @@ fun AddWordScreen(
 
     val navigator = LocalNavigator.current
 
+    val snackbarHostState = LocalSnackbarHostState.current
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
@@ -58,9 +61,15 @@ fun AddWordScreen(
                 screenState.enteredWordTextFieldText.isNotEmpty()
                 && screenState.translateForEnteredWordTextFieldText.isNotEmpty()
             ) {
+
+                val snackBarString = stringResource(R.string.word_and_its_phrases_saved)
                 FloatingActionButton(
                     onClick = {
-                        onEvent(LocalUiEvent.WordInfoEnterCompleted(navigator))
+                        onEvent(LocalUiEvent.WordInfoEnterCompleted(
+                            navigator,
+                            snackbarHostState,
+                            snackBarString
+                        ))
                     }
                 ) {
                     Icon(

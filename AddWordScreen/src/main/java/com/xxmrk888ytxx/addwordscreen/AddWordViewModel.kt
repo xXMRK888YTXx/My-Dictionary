@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.addwordscreen
 
+import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordContract
@@ -7,6 +8,7 @@ import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordPhraseContract
 import com.xxmrk888ytxx.addwordscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.addwordscreen.models.PhrasesHolder
 import com.xxmrk888ytxx.addwordscreen.models.ScreenState
+import com.xxmrk888ytxx.coreandroid.ApplicationScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
@@ -85,6 +87,15 @@ class AddWordViewModel @AssistedInject constructor(
                             wordId,
                             it.phrasesText,
                             it.phrasesTranslate
+                        )
+                    }
+                    isSaveWordInProcessState.update { false }
+
+                    ApplicationScope.launch {
+                        event.snackbarHostState.showSnackbar(
+                            event.snackText,
+                            withDismissAction = true,
+                            duration = SnackbarDuration.Short
                         )
                     }
 

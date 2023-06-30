@@ -1,11 +1,16 @@
 package com.xxmrk888ytxx.addwordscreen.models
 
+import androidx.compose.material3.SnackbarHostState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 
 internal sealed class LocalUiEvent : UiEvent {
     object AddNewPhraseEvent : LocalUiEvent()
-    class WordInfoEnterCompleted(val navigator: Navigator) : LocalUiEvent()
+    class WordInfoEnterCompleted(
+        val navigator: Navigator,
+        val snackbarHostState: SnackbarHostState,
+        val snackText:String
+        ) : LocalUiEvent()
 
     data class EnteredWordTextFieldInputEvent(val text:String) : LocalUiEvent()
 

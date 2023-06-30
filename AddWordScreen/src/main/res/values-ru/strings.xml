@@ -14,4 +14,5 @@
     <string name="translate_phrase">Перевести фразу</string>
     <string name="remove">Удалить</string>
     <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="word_and_its_phrases_saved">Слово и его фразы сохранены</string>
 </resources>
