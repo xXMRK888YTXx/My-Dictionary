@@ -6,6 +6,7 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.Lang
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.WordGroupRepositoryImpl
+import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordPhrasesRepository.WordPhrasesRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
 import dagger.Binds
@@ -25,4 +26,7 @@ interface DomainModule {
 
     @Binds
     fun bindWordRepository(wordRepository: WordRepositoryImpl) : WordRepository
+
+    @Binds
+    fun bindWordPhrasesRepositoryImpl(wordPhrasesRepositoryImpl: WordPhrasesRepositoryImpl) : WordPhrasesRepositoryImpl
 }
