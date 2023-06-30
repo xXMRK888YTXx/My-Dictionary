@@ -7,5 +7,6 @@ data class ScreenState(
     val enteredWordTextFieldText:String = "",
     val translateForEnteredWordTextFieldText:String = "",
     val transcriptTextFieldText:String = "",
-    val phrasesList:ImmutableList<PhrasesModel> = persistentListOf()
+    val phrasesList:ImmutableList<PhrasesModel> = persistentListOf(),
+    val isSaveWordInProcess:Boolean = false
 )

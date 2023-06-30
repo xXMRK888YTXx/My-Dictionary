@@ -1,6 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.DI
 
 import android.content.Context
+import com.xxmrk888ytxx.mydictionary.DI.module.AddWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
@@ -17,7 +18,8 @@ import dagger.Component
         CreateWordGroupScreenModule::class,
         DatabaseModule::class,
         DomainModule::class,
-        ViewGroupWordsScreenModule::class
+        ViewGroupWordsScreenModule::class,
+        AddWordScreenModule::class
     ]
 )
 @AppScope

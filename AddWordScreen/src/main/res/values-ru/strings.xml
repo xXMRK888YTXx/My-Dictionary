@@ -13,4 +13,5 @@
     <string name="enter_translate_phrase">Введите переведенную фразу</string>
     <string name="translate_phrase">Перевести фразу</string>
     <string name="remove">Удалить</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
 </resources>

@@ -1,12 +1,11 @@
 package com.xxmrk888ytxx.addwordscreen
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordContract
+import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordPhraseContract
 import com.xxmrk888ytxx.addwordscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.addwordscreen.models.PhrasesHolder
-import com.xxmrk888ytxx.addwordscreen.models.PhrasesModel
 import com.xxmrk888ytxx.addwordscreen.models.ScreenState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
@@ -14,18 +13,19 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AddWordViewModel @AssistedInject constructor(
     @Assisted private val wordGroupId: Int,
     private val logger: Logger,
+    private val saveWordContract: SaveWordContract,
+    private val saveWordPhraseContract: SaveWordPhraseContract,
 ) : ViewModel(), UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -65,9 +65,28 @@ class AddWordViewModel @AssistedInject constructor(
             }
 
             is LocalUiEvent.WordInfoEnterCompleted -> {
+                if(isSaveWordInProcessState.value) return
+
+                isSaveWordInProcessState.update { true }
+
                 viewModelScope.launch(Dispatchers.IO) {
 
-                    //TODO(Save info)
+                    val state = state.first()
+
+                    val wordId = saveWordContract.saveWord(
+                        wordGroupId,
+                        state.enteredWordTextFieldText,
+                        state.translateForEnteredWordTextFieldText,
+                        state.transcriptTextFieldText
+                    )
+
+                    state.phrasesList.forEach {
+                        saveWordPhraseContract.savePhrase(
+                            wordId,
+                            it.phrasesText,
+                            it.phrasesTranslate
+                        )
+                    }
 
                     event.navigator.backScreen()
                 }
@@ -83,18 +102,22 @@ class AddWordViewModel @AssistedInject constructor(
 
     private val phrasesHolder = PhrasesHolder(logger)
 
+    private val isSaveWordInProcessState = MutableStateFlow(false)
+
     override val state: Flow<ScreenState> = combine(
         enteredWordTextFieldState,
         translateForEnteredWordTextFieldState,
         transcriptTextFieldState,
-        phrasesHolder.phrasesModel
-    ) { enteredWordTextFieldText, translateForEnteredWordTextFieldText, transcriptTextFieldText, phrasesList ->
+        phrasesHolder.phrasesModel,
+        isSaveWordInProcessState
+    ) { enteredWordTextFieldText, translateForEnteredWordTextFieldText, transcriptTextFieldText, phrasesList, isSaveWordInProcess ->
 
         ScreenState(
             enteredWordTextFieldText,
             translateForEnteredWordTextFieldText,
             transcriptTextFieldText,
-            phrasesList
+            phrasesList,
+            isSaveWordInProcess
         ).also { state -> cachedScreenState = state }
     }
 

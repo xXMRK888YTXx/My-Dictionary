@@ -13,4 +13,5 @@
     <string name="enter_translate_phrase">Enter the translated phrase</string>
     <string name="translate_phrase">Translate phrase</string>
     <string name="remove">Remove</string>
+    <string name="please_wait">Please, wait</string>
 </resources>
