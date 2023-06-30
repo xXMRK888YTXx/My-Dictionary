@@ -8,4 +8,9 @@
     <string name="transcription_of_word">Транскрипция слова</string>
     <string name="phrases_with_this_word">Фразы с этим словом</string>
     <string name="add_new_phrase">Добавить новую фразу</string>
+    <string name="enter_original_phrase">Введите оригинальную фразу</string>
+    <string name="original_phrase">Оригинальная фраза</string>
+    <string name="enter_translate_phrase">Введите переведенную фразу</string>
+    <string name="translate_phrase">Перевести фразу</string>
+    <string name="remove">Удалить</string>
 </resources>

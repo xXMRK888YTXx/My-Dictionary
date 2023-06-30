@@ -8,4 +8,9 @@
     <string name="transcription_of_word">Transcription of word</string>
     <string name="phrases_with_this_word">Phrases with this word</string>
     <string name="add_new_phrase">Add new Phrase</string>
+    <string name="enter_original_phrase">Enter the original phrase</string>
+    <string name="original_phrase">Original phrase</string>
+    <string name="enter_translate_phrase">Enter the translated phrase</string>
+    <string name="translate_phrase">Translate phrase</string>
+    <string name="remove">Remove</string>
 </resources>
