@@ -6,6 +6,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.ProvideWordForWordGroupContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.ProvideWordGroupInfoContract
+import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
 import dagger.assisted.Assisted
@@ -20,7 +21,8 @@ import kotlinx.coroutines.flow.map
 class ViewGroupWordsViewModel @AssistedInject constructor(
     @Assisted private val wordGroupId:Int,
     private val provideWordForWordGroupContract: ProvideWordForWordGroupContract,
-    private val provideWordGroupInfoContract: ProvideWordGroupInfoContract
+    private val provideWordGroupInfoContract: ProvideWordGroupInfoContract,
+    private val textToSpeechContract: TextToSpeechContract
 ) : ViewModel(),UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -32,6 +34,10 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
             is LocalUiEvent.ClickButtonForAddNewWordOnEmptyStateEvent -> toAddNewWordScreen(event.navigator)
 
             is LocalUiEvent.OnBackScreenEvent -> event.navigator.backScreen()
+
+            is LocalUiEvent.TextToSpeechEvent -> {
+                textToSpeechContract.speck(event.text)
+            }
         }
     }
 

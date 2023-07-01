@@ -10,4 +10,6 @@ internal sealed class LocalUiEvent : UiEvent {
     class ClickButtonForAddNewWordOnEmptyStateEvent(val navigator: Navigator): LocalUiEvent()
 
     class OnBackScreenEvent(val navigator: Navigator) : LocalUiEvent()
+
+    data class TextToSpeechEvent(val text: String): LocalUiEvent()
 }

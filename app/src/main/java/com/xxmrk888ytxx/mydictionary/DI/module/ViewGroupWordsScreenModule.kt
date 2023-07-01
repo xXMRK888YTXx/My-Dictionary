@@ -2,8 +2,10 @@ package com.xxmrk888ytxx.mydictionary.DI.module
 
 import com.xxmrk888ytxx.mydictionary.glue.ViewGroupWordsScreen.ProvideWordForWordGroupContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.ViewGroupWordsScreen.ProvideWordGroupInfoContractImpl
+import com.xxmrk888ytxx.mydictionary.glue.ViewGroupWordsScreen.TextToSpeechContractImpl
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.ProvideWordForWordGroupContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.ProvideWordGroupInfoContract
+import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import dagger.Binds
 import dagger.Module
 
@@ -19,4 +21,9 @@ interface ViewGroupWordsScreenModule {
     fun bindProvideWordGroupInfoContract(
         provideWordGroupInfoContractImpl: ProvideWordGroupInfoContractImpl,
     ): ProvideWordGroupInfoContract
+
+    @Binds
+    fun bindTextToSpeechContract(
+        TextToSpeechContractImpl: TextToSpeechContractImpl
+    ) : TextToSpeechContract
 }

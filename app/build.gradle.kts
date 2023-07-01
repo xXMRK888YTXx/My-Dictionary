@@ -59,6 +59,7 @@ dependencies {
     implementation(project(Project.Database))
     implementation(project(Project.ViewGroupWordsScreen))
     implementation(project(Project.AddWordScreen))
+    implementation(project(Project.TTSManager))
 
 
 

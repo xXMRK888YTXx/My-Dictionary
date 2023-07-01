@@ -5,14 +5,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.xxmrk888ytxx.androidcore.runOnUiThread
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
+import com.xxmrk888ytxx.texttospeechmanager.TTSManager
 import javax.inject.Inject
 import javax.inject.Provider
 
 class ActivityViewModel @Inject constructor(
-
+    private val ttsManager: TTSManager
 ) : ViewModel(),Navigator {
 
     var navController:NavController? = null
+
+    fun initTTS() {
+        ttsManager.init()
+    }
 
 
     override fun toCreateWordGroupScreen() = runOnUiThread {

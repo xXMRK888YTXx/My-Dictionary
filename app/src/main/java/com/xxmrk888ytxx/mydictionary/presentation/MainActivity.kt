@@ -55,6 +55,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
+
+        activityViewModel.initTTS()
+
         setContentWithTheme {
             val navController = rememberNavController()
 

@@ -7,6 +7,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
+import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
@@ -21,7 +22,8 @@ import dagger.Component
         DomainModule::class,
         ViewGroupWordsScreenModule::class,
         AddWordScreenModule::class,
-        WordGroupScreenModule::class
+        WordGroupScreenModule::class,
+        TTSManagerModule::class
     ]
 )
 @AppScope

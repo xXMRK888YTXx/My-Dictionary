@@ -1,6 +1,7 @@
 package com.xxmrk888ytxx.viewgroupwordsscreen
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.Word
@@ -115,7 +117,9 @@ fun ViewGroupWordsScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     items(screenState.words, key = { it.id }) {
-                        WordItem(word = it)
+                        WordItem(word = it) {
+                            onEvent(LocalUiEvent.TextToSpeechEvent(it))
+                        }
                     }
                 }
             }
@@ -124,7 +128,7 @@ fun ViewGroupWordsScreen(
 }
 
 @Composable
-private fun WordItem(word:Word) {
+private fun WordItem(word:Word,onTextToSpeechRequest:(String) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -163,6 +167,17 @@ private fun WordItem(word:Word) {
                     ),
 
                     )
+            }
+            
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_volume_up_24),
+                    contentDescription = "",
+                    modifier = Modifier.size(24.dp).clickable { onTextToSpeechRequest(word.wordText) }
+                )
             }
         }
     }
