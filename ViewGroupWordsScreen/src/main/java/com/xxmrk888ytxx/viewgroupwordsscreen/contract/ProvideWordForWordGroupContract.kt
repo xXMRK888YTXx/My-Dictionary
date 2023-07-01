@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ProvideWordForWordGroupContract {
 
-    val words: Flow<ImmutableList<Word>>
+    fun getWords(wordGroupId:Int) : Flow<ImmutableList<Word>>
 }

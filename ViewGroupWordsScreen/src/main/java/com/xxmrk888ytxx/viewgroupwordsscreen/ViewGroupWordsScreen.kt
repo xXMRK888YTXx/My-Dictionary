@@ -4,10 +4,13 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,7 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
@@ -56,7 +63,55 @@ fun ViewGroupWordsScreen(
                     EmptyState(onEvent)
                 }
 
-                is ScreenState.ViewWords -> TODO()
+                is ScreenState.ViewWords -> {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        items(screenState.words, key = { it.id }) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+
+                                    Text(
+                                        text = it.wordText,
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.W700,
+                                            fontSize = 20.sp,
+                                        )
+                                    )
+
+                                    Text(
+                                        text = it.translateText,
+                                        style = TextStyle(
+                                            fontWeight = FontWeight.W400,
+                                            fontSize = 18.sp,
+                                        )
+                                    )
+
+                                    if (it.transcriptionText.isNotEmpty()) {
+                                        Text(
+                                            text = "[" + it.transcriptionText + "]",
+                                            style = TextStyle(
+                                                fontWeight = FontWeight.W300,
+                                                fontSize = 18.sp,
+                                                fontStyle = FontStyle.Italic
+                                            ),
+
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

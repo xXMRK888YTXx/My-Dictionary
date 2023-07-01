@@ -34,7 +34,7 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
         navigator.toAddWordScreen(wordGroupId)
     }
 
-    override val state: Flow<ScreenState> = provideWordForWordGroupContract.words.map { wordList ->
+    override val state: Flow<ScreenState> = provideWordForWordGroupContract.getWords(wordGroupId).map { wordList ->
         val result = if(wordList.isEmpty()) ScreenState.EmptyState
         else ScreenState.ViewWords(wordList)
 
