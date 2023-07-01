@@ -33,7 +33,7 @@ internal class DatabaseImpl(private val context: Context) : Database {
     }
 
     override val wordGroupLocalDataSource: WordGroupLocalDataSource by lazy {
-        WordGroupLocalDataSourceImpl(languageDao, wordGroupDao)
+        WordGroupLocalDataSourceImpl(wordGroupDao)
     }
 
     override val wordsLocalDataSource: WordsLocalDataSource by lazy {

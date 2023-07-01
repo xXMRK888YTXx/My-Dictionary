@@ -8,6 +8,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.WordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -19,7 +20,8 @@ import dagger.Component
         DatabaseModule::class,
         DomainModule::class,
         ViewGroupWordsScreenModule::class,
-        AddWordScreenModule::class
+        AddWordScreenModule::class,
+        WordGroupScreenModule::class
     ]
 )
 @AppScope

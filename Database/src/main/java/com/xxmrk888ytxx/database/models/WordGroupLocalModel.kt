@@ -3,7 +3,7 @@ package com.xxmrk888ytxx.database.models
 data class WordGroupLocalModel(
     val id: Int,
     val name:String,
-    val primaryLanguage: LanguageLocalModel,
-    val secondaryLanguage: LanguageLocalModel,
+    val primaryLanguageId: Int,
+    val secondaryLanguageId: Int,
     val imageUrl:String?
 )

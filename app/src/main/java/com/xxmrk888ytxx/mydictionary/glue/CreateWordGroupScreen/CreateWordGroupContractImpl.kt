@@ -25,8 +25,8 @@ class CreateWordGroupContractImpl @Inject constructor(
             WordGroupModel(
                 0,
                 groupName,
-                primaryLanguage.toLanguageModel(),
-                secondLanguage.toLanguageModel(),
+                primaryLanguage.id,
+                secondLanguage.id,
                 imagePath
             )
         )
