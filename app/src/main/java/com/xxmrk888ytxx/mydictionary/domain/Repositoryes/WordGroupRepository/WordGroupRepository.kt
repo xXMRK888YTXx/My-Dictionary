@@ -8,6 +8,8 @@ interface WordGroupRepository {
 
     val wordGroupsFlow: Flow<List<WordGroupModel>>
 
+    fun getWordGroupById(wordGroupId:Int) : Flow<WordGroupModel>
+
     suspend fun insertWordGroup(wordGroupModel: WordGroupModel)
 
     suspend fun removeWordGroup(id:Int)

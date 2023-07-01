@@ -10,6 +10,8 @@ interface WordGroupLocalDataSource {
 
     val wordGroupsFlow: Flow<List<WordGroupLocalModel>>
 
+    fun getWordGroupById(wordGroupId:Int) : Flow<WordGroupLocalModel>
+
     suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel)
 
     suspend fun removeWordGroup(id:Int)

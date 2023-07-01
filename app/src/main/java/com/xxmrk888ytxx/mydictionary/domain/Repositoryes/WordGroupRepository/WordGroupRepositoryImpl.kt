@@ -17,6 +17,9 @@ class WordGroupRepositoryImpl @Inject constructor(
             list.map { it.toModel() }
         }
 
+    override fun getWordGroupById(wordGroupId: Int): Flow<WordGroupModel> =
+        wordGroupLocalDataSource.getWordGroupById(wordGroupId).map { it.toModel() }
+
     override suspend fun insertWordGroup(wordGroupModel: WordGroupModel) {
         return wordGroupLocalDataSource.insertWordGroup(wordGroupModel.toDataSourceModel())
     }
@@ -26,7 +29,13 @@ class WordGroupRepositoryImpl @Inject constructor(
     }
 
     private fun WordGroupLocalModel.toModel(): WordGroupModel {
-        return WordGroupModel(id,name,primaryLanguage.toModel(), secondaryLanguage.toModel(), imageUrl)
+        return WordGroupModel(
+            id,
+            name,
+            primaryLanguage.toModel(),
+            secondaryLanguage.toModel(),
+            imageUrl
+        )
     }
 
     private fun LanguageLocalModel.toModel(): LanguageModel = LanguageModel(id, name)
@@ -34,7 +43,7 @@ class WordGroupRepositoryImpl @Inject constructor(
     private fun LanguageModel.toDataSourceModel() = LanguageLocalModel(id, name)
 
     private fun WordGroupModel.toDataSourceModel() = WordGroupLocalModel(
-        id,name,primaryLanguage.toDataSourceModel(),
+        id, name, primaryLanguage.toDataSourceModel(),
         secondaryLanguage.toDataSourceModel(), imageUrl
     )
 }

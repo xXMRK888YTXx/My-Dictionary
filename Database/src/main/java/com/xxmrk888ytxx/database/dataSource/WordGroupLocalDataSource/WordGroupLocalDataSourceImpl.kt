@@ -32,6 +32,21 @@ internal class WordGroupLocalDataSourceImpl(
         }
     }
 
+    override fun getWordGroupById(wordGroupId: Int): Flow<WordGroupLocalModel> {
+        return combine(
+            languageDao.languageFlow.toMap(),
+            wordGroupDao.getWordGroupById(wordGroupId)
+        ) { languagesMap, wordGroup ->
+            WordGroupLocalModel(
+                wordGroup.id,
+                name = wordGroup.name,
+                languagesMap[wordGroup.primaryLanguageId]!!.toLocalDataModel(),
+                languagesMap[wordGroup.secondaryLanguageId]!!.toLocalDataModel(),
+                imageUrl = wordGroup.imageUrl
+            )
+        }
+    }
+
     override suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel) = withContext(Dispatchers.IO) {
         wordGroupDao.insertWordGroup(wordGroupLocalModel.toEntity())
     }
@@ -59,4 +74,6 @@ internal class WordGroupLocalDataSourceImpl(
     private fun WordGroupLocalModel.toEntity() : WordGroupEntity {
         return WordGroupEntity(id,name,primaryLanguage.id,secondaryLanguage.id,imageUrl)
     }
+
+
 }

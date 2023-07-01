@@ -12,6 +12,9 @@ internal interface WordGroupDao {
     @get:Query("SELECT * FROM WORDGROUPS")
     val wordGroupsFlow: Flow<List<WordGroupEntity>>
 
+    @Query("SELECT * FROM WORDGROUPS WHERE id = :wordGroupId")
+    fun getWordGroupById(wordGroupId:Int) : Flow<WordGroupEntity>
+
     @Insert
     suspend fun insertWordGroup(wordGroupEntity: WordGroupEntity)
 
