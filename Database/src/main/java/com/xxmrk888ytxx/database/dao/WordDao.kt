@@ -12,6 +12,9 @@ internal interface WordDao {
     @Query("SELECT * FROM WordsTable")
     fun getWordsFlow() : Flow<List<WordEntity>>
 
+    @Query("SELECT * FROM WORDSTABLE WHERE wordGroupId = :wordGroupId")
+    fun getWordsByWordGroupIdFlow(wordGroupId:Int) : Flow<List<WordEntity>>
+
     @Insert
     suspend fun insertWord(wordEntity: WordEntity)
 

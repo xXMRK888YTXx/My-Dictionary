@@ -12,22 +12,28 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 internal class WordsLocalDataSourceImpl(
-    private val wordDao: WordDao
+    private val wordDao: WordDao,
 ) : WordsLocalDataSource {
 
-    private val mutex:Mutex = Mutex()
+    private val mutex: Mutex = Mutex()
 
     override fun getWordsFlow(): Flow<List<WordLocalModel>> = wordDao.getWordsFlow().map { list ->
         list.map { it.toLocalModel() }
     }
 
-    override suspend fun addWord(wordGroupLocalModel: WordLocalModel) : Int = withContext(Dispatchers.IO) {
-        return@withContext mutex.withLock {
-            wordDao.insertWord(wordGroupLocalModel.toEntity())
-
-            wordDao.getLastId()
+    override fun getWordsByWordGroupIdFlow(wordGroupId: Int): Flow<List<WordLocalModel>> =
+        wordDao.getWordsByWordGroupIdFlow(wordGroupId).map { list ->
+            list.map { it.toLocalModel() }
         }
-    }
+
+    override suspend fun addWord(wordGroupLocalModel: WordLocalModel): Int =
+        withContext(Dispatchers.IO) {
+            return@withContext mutex.withLock {
+                wordDao.insertWord(wordGroupLocalModel.toEntity())
+
+                wordDao.getLastId()
+            }
+        }
 
     override suspend fun removeWord(id: Int) = withContext(Dispatchers.IO) {
         mutex.withLock {
@@ -35,11 +41,11 @@ internal class WordsLocalDataSourceImpl(
         }
     }
 
-    private fun WordEntity.toLocalModel() : WordLocalModel {
-        return WordLocalModel(id,wordGroupId, wordText, translateText, transcriptionText)
+    private fun WordEntity.toLocalModel(): WordLocalModel {
+        return WordLocalModel(id, wordGroupId, wordText, translateText, transcriptionText)
     }
 
-    private fun WordLocalModel.toEntity() : WordEntity {
+    private fun WordLocalModel.toEntity(): WordEntity {
         return WordEntity(id, wordGroupId, wordText, translateText, transcriptionText)
     }
 }

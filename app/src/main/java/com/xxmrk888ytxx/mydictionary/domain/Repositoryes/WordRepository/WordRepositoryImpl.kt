@@ -8,14 +8,20 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class WordRepositoryImpl @Inject constructor(
-    private val wordsLocalDataSource: WordsLocalDataSource
+    private val wordsLocalDataSource: WordsLocalDataSource,
 ) : WordRepository {
 
-    override fun getWordsFlow(): Flow<List<WordModel>> = wordsLocalDataSource.getWordsFlow().map { list ->
-        list.map { it.toModel() }
-    }
+    override fun getWords(): Flow<List<WordModel>> =
+        wordsLocalDataSource.getWordsFlow().map { list ->
+            list.map { it.toModel() }
+        }
 
-    override suspend fun addWord(wordModel: WordModel) : Int {
+    override fun getWordsByWordGroupId(wordGroupId: Int): Flow<List<WordModel>> =
+        wordsLocalDataSource.getWordsByWordGroupIdFlow(wordGroupId).map { list ->
+            list.map { it.toModel() }
+        }
+
+    override suspend fun addWord(wordModel: WordModel): Int {
         return wordsLocalDataSource.addWord(wordModel.toLocalModel())
     }
 
@@ -23,11 +29,11 @@ class WordRepositoryImpl @Inject constructor(
         wordsLocalDataSource.removeWord(id)
     }
 
-    private fun WordLocalModel.toModel() : WordModel {
+    private fun WordLocalModel.toModel(): WordModel {
         return WordModel(id, wordGroupId, wordText, translateText, transcriptionText)
     }
 
-    private fun WordModel.toLocalModel() : WordLocalModel {
+    private fun WordModel.toLocalModel(): WordLocalModel {
         return WordLocalModel(id, wordGroupId, wordText, translateText, transcriptionText)
     }
 }
