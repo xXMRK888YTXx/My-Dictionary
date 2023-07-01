@@ -1,10 +1,9 @@
 package com.xxmrk888ytxx.viewgroupwordsscreen.models
 
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-sealed class ScreenState {
-
-    object EmptyState : ScreenState()
-
-    data class ViewWords(val words:ImmutableList<Word>) : ScreenState()
-}
+data class ScreenState(
+    val wordGroupInfo:WordGroupInfo = WordGroupInfo("","",""),
+    val words:ImmutableList<Word> = persistentListOf(),
+)

@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.viewgroupwordsscreen
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,13 +12,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -31,7 +38,9 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
+import com.xxmrk888ytxx.viewgroupwordsscreen.models.Word
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ViewGroupWordsScreen(
     screenState: ScreenState,
@@ -39,6 +48,10 @@ fun ViewGroupWordsScreen(
 ) {
 
     val navigator = LocalNavigator.current
+
+    val isWordListEmpty = remember(screenState.words) {
+        screenState.words.isEmpty()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -50,6 +63,42 @@ fun ViewGroupWordsScreen(
                     modifier = Modifier.size(24.dp)
                 )
             }
+        },
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(10.dp,Alignment.CenterVertically),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = screenState.wordGroupInfo.name,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+
+                        Text(text = "${screenState.wordGroupInfo.primaryLanguageName} -" +
+                                " ${screenState.wordGroupInfo.secondaryLanguageName}",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+
+
+
+
+                    }
+                },
+                navigationIcon = {
+                    IconButton(onClick = {
+                        onEvent(LocalUiEvent.OnBackScreenEvent(navigator))
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .size(28.dp)
+                        )
+                    }
+                }
+            )
         }
     ) { paddings ->
 
@@ -58,60 +107,62 @@ fun ViewGroupWordsScreen(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-            when (screenState) {
-                is ScreenState.EmptyState -> {
-                    EmptyState(onEvent)
-                }
 
-                is ScreenState.ViewWords -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        items(screenState.words, key = { it.id }) {
-                            Card(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                            ) {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                                ) {
-
-                                    Text(
-                                        text = it.wordText,
-                                        style = TextStyle(
-                                            fontWeight = FontWeight.W700,
-                                            fontSize = 20.sp,
-                                        )
-                                    )
-
-                                    Text(
-                                        text = it.translateText,
-                                        style = TextStyle(
-                                            fontWeight = FontWeight.W400,
-                                            fontSize = 18.sp,
-                                        )
-                                    )
-
-                                    if (it.transcriptionText.isNotEmpty()) {
-                                        Text(
-                                            text = "[" + it.transcriptionText + "]",
-                                            style = TextStyle(
-                                                fontWeight = FontWeight.W300,
-                                                fontSize = 18.sp,
-                                                fontStyle = FontStyle.Italic
-                                            ),
-
-                                        )
-                                    }
-                                }
-                            }
-                        }
+            if(isWordListEmpty) {
+                EmptyState(onEvent)
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    items(screenState.words, key = { it.id }) {
+                        WordItem(word = it)
                     }
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun WordItem(word:Word) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+
+            Text(
+                text = word.wordText,
+                style = TextStyle(
+                    fontWeight = FontWeight.W700,
+                    fontSize = 20.sp,
+                )
+            )
+
+            Text(
+                text = word.translateText,
+                style = TextStyle(
+                    fontWeight = FontWeight.W400,
+                    fontSize = 18.sp,
+                )
+            )
+
+            if (word.transcriptionText.isNotEmpty()) {
+                Text(
+                    text = "[" + word.transcriptionText + "]",
+                    style = TextStyle(
+                        fontWeight = FontWeight.W300,
+                        fontSize = 18.sp,
+                        fontStyle = FontStyle.Italic
+                    ),
+
+                    )
             }
         }
     }
