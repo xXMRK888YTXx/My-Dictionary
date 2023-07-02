@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.addwordscreen.contracts.ProvideWordInfoContract
 import com.xxmrk888ytxx.addwordscreen.contracts.ProvideWordPhrasesContract
+import com.xxmrk888ytxx.addwordscreen.contracts.RemovePhrasesContract
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordContract
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordPhraseContract
 import com.xxmrk888ytxx.addwordscreen.models.LocalUiEvent
@@ -33,8 +34,11 @@ class EditWordViewModel @AssistedInject constructor(
     private val saveWordContract: SaveWordContract,
     private val saveWordPhraseContract: SaveWordPhraseContract,
     private val provideWordInfoContract: ProvideWordInfoContract,
-    private val provideWordPhrasesContract: ProvideWordPhrasesContract
+    private val provideWordPhrasesContract: ProvideWordPhrasesContract,
+    private val removePhrasesContract: RemovePhrasesContract
 ) : ViewModel(), UiModel<ScreenState> {
+
+    private val originalPhrasesIds = mutableSetOf<Int>()
 
     override fun handleEvent(event: UiEvent) {
         if (event !is LocalUiEvent) return
@@ -96,7 +100,14 @@ class EditWordViewModel @AssistedInject constructor(
                             it.phrasesText,
                             it.phrasesTranslate
                         )
+                        if(it.id != 0)
+                            originalPhrasesIds.remove(it.id)
                     }
+
+                    originalPhrasesIds.forEach {
+                        removePhrasesContract.removePhrases(it)
+                    }
+
                     isSaveWordInProcessState.update { false }
 
                     ApplicationScope.launch {
@@ -166,6 +177,8 @@ class EditWordViewModel @AssistedInject constructor(
 
         phrasesDeferred.await().forEach {
             phrasesHolder.addPhrases(it)
+
+            originalPhrasesIds.add(it.id)
         }
     }
 
