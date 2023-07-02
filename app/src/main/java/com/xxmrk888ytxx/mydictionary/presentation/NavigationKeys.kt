@@ -4,6 +4,8 @@ sealed class NavigationKeys(val key:String) {
 
     object WordGroupKeyForViewGroupWordsScreen : NavigationKeys("WordGroupKeyForViewGroupWordsScreen")
 
-    object WordGroupKeyForAddWordScreen : NavigationKeys("WordGroupKeyForAddWordScreen")
+    object WordGroupKeyForEditWordScreen : NavigationKeys("WordGroupKeyForAddWordScreen")
+
+    object EditWordIdForEditWordScreen : NavigationKeys("EditWordIdForAddWordScreen")
 
 }

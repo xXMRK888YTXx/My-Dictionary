@@ -117,9 +117,15 @@ fun ViewGroupWordsScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     items(screenState.words, key = { it.id }) {
-                        WordItem(word = it) {
-                            onEvent(LocalUiEvent.TextToSpeechEvent(it))
-                        }
+                        WordItem(
+                            word = it,
+                            onTextToSpeechRequest = { text ->
+                                onEvent(LocalUiEvent.TextToSpeechEvent(text))
+                            },
+                            onOpenWordForEdit = { wordId ->
+                                onEvent(LocalUiEvent.OpenWordForEditEvent(navigator,wordId))
+                            }
+                        )
                     }
                 }
             }
@@ -127,12 +133,20 @@ fun ViewGroupWordsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun WordItem(word:Word,onTextToSpeechRequest:(String) -> Unit) {
+private fun WordItem(
+    word:Word,
+    onTextToSpeechRequest:(String) -> Unit,
+    onOpenWordForEdit:(Int) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
+        onClick = {
+            onOpenWordForEdit(word.id)
+        }
     ) {
         Column(
             modifier = Modifier

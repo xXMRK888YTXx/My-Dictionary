@@ -32,9 +32,9 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
-    override fun toAddWordScreen(wordGroupId: Int) {
+    override fun toEditWordScreen(wordGroupId: Int,editWordId:Int) {
         navController?.navigate(
-            route = "${Screen.AddWordScreen.route}/$wordGroupId"
+            route = "${Screen.EditWordScreen.route}/$wordGroupId/$editWordId"
         ) {
             launchSingleTop = true
         }

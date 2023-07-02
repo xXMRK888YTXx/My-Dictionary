@@ -12,11 +12,8 @@ import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 class ViewGroupWordsViewModel @AssistedInject constructor(
     @Assisted private val wordGroupId:Int,
@@ -29,20 +26,22 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
         if(event !is LocalUiEvent) return
 
         when(event) {
-            is LocalUiEvent.FloatButtonClickEvent -> toAddNewWordScreen(event.navigator)
+            is LocalUiEvent.FloatButtonClickEvent -> toEditNewWordScreen(event.navigator)
 
-            is LocalUiEvent.ClickButtonForAddNewWordOnEmptyStateEvent -> toAddNewWordScreen(event.navigator)
+            is LocalUiEvent.ClickButtonForAddNewWordOnEmptyStateEvent -> toEditNewWordScreen(event.navigator)
 
             is LocalUiEvent.OnBackScreenEvent -> event.navigator.backScreen()
 
             is LocalUiEvent.TextToSpeechEvent -> {
                 textToSpeechContract.speck(event.text)
             }
+
+            is LocalUiEvent.OpenWordForEditEvent -> toEditNewWordScreen(event.navigator,event.wordId)
         }
     }
 
-    private fun toAddNewWordScreen(navigator: Navigator) {
-        navigator.toAddWordScreen(wordGroupId)
+    private fun toEditNewWordScreen(navigator: Navigator,editWordId:Int = 0) {
+        navigator.toEditWordScreen(wordGroupId,editWordId)
     }
 
     override val state: Flow<ScreenState> = combine(

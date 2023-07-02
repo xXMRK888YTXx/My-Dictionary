@@ -3,6 +3,8 @@ package com.xxmrk888ytxx.addwordscreen
 import androidx.compose.material3.SnackbarDuration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xxmrk888ytxx.addwordscreen.contracts.ProvideWordInfoContract
+import com.xxmrk888ytxx.addwordscreen.contracts.ProvideWordPhrasesContract
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordContract
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordPhraseContract
 import com.xxmrk888ytxx.addwordscreen.models.LocalUiEvent
@@ -16,6 +18,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -24,10 +27,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class EditWordViewModel @AssistedInject constructor(
-    @Assisted private val wordGroupId: Int,
+    @Assisted("wordGroupId") private val wordGroupId: Int,
+    @Assisted("editWordId") private val editWordId:Int,
     private val logger: Logger,
     private val saveWordContract: SaveWordContract,
     private val saveWordPhraseContract: SaveWordPhraseContract,
+    private val provideWordInfoContract: ProvideWordInfoContract,
+    private val provideWordPhrasesContract: ProvideWordPhrasesContract
 ) : ViewModel(), UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -47,7 +53,7 @@ class EditWordViewModel @AssistedInject constructor(
             }
 
             LocalUiEvent.AddNewPhraseEvent -> {
-                phrasesHolder.addPhrases(0)
+                phrasesHolder.addPhrases()
             }
 
             is LocalUiEvent.UpdateOriginalPhraseEvent -> {
@@ -76,6 +82,7 @@ class EditWordViewModel @AssistedInject constructor(
                     val state = state.first()
 
                     val wordId = saveWordContract.saveWord(
+                        editWordId,
                         wordGroupId,
                         state.enteredWordTextFieldText,
                         state.translateForEnteredWordTextFieldText,
@@ -85,6 +92,7 @@ class EditWordViewModel @AssistedInject constructor(
                     state.phrasesList.forEach {
                         saveWordPhraseContract.savePhrase(
                             wordId,
+                            it.id,
                             it.phrasesText,
                             it.phrasesTranslate
                         )
@@ -138,8 +146,40 @@ class EditWordViewModel @AssistedInject constructor(
     override val defValue: ScreenState
         get() = cachedScreenState
 
+
+    private suspend fun loadWord(wordId:Int) {
+        if(wordId == 0) return
+
+        val wordDeferred = viewModelScope.async(Dispatchers.IO) {
+            provideWordInfoContract.getWordInfo(editWordId)
+        }
+
+        val phrasesDeferred = viewModelScope.async(Dispatchers.IO) {
+            provideWordPhrasesContract.getPhrases(editWordId)
+        }
+
+        val word = wordDeferred.await()
+
+        enteredWordTextFieldState.update { word.wordText }
+        translateForEnteredWordTextFieldState.update { word.translateText }
+        transcriptTextFieldState.update { word.transcriptionText }
+
+        phrasesDeferred.await().forEach {
+            phrasesHolder.addPhrases(it)
+        }
+    }
+
+    init {
+        viewModelScope.launch(Dispatchers.Default) {
+            loadWord(editWordId)
+        }
+    }
+
     @AssistedFactory
     interface Factory {
-        fun create(wordGroupId: Int): EditWordViewModel
+        fun create(
+            @Assisted("wordGroupId") wordGroupId: Int,
+            @Assisted("editWordId") editWordId:Int,
+        ): EditWordViewModel
     }
 }

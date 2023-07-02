@@ -7,5 +7,5 @@ sealed class Screen(val route:String) {
 
     object ViewGroupWordsScreen : Screen("ViewGroupWordsScreen")
 
-    object AddWordScreen : Screen("AddWordScreen")
+    object EditWordScreen : Screen("AddWordScreen")
 }

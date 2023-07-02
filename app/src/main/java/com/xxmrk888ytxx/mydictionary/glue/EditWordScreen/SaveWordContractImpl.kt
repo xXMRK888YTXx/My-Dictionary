@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.mydictionary.glue.AddWordScreen
+package com.xxmrk888ytxx.mydictionary.glue.EditWordScreen
 
 import com.xxmrk888ytxx.addwordscreen.contracts.SaveWordContract
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
@@ -10,11 +10,12 @@ class SaveWordContractImpl @Inject constructor(
 ) : SaveWordContract {
 
     override suspend fun saveWord(
+        wordId:Int,
         wordGroup: Int,
         wordText: String,
         translateWordText: String,
         transcriptText: String,
     ): Int {
-        return wordRepository.addWord(WordModel(0,wordGroup,wordText,translateWordText,transcriptText))
+        return wordRepository.addWord(WordModel(wordId,wordGroup,wordText,translateWordText,transcriptText))
     }
 }

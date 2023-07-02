@@ -105,7 +105,10 @@ class MainActivity : ComponentActivity() {
                         )
                     ) {
                         val wordGroupId =
-                            it.arguments?.getInt(NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key,Int.MIN_VALUE)
+                            it.arguments?.getInt(
+                                NavigationKeys.WordGroupKeyForViewGroupWordsScreen.key,
+                                Int.MIN_VALUE
+                            )
                                 ?: return@composable
 
                         val navigator = LocalNavigator.current
@@ -133,31 +136,42 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(
-                        route = "${Screen.AddWordScreen.route}/{${NavigationKeys.WordGroupKeyForAddWordScreen.key}}",
+                        route = "${Screen.EditWordScreen.route}/{${NavigationKeys.WordGroupKeyForEditWordScreen.key}}/{${NavigationKeys.EditWordIdForEditWordScreen.key}}",
                         arguments = listOf(
-                            navArgument(NavigationKeys.WordGroupKeyForAddWordScreen.key) {
+                            navArgument(NavigationKeys.WordGroupKeyForEditWordScreen.key) {
                                 type = NavType.IntType
                                 defaultValue = Int.MIN_VALUE
+                            },
+                            navArgument(NavigationKeys.EditWordIdForEditWordScreen.key) {
+                                type = NavType.IntType
+                                defaultValue = 0
                             }
                         )
                     ) {
                         val wordGroupId =
-                            it.arguments?.getInt(NavigationKeys.WordGroupKeyForAddWordScreen.key,Int.MIN_VALUE)
+                            it.arguments?.getInt(
+                                NavigationKeys.WordGroupKeyForEditWordScreen.key,
+                                Int.MIN_VALUE
+                            )
                                 ?: return@composable
+
+                        val editWordId =
+                            it.arguments?.getInt(NavigationKeys.EditWordIdForEditWordScreen.key, 0)
+                                ?: 0
 
                         val navigator = LocalNavigator.current
 
 
                         LaunchedEffect(key1 = wordGroupId, block = {
                             if (wordGroupId == Int.MIN_VALUE) {
-                                logger.debug("wordGroupId not setup for ${Screen.AddWordScreen.route}")
+                                logger.debug("wordGroupId not setup for ${Screen.EditWordScreen.route}")
 
                                 navigator.backScreen()
                             }
                         })
 
                         val viewModel = composeViewModel() {
-                            editWordViewModel.create(wordGroupId)
+                            editWordViewModel.create(wordGroupId,editWordId)
                         }
 
                         val screenState by viewModel.state.collectAsStateWithLifecycle(

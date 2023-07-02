@@ -6,7 +6,7 @@ interface Navigator {
 
     fun toViewGroupWordsScreen(wordGroupId:Int)
 
-    fun toAddWordScreen(wordGroupId: Int)
+    fun toEditWordScreen(wordGroupId: Int,editWordId:Int = 0)
 
     fun backScreen()
 }

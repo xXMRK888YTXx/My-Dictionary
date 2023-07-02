@@ -17,8 +17,16 @@ class PhrasesHolder(
 
     private var lastId: Int = 0
 
-    fun addPhrases(realId: Int) {
-        phrasesMap[lastId] = PhrasesModel(realId, lastId, "", "")
+    fun addPhrases() {
+        phrasesMap[lastId] = PhrasesModel(0, lastId, "", "")
+
+        lastId += 1
+
+        updatePhrasesFlow()
+    }
+
+    fun addPhrases(phrasesModel: PhrasesModel) {
+        phrasesMap[lastId] = phrasesModel.copy(localId = lastId)
 
         lastId += 1
 

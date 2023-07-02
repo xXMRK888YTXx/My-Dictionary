@@ -12,4 +12,6 @@ internal sealed class LocalUiEvent : UiEvent {
     class OnBackScreenEvent(val navigator: Navigator) : LocalUiEvent()
 
     data class TextToSpeechEvent(val text: String): LocalUiEvent()
+
+    class OpenWordForEditEvent(val navigator: Navigator,val wordId: Int): LocalUiEvent()
 }
