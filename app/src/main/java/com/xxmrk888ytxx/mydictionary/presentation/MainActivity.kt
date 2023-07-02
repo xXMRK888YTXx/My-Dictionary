@@ -4,18 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavArgument
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.xxmrk888ytxx.addwordscreen.AddWordScreen
-import com.xxmrk888ytxx.addwordscreen.AddWordViewModel
+import com.xxmrk888ytxx.addwordscreen.EditWordScreen
+import com.xxmrk888ytxx.addwordscreen.EditWordViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
@@ -50,7 +46,7 @@ class MainActivity : ComponentActivity() {
     lateinit var viewGroupWordsViewModel: ViewGroupWordsViewModel.Factory
 
     @Inject
-    lateinit var addWordViewModel: AddWordViewModel.Factory
+    lateinit var editWordViewModel: EditWordViewModel.Factory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,14 +157,14 @@ class MainActivity : ComponentActivity() {
                         })
 
                         val viewModel = composeViewModel() {
-                            addWordViewModel.create(wordGroupId)
+                            editWordViewModel.create(wordGroupId)
                         }
 
                         val screenState by viewModel.state.collectAsStateWithLifecycle(
                             initialValue = viewModel.defValue
                         )
 
-                        AddWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
+                        EditWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
                     }
                 }
             }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class AddWordViewModel @AssistedInject constructor(
+class EditWordViewModel @AssistedInject constructor(
     @Assisted private val wordGroupId: Int,
     private val logger: Logger,
     private val saveWordContract: SaveWordContract,
@@ -140,6 +140,6 @@ class AddWordViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface Factory {
-        fun create(wordGroupId: Int): AddWordViewModel
+        fun create(wordGroupId: Int): EditWordViewModel
     }
 }

@@ -1,6 +1,5 @@
 package com.xxmrk888ytxx.addwordscreen
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -44,7 +43,7 @@ import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithUiEventHandler
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun AddWordScreen(
+fun EditWordScreen(
     screenState: ScreenState,
     onEvent: (UiEvent) -> Unit,
 ) = WithUiEventHandler(onEvent = onEvent) {
