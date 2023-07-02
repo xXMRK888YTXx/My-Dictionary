@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Upsert
 import com.xxmrk888ytxx.database.entityes.WordEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -15,7 +16,7 @@ internal interface WordDao {
     @Query("SELECT * FROM WORDSTABLE WHERE wordGroupId = :wordGroupId")
     fun getWordsByWordGroupIdFlow(wordGroupId:Int) : Flow<List<WordEntity>>
 
-    @Insert
+    @Upsert
     suspend fun insertWord(wordEntity: WordEntity)
 
     @Query("DELETE FROM WordsTable WHERE id = :id")
