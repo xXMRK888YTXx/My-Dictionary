@@ -10,7 +10,7 @@ interface WordPhraseLocalDataSource {
 
     suspend fun insertWordPhrase(wordPhraseLocalModel: WordPhraseLocalModel)
 
-    suspend fun getPhrasesByWordId(wordId:Int) : WordPhraseLocalModel
+    suspend fun getPhrasesByWordId(wordId:Int) : List<WordPhraseLocalModel>
 
     suspend fun removeWordPhrase(id:Int)
 }

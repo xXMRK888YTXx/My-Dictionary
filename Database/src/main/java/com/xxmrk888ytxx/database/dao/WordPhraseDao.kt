@@ -17,7 +17,7 @@ internal interface WordPhraseDao {
     suspend fun insertWordPhrase(wordPhraseEntity: WordPhraseEntity)
 
     @Query("SELECT * FROM WORDPHRASETABLE WHERE wordId = :wordId")
-    suspend fun getPhrasesByWordId(wordId:Int) : WordPhraseEntity
+    suspend fun getPhrasesByWordId(wordId:Int) : List<WordPhraseEntity>
 
     @Query("DELETE FROM WordPhraseTable WHERE id = :id")
     suspend fun removeWordPhrase(id:Int)

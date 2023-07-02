@@ -33,9 +33,26 @@ internal class WordsLocalDataSourceImpl(
     override suspend fun addWord(wordGroupLocalModel: WordLocalModel): Int =
         withContext(Dispatchers.IO) {
             return@withContext mutex.withLock {
-                wordDao.insertWord(wordGroupLocalModel.toEntity())
+                if(wordGroupLocalModel.id == 0) {
+                    wordDao.insertWord(wordGroupLocalModel.toEntity())
 
-                wordDao.getLastId()
+                    return@withLock wordDao.getLastId()
+                }
+
+                return@withLock try {
+                    wordDao.insertWord(wordGroupLocalModel.toEntity())
+
+                    wordGroupLocalModel.id
+                }catch (e:Exception) {
+                    wordDao.updateWord(
+                        wordGroupLocalModel.id,
+                        wordGroupLocalModel.wordText,
+                        wordGroupLocalModel.translateText,
+                        wordGroupLocalModel.transcriptionText
+                    )
+
+                    wordGroupLocalModel.id
+                }
             }
         }
 

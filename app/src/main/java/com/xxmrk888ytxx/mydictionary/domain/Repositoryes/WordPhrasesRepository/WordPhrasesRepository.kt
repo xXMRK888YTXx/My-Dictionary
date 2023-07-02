@@ -10,7 +10,7 @@ interface WordPhrasesRepository {
 
     suspend fun insertWordPhrase(wordPhraseModel: WordPhraseModel)
 
-    suspend fun getPhrasesByWordId(wordId:Int) : WordPhraseModel
+    suspend fun getPhrasesByWordId(wordId:Int) : List<WordPhraseModel>
 
     suspend fun removeWordPhrase(id:Int)
 }
