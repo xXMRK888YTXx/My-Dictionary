@@ -25,6 +25,10 @@ internal class WordPhraseLocalDataSourceImpl(
         }
     }
 
+    override suspend fun getPhrasesByWordId(wordId: Int): WordPhraseLocalModel = withContext(Dispatchers.IO) {
+        return@withContext wordPhraseDao.getPhrasesByWordId(wordId).toLocalModel()
+    }
+
     override suspend fun removeWordPhrase(id: Int) = withContext(Dispatchers.IO) {
         mutex.withLock {
             wordPhraseDao.removeWordPhrase(id)

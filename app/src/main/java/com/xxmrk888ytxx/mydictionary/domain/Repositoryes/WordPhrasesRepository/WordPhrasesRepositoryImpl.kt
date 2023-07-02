@@ -18,6 +18,10 @@ class WordPhrasesRepositoryImpl @Inject constructor(
         wordPhraseLocalDataSource.insertWordPhrase(wordPhraseModel.toLocalModel())
     }
 
+    override suspend fun getPhrasesByWordId(wordId: Int): WordPhraseModel {
+        return wordPhraseLocalDataSource.getPhrasesByWordId(wordId).toModel()
+    }
+
     override suspend fun removeWordPhrase(id: Int) {
         wordPhraseLocalDataSource.removeWordPhrase(id)
     }
