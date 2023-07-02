@@ -9,6 +9,8 @@ interface WordRepository {
 
     fun getWordsByWordGroupId(wordGroupId:Int) : Flow<List<WordModel>>
 
+    suspend fun getWordById(id:Int) : WordModel
+
     suspend fun addWord(wordModel: WordModel) : Int
 
     suspend fun removeWord(id:Int)

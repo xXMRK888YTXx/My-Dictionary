@@ -21,6 +21,10 @@ class WordRepositoryImpl @Inject constructor(
             list.map { it.toModel() }
         }
 
+    override suspend fun getWordById(id: Int): WordModel {
+        return wordsLocalDataSource.getWordById(id).toModel()
+    }
+
     override suspend fun addWord(wordModel: WordModel): Int {
         return wordsLocalDataSource.addWord(wordModel.toLocalModel())
     }

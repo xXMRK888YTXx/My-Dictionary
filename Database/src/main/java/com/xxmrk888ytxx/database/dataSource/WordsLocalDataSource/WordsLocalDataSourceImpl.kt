@@ -26,6 +26,10 @@ internal class WordsLocalDataSourceImpl(
             list.map { it.toLocalModel() }
         }
 
+    override suspend fun getWordById(id: Int): WordLocalModel = withContext(Dispatchers.IO) {
+        return@withContext wordDao.getWordById(id).toLocalModel()
+    }
+
     override suspend fun addWord(wordGroupLocalModel: WordLocalModel): Int =
         withContext(Dispatchers.IO) {
             return@withContext mutex.withLock {

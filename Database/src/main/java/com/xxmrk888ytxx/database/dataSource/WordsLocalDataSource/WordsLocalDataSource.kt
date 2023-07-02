@@ -11,6 +11,8 @@ interface WordsLocalDataSource {
 
     fun getWordsByWordGroupIdFlow(wordGroupId:Int) : Flow<List<WordLocalModel>>
 
+    suspend fun getWordById(id:Int) : WordLocalModel
+
     suspend fun addWord(wordGroupLocalModel: WordLocalModel) : Int
 
     suspend fun removeWord(id:Int)
