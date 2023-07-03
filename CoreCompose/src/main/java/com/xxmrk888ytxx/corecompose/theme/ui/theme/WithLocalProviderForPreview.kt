@@ -7,7 +7,7 @@ import com.example.compose.AppTheme
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 
 @Composable
-fun WithLocalProviderForPreview(content:@Composable () -> Unit) {
+fun WithLocalProviderForPreview(content: @Composable () -> Unit) {
     val navigator = remember {
         object : Navigator {
             override fun toCreateWordGroupScreen() {
@@ -18,7 +18,7 @@ fun WithLocalProviderForPreview(content:@Composable () -> Unit) {
 
             }
 
-            override fun toAddWordScreen(wordGroupId: Int) {
+            override fun toEditWordScreen(wordGroupId: Int, editWordId: Int) {
 
             }
 

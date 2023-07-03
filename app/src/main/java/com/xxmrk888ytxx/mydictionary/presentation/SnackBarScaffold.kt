@@ -11,6 +11,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalSnackbarHostState
 
+
+/**
+ * [Ru]
+ * Эта функция обертывает [Scaffold] и предоставляет
+ * [SnackbarHost], используя CompositionLocalProvider
+ */
+
+/**
+ * [En]
+ * This function wraps [Scaffold] and
+ * provides [SnackbarHost] using CompositionLocalProvider
+ */
 @Composable
 fun SnackBarScaffold(content:@Composable (PaddingValues) -> Unit) {
     val snackbarHostState = remember { SnackbarHostState() }

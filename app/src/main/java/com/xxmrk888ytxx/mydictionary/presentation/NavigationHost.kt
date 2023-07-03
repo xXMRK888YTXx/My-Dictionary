@@ -14,6 +14,18 @@ import androidx.navigation.compose.NavHost
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 
+
+/**
+ * [Ru]
+ * Эта функция оборачивает [NavHost] и предоставляет [Navigator]
+ * с помощью CompositionLocalProvider
+ */
+
+/**
+ * [En]
+ * This function wrapping [NavHost] and provided
+ * [Navigator] by CompositionLocalProvider
+ */
 @Composable
 fun NavigationHost(
     paddingValues: PaddingValues,
