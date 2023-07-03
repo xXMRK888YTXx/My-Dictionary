@@ -4,6 +4,9 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 
 internal sealed class LocalUiEvent : UiEvent {
+    object HideWordOptionDialogEvent : LocalUiEvent()
+
+    data class ShowWordOptionDialogEvent(val wordId: Int) : LocalUiEvent()
 
     class FloatButtonClickEvent(val navigator: Navigator) : LocalUiEvent()
 
@@ -14,4 +17,6 @@ internal sealed class LocalUiEvent : UiEvent {
     data class TextToSpeechEvent(val text: String): LocalUiEvent()
 
     class OpenWordForEditEvent(val navigator: Navigator,val wordId: Int): LocalUiEvent()
+
+    data class RemoveWordEvent(val wordId: Int) : LocalUiEvent()
 }

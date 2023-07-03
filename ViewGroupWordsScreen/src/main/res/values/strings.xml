@@ -2,4 +2,5 @@
 <resources>
     <string name="in_this_group_haven_t_words">In this group haven\'t words</string>
     <string name="add_new_word">Add new word</string>
+    <string name="remove">Remove</string>
 </resources>
