@@ -60,6 +60,7 @@ dependencies {
     implementation(project(Project.ViewGroupWordsScreen))
     implementation(project(Project.EditWordScreen))
     implementation(project(Project.TTSManager))
+    implementation(project(Project.BottomBarScreen))
 
 
 

@@ -1,10 +1,15 @@
 package com.xxmrk888ytxx.mydictionary.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
@@ -12,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.xxmrk888ytxx.addwordscreen.EditWordScreen
 import com.xxmrk888ytxx.addwordscreen.EditWordViewModel
+import com.xxmrk888ytxx.bottombarscreen.BottomBarScreen
+import com.xxmrk888ytxx.bottombarscreen.models.BottomBarScreenModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
@@ -19,10 +26,12 @@ import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
+import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupScreen
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupViewModel
+import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -48,6 +57,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var editWordViewModel: EditWordViewModel.Factory
 
+    @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
@@ -65,20 +75,53 @@ class MainActivity : ComponentActivity() {
                 NavigationHost(
                     paddingValues = paddings,
                     navController = navController,
-                    startDestination = Screen.WordGroupScreen.route,
+                    startDestination = Screen.MainScreen.route,
                     navigator = activityViewModel
                 ) {
 
-                    composable(Screen.WordGroupScreen.route) {
+                    composable(Screen.MainScreen.route) {
+
+                        //WordGroupScreen
                         val viewModel = composeViewModel() {
                             wordGroupViewModel.get()
                         }
 
                         val screenState by viewModel.state.collectAsStateWithLifecycle(viewModel.defValue)
+                        //
 
-                        WordGroupScreen(
-                            screenState = screenState,
-                            onEvent = viewModel::handleEvent
+                        BottomBarScreen(
+                            bottomBarScreens = persistentListOf(
+                                BottomBarScreenModel(
+                                    title = stringResource(R.string.words),
+                                    icon = R.drawable.baseline_translate_24,
+                                    content = {
+                                        WordGroupScreen(
+                                            screenState = screenState,
+                                            onEvent = viewModel::handleEvent
+                                        )
+                                    }
+                                ),
+
+                                BottomBarScreenModel(
+                                    title = stringResource(R.string.training),
+                                    icon = R.drawable.baseline_psychology_24,
+                                    content = {
+                                        Box(Modifier.fillMaxSize()) {
+
+                                        }
+                                    }
+                                ),
+
+                                BottomBarScreenModel(
+                                    title = stringResource(R.string.settings),
+                                    icon = R.drawable.baseline_settings_24,
+                                    content = {
+                                        Box(modifier = Modifier.fillMaxSize()) {
+
+                                        }
+                                    }
+                                )
+                            )
                         )
                     }
 
@@ -171,7 +214,7 @@ class MainActivity : ComponentActivity() {
                         })
 
                         val viewModel = composeViewModel() {
-                            editWordViewModel.create(wordGroupId,editWordId)
+                            editWordViewModel.create(wordGroupId, editWordId)
                         }
 
                         val screenState by viewModel.state.collectAsStateWithLifecycle(
