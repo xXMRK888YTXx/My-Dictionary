@@ -9,4 +9,5 @@ object Project {
     const val EditWordScreen = ":EditWordScreen"
     const val TTSManager = ":TTSManager"
     const val BottomBarScreen = ":BottomBarScreen"
+    const val TrainingActionsScreen = ":TrainingActionsScreen"
 }

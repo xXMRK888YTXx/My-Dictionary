@@ -61,7 +61,7 @@ dependencies {
     implementation(project(Project.EditWordScreen))
     implementation(project(Project.TTSManager))
     implementation(project(Project.BottomBarScreen))
-
+    implementation(project(Project.TrainingActionsScreen))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)

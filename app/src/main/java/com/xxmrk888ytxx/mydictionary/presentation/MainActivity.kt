@@ -27,6 +27,8 @@ import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
 import com.xxmrk888ytxx.mydictionary.R
+import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
+import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupScreen
@@ -57,6 +59,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var editWordViewModel: EditWordViewModel.Factory
 
+    @Inject
+    lateinit var trainingActionViewModel: Provider<TrainingActionViewModel>
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +87,19 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.MainScreen.route) {
 
                         //WordGroupScreen
-                        val viewModel = composeViewModel() {
+                        val viewModelForWordGroupScreen = composeViewModel() {
                             wordGroupViewModel.get()
                         }
 
-                        val screenState by viewModel.state.collectAsStateWithLifecycle(viewModel.defValue)
+                        val screenStateForWordGroupScreen by viewModelForWordGroupScreen.state.collectAsStateWithLifecycle(
+                            viewModelForWordGroupScreen.defValue
+                        )
+                        //
+
+                        //TrainingActionsScreen
+                        val viewModelForTrainingActionsScreen = composeViewModel {
+                            trainingActionViewModel.get()
+                        }
                         //
 
                         BottomBarScreen(
@@ -96,8 +109,8 @@ class MainActivity : ComponentActivity() {
                                     icon = R.drawable.baseline_translate_24,
                                     content = {
                                         WordGroupScreen(
-                                            screenState = screenState,
-                                            onEvent = viewModel::handleEvent
+                                            screenState = screenStateForWordGroupScreen,
+                                            onEvent = viewModelForWordGroupScreen::handleEvent
                                         )
                                     }
                                 ),
@@ -106,9 +119,9 @@ class MainActivity : ComponentActivity() {
                                     title = stringResource(R.string.training),
                                     icon = R.drawable.baseline_psychology_24,
                                     content = {
-                                        Box(Modifier.fillMaxSize()) {
-
-                                        }
+                                        TrainingActionsScreen(
+                                            onEvent = viewModelForTrainingActionsScreen::handleEvent
+                                        )
                                     }
                                 ),
 
