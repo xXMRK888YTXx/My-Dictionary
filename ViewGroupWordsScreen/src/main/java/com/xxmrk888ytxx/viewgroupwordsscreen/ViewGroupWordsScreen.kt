@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.viewgroupwordsscreen
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -52,12 +53,15 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.Word
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.WordOptionDialogState
+import kotlinx.collections.immutable.persistentListOf
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -241,52 +245,23 @@ private fun WordItem(
     }
 }
 
+@SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordOptionDialog(
     onDismiss: () -> Unit,
     onRemoveWord: () -> Unit,
 ) {
-    val state = rememberBottomSheetScaffoldState()
-
-    LaunchedEffect(key1 = state, block = {
-        state.bottomSheetState.show()
-    })
-
-    Dialog(
-        onDismissRequest = onDismiss,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
-        BottomSheetScaffold(
-            sheetContent = {
-                LazyColumn(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)) {
-                    item {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(
-                                    onClick = onRemoveWord
-                                )
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_delete_outline_24),
-                                contentDescription = "",
-                                modifier = Modifier.size(24.dp)
-                            )
-
-                            Text(text = stringResource(R.string.remove))
-                        }
-                    }
-                }
-            },
-            scaffoldState = state,
-            sheetPeekHeight = LocalConfiguration.current.screenHeightDp.dp * 0.25f,
-        ) {}
-    }
+    BottomSheetDialog(
+        onDismiss = onDismiss,
+        items = persistentListOf(
+            BottomSheetDialogItem(
+                text = stringResource(id = R.string.remove),
+                icon = R.drawable.baseline_delete_outline_24,
+                onClick = onRemoveWord
+            )
+        )
+    )
 }
 
 @Composable
