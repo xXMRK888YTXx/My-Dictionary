@@ -1,18 +1,27 @@
 package com.xxmrk888ytxx.wordgroupscreen
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.wordgroupscreen.contract.ProvideWordGroupContract
+import com.xxmrk888ytxx.wordgroupscreen.contract.RemoveWordGroupContract
 import com.xxmrk888ytxx.wordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordgroupscreen.models.ScreenState
+import com.xxmrk888ytxx.wordgroupscreen.models.WordGroupDialogOptionState
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WordGroupViewModel @Inject constructor(
-    private val provideWordGroupContract: ProvideWordGroupContract
+    private val provideWordGroupContract: ProvideWordGroupContract,
+    private val removeWordGroupContract: RemoveWordGroupContract
 ) : ViewModel(),UiModel<ScreenState> {
 
 
@@ -30,17 +39,34 @@ class WordGroupViewModel @Inject constructor(
             is LocalUiEvent.OpenWordGroupEvent -> {
                 event.navigator.toViewGroupWordsScreen(event.wordGroup.id)
             }
+
+            is LocalUiEvent.HideWordGroupDialogOption -> {
+                wordGroupDialogOptionStateFlow.update { WordGroupDialogOptionState.Hidden }
+            }
+
+            is LocalUiEvent.RemoveWordGroupEvent -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    removeWordGroupContract.removeWordGroup(event.wordGroupId)
+                }
+            }
+
+            is LocalUiEvent.ShowWordGroupDialogOptionState -> {
+                wordGroupDialogOptionStateFlow.update { WordGroupDialogOptionState.Showed(event.wordGroupId) }
+            }
         }
     }
 
-    override val state: Flow<ScreenState> = provideWordGroupContract.wordsGroup.map {
-        val result = if(it.isEmpty()) ScreenState.EmptyWordGroupState
-        else ScreenState.WordList(it.toImmutableList())
+    private val wordGroupDialogOptionStateFlow:MutableStateFlow<WordGroupDialogOptionState> =
+        MutableStateFlow(WordGroupDialogOptionState.Hidden)
 
-        result.also { state -> cachedScreenState = state }
+    override val state: Flow<ScreenState> = combine(
+        provideWordGroupContract.wordsGroup,
+        wordGroupDialogOptionStateFlow
+    ) { wordList,wordGroupDialogOptionState ->
+        ScreenState(wordList.toImmutableList(),wordGroupDialogOptionState)
     }
 
-    private var cachedScreenState:ScreenState = ScreenState.EmptyWordGroupState
+    private var cachedScreenState:ScreenState = ScreenState()
 
 
     override val defValue: ScreenState

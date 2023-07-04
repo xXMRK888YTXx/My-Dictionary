@@ -1,54 +1,76 @@
 package com.xxmrk888ytxx.wordgroupscreen
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithLocalProviderForPreview
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
 import com.xxmrk888ytxx.wordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordgroupscreen.models.ScreenState
+import com.xxmrk888ytxx.wordgroupscreen.models.WordGroup
+import com.xxmrk888ytxx.wordgroupscreen.models.WordGroupDialogOptionState
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import okhttp3.internal.notifyAll
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WordGroupScreen(
     screenState: ScreenState,
-    onEvent:(UiEvent) ->  Unit
+    onEvent: (UiEvent) -> Unit,
 ) {
 
     val navigator = LocalNavigator.current
-    
+
+    val isListEmpty = remember(screenState.wordList) {
+        screenState.wordList.isEmpty()
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
-            
+
             FloatingActionButton(onClick = { onEvent(LocalUiEvent.FloatButtonClickEvent(navigator)) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_24),
@@ -58,46 +80,67 @@ fun WordGroupScreen(
             }
         },
     ) { paddings ->
-        
-        AnimatedContent(
-            targetState = screenState::class,
-            modifier = Modifier.padding(paddings)
-        ) { state ->
-            when(state) {
-                ScreenState.EmptyWordGroupState::class -> EmptyWordGroupState(onEvent)
 
-                ScreenState.WordList::class -> {
-                    if(screenState is ScreenState.WordList) {
-                        WordListState(onEvent,screenState)
+        AnimatedContent(
+            targetState = isListEmpty,
+            modifier = Modifier.padding(paddings)
+        ) { isEmpty ->
+
+            if (isEmpty) {
+                EmptyWordGroupState(onEvent)
+            } else {
+                WordListState(
+                    onEvent,
+                    screenState.wordList,
+                    onShowOptionDialog = { wordGroupId ->
+                        onEvent(LocalUiEvent.ShowWordGroupDialogOptionState(wordGroupId))
                     }
-                }
+                )
             }
         }
-        
+
+    }
+
+    if (screenState.wordGroupDialogOptionState is WordGroupDialogOptionState.Showed) {
+        WordGroupDialogOption(
+            onDismiss = { onEvent(LocalUiEvent.HideWordGroupDialogOption) },
+            onRemoveWordGroup = {
+                onEvent(LocalUiEvent.RemoveWordGroupEvent(screenState.wordGroupDialogOptionState.wordGroupId))
+                onEvent(LocalUiEvent.HideWordGroupDialogOption)
+            }
+        )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun WordListState(onEvent: (UiEvent) -> Unit, screenState: ScreenState.WordList) {
+fun WordListState(
+    onEvent: (UiEvent) -> Unit,
+    wordList: ImmutableList<WordGroup>,
+    onShowOptionDialog:(Int) -> Unit
+) {
     val navigator = LocalNavigator.current
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(screenState.wordList, key = { it.id }) {
+        items(wordList, key = { it.id }) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
-                onClick = { onEvent(LocalUiEvent.OpenWordGroupEvent(navigator,it)) }
+                    .padding(16.dp)
+                    .combinedClickable(
+                        onClick = { onEvent(LocalUiEvent.OpenWordGroupEvent(navigator, it)) },
+                        onLongClick = { onShowOptionDialog(it.id) }
+                    )
+                ,
             ) {
                 Column(
                     Modifier
                         .fillMaxWidth()
                         .padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                    verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if(it.imageUrl != null) {
+                    if (it.imageUrl != null) {
                         AsyncImage(
                             model = it.imageUrl,
                             contentDescription = "",
@@ -123,6 +166,25 @@ fun WordListState(onEvent: (UiEvent) -> Unit, screenState: ScreenState.WordList)
     }
 }
 
+@SuppressLint("ResourceType")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WordGroupDialogOption(
+    onDismiss: () -> Unit,
+    onRemoveWordGroup: () -> Unit,
+) {
+    BottomSheetDialog(
+        onDismiss = onDismiss,
+        items = persistentListOf(
+            BottomSheetDialogItem(
+                text = stringResource(id = R.string.remove),
+                icon = R.drawable.baseline_delete_outline_24,
+                onClick = onRemoveWordGroup
+            )
+        )
+    )
+}
+
 @Composable
 private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
     val navigator = LocalNavigator.current
@@ -130,7 +192,7 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically)
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
     ) {
         Text(
             text = stringResource(R.string.you_are_haven_t_word_groups_but_you_can_change_it),
@@ -150,7 +212,7 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
 @Composable
 @Preview
 fun EmptyWordGroupStateWhite() = WithLocalProviderForPreview {
-    val screenState = ScreenState.EmptyWordGroupState
+    val screenState = ScreenState()
 
     WordGroupScreen(screenState = screenState, onEvent = {})
 }
@@ -158,7 +220,7 @@ fun EmptyWordGroupStateWhite() = WithLocalProviderForPreview {
 @Composable
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
 fun EmptyWordGroupStateDark() = WithLocalProviderForPreview {
-    val screenState = ScreenState.EmptyWordGroupState
+    val screenState = ScreenState()
 
     WordGroupScreen(screenState = screenState, onEvent = {})
 }
