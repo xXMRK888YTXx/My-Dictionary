@@ -8,4 +8,6 @@ sealed class Screen(val route:String) {
     object ViewGroupWordsScreen : Screen("ViewGroupWordsScreen")
 
     object EditWordScreen : Screen("AddWordScreen")
+
+    object WordTranslateTrainingScreen : Screen("WordTranslateTrainingScreen")
 }

@@ -9,4 +9,6 @@ interface Navigator {
     fun toEditWordScreen(wordGroupId: Int,editWordId:Int = 0)
 
     fun backScreen()
+
+    fun toWordTranslateTraining()
 }

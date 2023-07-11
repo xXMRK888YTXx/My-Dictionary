@@ -44,6 +44,10 @@ class ActivityViewModel @Inject constructor(
         navController?.navigateUp()
     }
 
+    override fun toWordTranslateTraining() {
+        navController?.navigate(Screen.WordTranslateTrainingScreen.route)
+    }
+
 
     private fun navigate(screen:Screen) {
         navController?.navigate(screen.route) {

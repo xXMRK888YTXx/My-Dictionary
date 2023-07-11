@@ -12,6 +12,12 @@ class TrainingActionViewModel @Inject constructor(
 
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
+
+        when(event) {
+            is LocalUiEvent.OpenWordTranslateTraining -> {
+                event.navigator.toWordTranslateTraining()
+            }
+        }
     }
 
 

@@ -33,6 +33,8 @@ import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupScreen
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupViewModel
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.WordTranslateTrainingScreen
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.WordTranslateTrainingViewModel
 import kotlinx.collections.immutable.persistentListOf
 import javax.inject.Inject
 import javax.inject.Provider
@@ -61,6 +63,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var trainingActionViewModel: Provider<TrainingActionViewModel>
+
+    @Inject
+    lateinit var wordTranslateTrainingViewModel : Provider<WordTranslateTrainingViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -235,6 +240,19 @@ class MainActivity : ComponentActivity() {
                         )
 
                         EditWordScreen(screenState = screenState, onEvent = viewModel::handleEvent)
+                    }
+
+                    composable(Screen.WordTranslateTrainingScreen.route) {
+                        val viewModel = composeViewModel() {
+                            wordTranslateTrainingViewModel.get()
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
+
+                        WordTranslateTrainingScreen(
+                            screenState,
+                            viewModel::handleEvent
+                        )
                     }
                 }
             }
