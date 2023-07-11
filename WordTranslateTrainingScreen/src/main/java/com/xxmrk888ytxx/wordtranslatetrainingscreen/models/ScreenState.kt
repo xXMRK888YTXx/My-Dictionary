@@ -1,5 +1,10 @@
 package com.xxmrk888ytxx.wordtranslatetrainingscreen.models
 
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+
 data class ScreenState(
-    val test:String = ""
+    val trainingParams: TrainingParams = TrainingParams(),
+    val screenType: ScreenType = ScreenType.CONFIGURATION,
+    val availableWordGroup:ImmutableList<WordGroup> = persistentListOf()
 )

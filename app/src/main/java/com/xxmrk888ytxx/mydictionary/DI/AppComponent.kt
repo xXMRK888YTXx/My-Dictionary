@@ -10,6 +10,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordGroupScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.WordTranslateTrainingScreenModule
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -23,7 +24,8 @@ import dagger.Component
         ViewGroupWordsScreenModule::class,
         EditWordScreenModule::class,
         WordGroupScreenModule::class,
-        TTSManagerModule::class
+        TTSManagerModule::class,
+        WordTranslateTrainingScreenModule::class
     ]
 )
 @AppScope
@@ -33,6 +35,7 @@ interface AppComponent {
 
     @Component.Factory
     interface Factory {
+
         fun create(@BindsInstance context:Context) : AppComponent
     }
 }
