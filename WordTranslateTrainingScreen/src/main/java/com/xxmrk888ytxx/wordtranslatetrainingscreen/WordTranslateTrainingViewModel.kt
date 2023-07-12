@@ -2,29 +2,37 @@ package com.xxmrk888ytxx.wordtranslatetrainingscreen
 
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.GenerateQuestionForTrainingContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingProgress
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WordTranslateTrainingViewModel @Inject constructor(
-    private val provideWordGroupsContract: ProvideWordGroupsContract
-) : ViewModel(),UiModel<ScreenState> {
+    private val provideWordGroupsContract: ProvideWordGroupsContract,
+    private val generateQuestionForTrainingContract: GenerateQuestionForTrainingContract,
+) : ViewModel(), UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
-        if(event !is LocalUiEvent) return
+        if (event !is LocalUiEvent) return
 
-        when(event) {
+        when (event) {
             is LocalUiEvent.NumberOfQuestionsChangedEvent -> {
                 event.newValue.validateNumberOfQuestionsInput()?.let { newQuestionCount ->
                     trainingParamsState.update { it.copy(questionCount = newQuestionCount) }
@@ -46,24 +54,59 @@ class WordTranslateTrainingViewModel @Inject constructor(
             is LocalUiEvent.BackScreenEvent -> {
                 event.navigator.backScreen()
             }
+
+            LocalUiEvent.StartTrainingEvent -> {
+                if (screenTypeState.value != ScreenType.CONFIGURATION) return
+
+                viewModelScope.launch {
+                    screenTypeState.update { ScreenType.LOADING }
+
+                    questionListState.update {
+                        generateQuestionForTrainingContract.generateQuestion(
+                            viewModelScope,
+                            trainingParamsState.value
+                        )
+                    }
+
+                    screenTypeState.update { ScreenType.TRAINING }
+                }
+            }
+
+            is LocalUiEvent.ChangeAnswerTextEvent -> {
+                trainingProgressState.update {
+                    it.copy(currentAnswer = event.text)
+                }
+            }
         }
     }
 
-    private val trainingParamsState:MutableStateFlow<TrainingParams> = MutableStateFlow(
+    private val trainingParamsState: MutableStateFlow<TrainingParams> = MutableStateFlow(
         TrainingParams()
     )
 
-    private val screenTypeState:MutableStateFlow<ScreenType> = MutableStateFlow(ScreenType.CONFIGURATION)
+    private val screenTypeState: MutableStateFlow<ScreenType> =
+        MutableStateFlow(ScreenType.CONFIGURATION)
+
+    private val trainingProgressState: MutableStateFlow<TrainingProgress> =
+        MutableStateFlow(TrainingProgress())
+
+    private val questionListState: MutableStateFlow<ImmutableList<Question>> =
+        MutableStateFlow(persistentListOf())
 
     override val state: Flow<ScreenState> = combine(
         trainingParamsState,
         screenTypeState,
-        provideWordGroupsContract.wordGroups
-    ) { trainingParams,screenType,wordGroups ->
+        provideWordGroupsContract.wordGroups,
+        trainingProgressState,
+        questionListState
+    ) { trainingParams, screenType, wordGroups, trainingStats, questionList ->
+
         ScreenState(
             trainingParams,
             screenType,
-            wordGroups
+            wordGroups,
+            trainingStats,
+            questionList
         ).also { cashedScreenState = it }
     }
 
@@ -73,9 +116,9 @@ class WordTranslateTrainingViewModel @Inject constructor(
         get() = cashedScreenState
 
 
-    private fun String.validateNumberOfQuestionsInput() : Int? {
+    private fun String.validateNumberOfQuestionsInput(): Int? {
         return try {
-            if(this.isEmpty()) return 1
+            if (this.isEmpty()) return 1
 
             check(this.isDigitsOnly())
 
@@ -84,12 +127,12 @@ class WordTranslateTrainingViewModel @Inject constructor(
             check(digit in 1..99)
 
             digit
-        }catch (e:Exception) {
+        } catch (e: Exception) {
             null
         }
     }
 
-    private fun Set<Int>.insertOrRemove(id:Int) : ImmutableSet<Int> {
+    private fun Set<Int>.insertOrRemove(id: Int): ImmutableSet<Int> {
         val isHaveIdInSet = contains(id)
         val newSet = mutableSetOf<Int>()
 
@@ -98,7 +141,7 @@ class WordTranslateTrainingViewModel @Inject constructor(
         }
 
 
-        if(isHaveIdInSet) {
+        if (isHaveIdInSet) {
             newSet.remove(id)
         } else {
             newSet.add(id)

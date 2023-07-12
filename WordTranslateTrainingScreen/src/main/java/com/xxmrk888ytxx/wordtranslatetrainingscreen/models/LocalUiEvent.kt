@@ -12,4 +12,8 @@ sealed class LocalUiEvent : UiEvent {
     data class ChangeWordGroupSelectedStateEvent(val id: Int) : LocalUiEvent()
 
     class BackScreenEvent(val navigator: Navigator) : LocalUiEvent()
+
+    data class ChangeAnswerTextEvent(val text: String) : LocalUiEvent()
+
+    object StartTrainingEvent : LocalUiEvent()
 }

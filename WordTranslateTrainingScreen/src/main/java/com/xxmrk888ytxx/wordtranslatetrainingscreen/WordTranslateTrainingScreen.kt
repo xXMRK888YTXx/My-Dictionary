@@ -2,7 +2,7 @@ package com.xxmrk888ytxx.wordtranslatetrainingscreen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,13 +16,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -31,6 +32,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
@@ -58,31 +60,62 @@ fun WordTranslateTrainingScreen(
             when (screenState.screenType) {
                 ScreenType.CONFIGURATION -> {
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { onEvent(LocalUiEvent.StartTrainingEvent) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        enabled = screenState.availableWordGroup.isNotEmpty()
+                        enabled = screenState.availableWordGroup.isNotEmpty() && screenState.trainingParams.selectedWordGroupsId.isNotEmpty()
                     ) {
                         Text(text = "Start")
                     }
                 }
 
-                ScreenType.TRAINING -> {}
+                ScreenType.TRAINING -> {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        enabled = true
+                    ) {
+                        Text(text = "Next")
+                    }
+                }
+
                 ScreenType.RESULTS -> {}
+                ScreenType.LOADING -> {}
             }
         },
         topBar = {
             CenterAlignedTopAppBar(
                 modifier = Modifier,
                 title = {
-                    Text(
-                        text = when (screenState.screenType) {
-                            ScreenType.CONFIGURATION -> "Configuration"
-                            ScreenType.TRAINING -> "Training"
-                            ScreenType.RESULTS -> "Results"
+
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = when (screenState.screenType) {
+                                ScreenType.CONFIGURATION -> "Configuration"
+                                ScreenType.TRAINING -> "Training"
+                                ScreenType.RESULTS -> "Results"
+                                ScreenType.LOADING -> "Loading"
+                            }
+                        )
+
+                        when (screenState.screenType) {
+                            ScreenType.TRAINING -> {
+                                Text(
+                                    text = "${screenState.trainingProgress.currentPage} / ${screenState.question.size}",
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
+
+                            else -> {}
                         }
-                    )
+                    }
+
                 },
                 navigationIcon = {
                     BackNavigationButton {
@@ -118,10 +151,88 @@ fun WordTranslateTrainingScreen(
                     )
                 }
 
-                ScreenType.TRAINING -> TODO()
-                ScreenType.RESULTS -> TODO()
+                ScreenType.TRAINING -> {
+                    TrainingScreenType(
+                        questionCount = screenState.question.size,
+                        answerText = screenState.trainingProgress.currentAnswer,
+                        onChangeAnswerText = {
+                            onEvent(LocalUiEvent.ChangeAnswerTextEvent(it))
+                        },
+                        onGetCurrentQuestion = {
+                            screenState.question[it].word
+                        }
+                    )
+                }
+
+                ScreenType.RESULTS -> {}
+                ScreenType.LOADING -> LoadingScreenType()
             }
         }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun TrainingScreenType(
+    questionCount: Int,
+    answerText: String,
+    onChangeAnswerText: (String) -> Unit,
+    onGetCurrentQuestion: (Int) -> String,
+) {
+
+
+    HorizontalPager(
+        pageCount = questionCount,
+        userScrollEnabled = false
+    ) { currentPage ->
+
+        Column(
+            Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
+        ) {
+            Text(
+                text = "Enter the translate of the word:",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Text(
+                text = onGetCurrentQuestion(currentPage),
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            OutlinedTextField(
+                value = answerText,
+                onValueChange = onChangeAnswerText,
+                singleLine = true,
+                label = {
+                    Text(
+                        text = "Answer",
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(0.9f)
+            )
+
+        }
+    }
+}
+
+
+@Composable
+private fun LoadingScreenType() {
+    Column(
+        Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Wait,loading")
+
+        LinearProgressIndicator()
     }
 }
 
