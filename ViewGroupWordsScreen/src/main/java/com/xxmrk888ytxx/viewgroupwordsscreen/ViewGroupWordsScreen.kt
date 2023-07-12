@@ -53,6 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
@@ -112,15 +113,8 @@ fun ViewGroupWordsScreen(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = {
+                    BackNavigationButton {
                         onEvent(LocalUiEvent.OnBackScreenEvent(navigator))
-                    }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                            contentDescription = "",
-                            modifier = Modifier
-                                .size(28.dp)
-                        )
                     }
                 }
             )
