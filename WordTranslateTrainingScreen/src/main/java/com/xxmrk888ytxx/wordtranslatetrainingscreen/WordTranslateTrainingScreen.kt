@@ -19,7 +19,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -31,6 +33,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
@@ -38,19 +42,20 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.WordGroup
 import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WordTranslateTrainingScreen(
     screenState: ScreenState,
     onEvent: (UiEvent) -> Unit,
 ) {
 
+    val navigator = LocalNavigator.current
+
     Scaffold(
         Modifier
-            .fillMaxSize()
-            .padding(10.dp),
+            .fillMaxSize(),
         bottomBar = {
-            when(screenState.screenType) {
+            when (screenState.screenType) {
                 ScreenType.CONFIGURATION -> {
                     Button(
                         onClick = { /*TODO*/ },
@@ -62,14 +67,36 @@ fun WordTranslateTrainingScreen(
                         Text(text = "Start")
                     }
                 }
+
                 ScreenType.TRAINING -> {}
                 ScreenType.RESULTS -> {}
             }
+        },
+        topBar = {
+            CenterAlignedTopAppBar(
+                modifier = Modifier,
+                title = {
+                    Text(
+                        text = when (screenState.screenType) {
+                            ScreenType.CONFIGURATION -> "Configuration"
+                            ScreenType.TRAINING -> "Training"
+                            ScreenType.RESULTS -> "Results"
+                        }
+                    )
+                },
+                navigationIcon = {
+                    BackNavigationButton {
+                        onEvent(LocalUiEvent.BackScreenEvent(navigator))
+                    }
+                }
+            )
         }
     ) { paddings ->
         AnimatedContent(
             targetState = screenState.screenType,
-            modifier = Modifier.padding(paddings)
+            modifier = Modifier
+                .padding(10.dp)
+                .padding(paddings)
         ) { screenType ->
             when (screenType) {
                 ScreenType.CONFIGURATION -> {
@@ -81,6 +108,12 @@ fun WordTranslateTrainingScreen(
                         },
                         onChangeIsUsePhrases = {
                             onEvent(LocalUiEvent.ChangeIsUsePhrasesEvent(it))
+                        },
+                        onIsGroupWord = {
+                            screenState.trainingParams.selectedWordGroupsId.contains(it)
+                        },
+                        onChangeWordGroupSelectedState = {
+                            onEvent(LocalUiEvent.ChangeWordGroupSelectedStateEvent(it))
                         }
                     )
                 }
@@ -98,6 +131,8 @@ private fun ConfigurationScreenType(
     wordGroups: ImmutableList<WordGroup>,
     onNumberOfQuestionsChanged: (String) -> Unit,
     onChangeIsUsePhrases: (Boolean) -> Unit,
+    onIsGroupWord: (Int) -> Boolean,
+    onChangeWordGroupSelectedState: (Int) -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -132,7 +167,7 @@ private fun ConfigurationScreenType(
         paramContainer(placeInCenter = true) {
 
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(top = 20.dp)
             ) {
@@ -142,26 +177,30 @@ private fun ConfigurationScreenType(
                 )
 
                 Text(
-                    text = "It's allowed to use groups of words containing more than 10 words.",
+                    text = "It's allowed to use groups of words containing more than 5 words.",
                     style = MaterialTheme.typography.bodyMedium
                 )
 
-                if(wordGroups.isEmpty()) {
+                if (wordGroups.isEmpty()) {
                     Text(text = "You don't have word groups")
                 } else {
-                    LazyColumn(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
                         items(wordGroups) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
 
-                                Text(text = it.name,style = MaterialTheme.typography.titleMedium)
+                                Text(text = it.name, style = MaterialTheme.typography.titleMedium)
 
                                 Spacer(modifier = Modifier.weight(1f))
 
                                 Switch(
-                                    checked = false,
-                                    onCheckedChange = {}
+                                    checked = onIsGroupWord(it.wordGroupId),
+                                    onCheckedChange = { _ ->
+                                        onChangeWordGroupSelectedState(it.wordGroupId)
+                                    }
                                 )
                             }
                         }

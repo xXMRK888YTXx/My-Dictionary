@@ -9,6 +9,8 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
+import kotlinx.collections.immutable.ImmutableSet
+import kotlinx.collections.immutable.toImmutableSet
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -31,6 +33,18 @@ class WordTranslateTrainingViewModel @Inject constructor(
 
             is LocalUiEvent.ChangeIsUsePhrasesEvent -> {
                 trainingParamsState.update { it.copy(isUsePhrases = event.newValue) }
+            }
+
+            is LocalUiEvent.ChangeWordGroupSelectedStateEvent -> {
+                trainingParamsState.update {
+                    it.copy(
+                        selectedWordGroupsId = it.selectedWordGroupsId.insertOrRemove(event.id)
+                    )
+                }
+            }
+
+            is LocalUiEvent.BackScreenEvent -> {
+                event.navigator.backScreen()
             }
         }
     }
@@ -58,6 +72,7 @@ class WordTranslateTrainingViewModel @Inject constructor(
     override val defValue: ScreenState
         get() = cashedScreenState
 
+
     private fun String.validateNumberOfQuestionsInput() : Int? {
         return try {
             if(this.isEmpty()) return 1
@@ -72,5 +87,23 @@ class WordTranslateTrainingViewModel @Inject constructor(
         }catch (e:Exception) {
             null
         }
+    }
+
+    private fun Set<Int>.insertOrRemove(id:Int) : ImmutableSet<Int> {
+        val isHaveIdInSet = contains(id)
+        val newSet = mutableSetOf<Int>()
+
+        forEach {
+            newSet.add(it)
+        }
+
+
+        if(isHaveIdInSet) {
+            newSet.remove(id)
+        } else {
+            newSet.add(id)
+        }
+
+        return newSet.toImmutableSet()
     }
 }
