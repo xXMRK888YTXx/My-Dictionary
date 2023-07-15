@@ -112,6 +112,13 @@ class WordTranslateTrainingViewModel @Inject constructor(
                             )
                         }
                     } else {
+                        trainingProgressState.update {
+                            it.copy(
+                                correctAnswers = it.correctAnswers + if(isAnswerCurrent) 1 else 0,
+                                incorrectAnswers = it.incorrectAnswers + if(!isAnswerCurrent) 1 else 0,
+                            )
+                        }
+
                         screenTypeState.update { ScreenType.RESULTS }
                     }
                 }
