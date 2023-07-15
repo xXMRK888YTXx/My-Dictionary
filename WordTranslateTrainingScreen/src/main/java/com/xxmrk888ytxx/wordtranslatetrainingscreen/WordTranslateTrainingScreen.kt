@@ -17,6 +17,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -29,6 +31,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,7 +47,9 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.WordGroup
 import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun WordTranslateTrainingScreen(
     screenState: ScreenState,
@@ -52,6 +57,10 @@ fun WordTranslateTrainingScreen(
 ) {
 
     val navigator = LocalNavigator.current
+
+    val pager = rememberPagerState()
+
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         Modifier
@@ -72,11 +81,11 @@ fun WordTranslateTrainingScreen(
 
                 ScreenType.TRAINING -> {
                     Button(
-                        onClick = { },
+                        onClick = { onEvent(LocalUiEvent.NextQuestion(pager,scope)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        enabled = true
+                        enabled = screenState.trainingProgress.currentAnswer.isNotEmpty()
                     ) {
                         Text(text = "Next")
                     }
@@ -153,6 +162,7 @@ fun WordTranslateTrainingScreen(
 
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
+                        pager = pager,
                         questionCount = screenState.question.size,
                         answerText = screenState.trainingProgress.currentAnswer,
                         onChangeAnswerText = {
@@ -174,16 +184,17 @@ fun WordTranslateTrainingScreen(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun TrainingScreenType(
+    pager:PagerState,
     questionCount: Int,
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
-    onGetCurrentQuestion: (Int) -> String,
+    onGetCurrentQuestion: (Int) -> String
 ) {
-
 
     HorizontalPager(
         pageCount = questionCount,
-        userScrollEnabled = false
+        userScrollEnabled = false,
+        state = pager
     ) { currentPage ->
 
         Column(

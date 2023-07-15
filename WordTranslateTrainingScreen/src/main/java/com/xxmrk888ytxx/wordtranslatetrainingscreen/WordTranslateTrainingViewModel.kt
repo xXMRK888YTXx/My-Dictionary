@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.wordtranslatetrainingscreen
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableSet
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -29,6 +31,7 @@ class WordTranslateTrainingViewModel @Inject constructor(
     private val generateQuestionForTrainingContract: GenerateQuestionForTrainingContract,
 ) : ViewModel(), UiModel<ScreenState> {
 
+    @OptIn(ExperimentalFoundationApi::class)
     override fun handleEvent(event: UiEvent) {
         if (event !is LocalUiEvent) return
 
@@ -76,6 +79,43 @@ class WordTranslateTrainingViewModel @Inject constructor(
                 trainingProgressState.update {
                     it.copy(currentAnswer = event.text)
                 }
+            }
+
+            is LocalUiEvent.NextQuestion -> {
+                val trainingProgress = trainingProgressState.value
+
+                if(trainingProgress.currentAnswer.isEmpty()) return
+
+                val questionList = questionListState.value
+
+                val isAnswerCurrent = trainingProgress.currentAnswer ==
+                        questionList[trainingProgress.currentPage].translate
+
+                viewModelScope.launch(Dispatchers.Main) {
+                    trainingProgressState.update {
+                        it.copy(
+                            currentAnswer = ""
+                        )
+                    }
+
+                    if(questionList.lastIndex != trainingProgress.currentPage) {
+
+                        event.scope.launch {
+                            event.pager.animateScrollToPage(event.pager.currentPage + 1)
+                        }.join()
+
+                        trainingProgressState.update {
+                            it.copy(
+                                currentPage = event.pager.currentPage,
+                                correctAnswers = it.correctAnswers + if(isAnswerCurrent) 1 else 0,
+                                incorrectAnswers = it.incorrectAnswers + if(!isAnswerCurrent) 1 else 0,
+                            )
+                        }
+                    } else {
+                        screenTypeState.update { ScreenType.RESULTS }
+                    }
+                }
+
             }
         }
     }
