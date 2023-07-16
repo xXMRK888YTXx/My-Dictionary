@@ -27,4 +27,7 @@
     <string name="correct_answer_was">Correct answer was: </string>
     <string name="congratulations">Congratulations</string>
     <string name="answer">Answer</string>
+    <string name="leave_from_training">Exit from training?</string>
+    <string name="the_progress_won_t_be_saved">The progress won\'t be saved</string>
+    <string name="cancel">Cancel</string>
 </resources>

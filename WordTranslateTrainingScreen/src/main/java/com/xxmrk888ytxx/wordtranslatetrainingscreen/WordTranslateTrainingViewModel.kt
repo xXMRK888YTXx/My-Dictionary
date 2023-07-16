@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.coreandroid.getWithCast
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.GenerateQuestionForTrainingContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
@@ -137,6 +138,10 @@ class WordTranslateTrainingViewModel @Inject constructor(
                 }
 
             }
+
+            LocalUiEvent.ShowExitDialog -> { isExitDialogVisibleState.update { true } }
+
+            LocalUiEvent.HideExitDialog -> { isExitDialogVisibleState.update { false } }
         }
     }
 
@@ -153,21 +158,26 @@ class WordTranslateTrainingViewModel @Inject constructor(
     private val questionListState: MutableStateFlow<ImmutableList<Question>> =
         MutableStateFlow(persistentListOf())
 
+    private val isExitDialogVisibleState = MutableStateFlow(false)
+
     override val state: Flow<ScreenState> = combine(
         trainingParamsState,
         screenTypeState,
         provideWordGroupsContract.wordGroups,
         trainingProgressState,
-        questionListState
-    ) { trainingParams, screenType, wordGroups, trainingStats, questionList ->
+        questionListState,
+        isExitDialogVisibleState
+    ) { flowArray ->
 
         ScreenState(
-            trainingParams,
-            screenType,
-            wordGroups,
-            trainingStats,
-            questionList
+            trainingParams = flowArray.getWithCast(0),
+            screenType = flowArray.getWithCast(1),
+            availableWordGroup = flowArray.getWithCast(2),
+            trainingProgress = flowArray.getWithCast(3),
+            question = flowArray.getWithCast(4),
+            isExitDialogVisible = flowArray.getWithCast(5)
         ).also { cashedScreenState = it }
+
     }
 
     private var cashedScreenState = ScreenState()

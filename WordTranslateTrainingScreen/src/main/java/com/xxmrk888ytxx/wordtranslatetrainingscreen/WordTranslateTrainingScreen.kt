@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.wordtranslatetrainingscreen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -32,6 +33,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -41,8 +44,10 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -59,6 +64,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
@@ -90,6 +96,12 @@ fun WordTranslateTrainingScreen(
     val pager = rememberPagerState()
 
     val scope = rememberCoroutineScope()
+
+    BackHandler(
+        enabled = screenState.screenType == ScreenType.TRAINING
+    ) {
+        onEvent(LocalUiEvent.ShowExitDialog)
+    }
 
     Scaffold(
         Modifier
@@ -226,6 +238,61 @@ fun WordTranslateTrainingScreen(
                 ScreenType.RESULTS -> ResultScreenType(screenState.trainingProgress)
 
                 ScreenType.LOADING -> LoadingScreenType()
+            }
+        }
+    }
+
+    if(screenState.isExitDialogVisible) {
+        ExitDialog(
+            onDismiss = {
+                onEvent(LocalUiEvent.HideExitDialog)
+            },
+            onExit = {
+                onEvent(LocalUiEvent.HideExitDialog)
+                onEvent(LocalUiEvent.BackScreenEvent(navigator))
+            }
+        )
+    }
+}
+
+@Composable
+fun ExitDialog(onDismiss: () -> Unit, onExit: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.large,
+            tonalElevation = AlertDialogDefaults.TonalElevation
+        ) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.leave_from_training),
+                    style = MaterialTheme.typography.titleLarge
+                )
+
+                Text(
+                    text = stringResource(R.string.the_progress_won_t_be_saved),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+
+                Row(
+                    Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text(text = stringResource(R.string.cancel))
+                    }
+
+                    TextButton(onClick = onExit) {
+                        Text(text = stringResource(R.string.exit))
+                    }
+                }
             }
         }
     }

@@ -25,4 +25,8 @@ sealed class LocalUiEvent : UiEvent {
     object CheckQuestion : LocalUiEvent()
 
     object StartTrainingEvent : LocalUiEvent()
+
+    object ShowExitDialog : LocalUiEvent()
+
+    object HideExitDialog : LocalUiEvent()
 }
