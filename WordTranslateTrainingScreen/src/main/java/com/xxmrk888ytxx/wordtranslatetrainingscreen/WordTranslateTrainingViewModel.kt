@@ -8,6 +8,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.GenerateQuestionForTrainingContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
@@ -81,46 +82,58 @@ class WordTranslateTrainingViewModel @Inject constructor(
                 }
             }
 
+
             is LocalUiEvent.NextQuestion -> {
-                val trainingProgress = trainingProgressState.value
-
-                if(trainingProgress.currentAnswer.isEmpty()) return
-
-                val questionList = questionListState.value
-
-                val isAnswerCurrent = trainingProgress.currentAnswer ==
-                        questionList[trainingProgress.currentPage].translate
 
                 viewModelScope.launch(Dispatchers.Main) {
+                    val questionList = questionListState.value
+                    val trainingProgress = trainingProgressState.value
+
+                    if(trainingProgress.checkResultState is CheckResultState.None) return@launch
+
                     trainingProgressState.update {
                         it.copy(
-                            currentAnswer = ""
+                            currentAnswer = "",
+                            checkResultState = CheckResultState.None
                         )
                     }
 
-                    if(questionList.lastIndex != trainingProgress.currentPage) {
-
+                    if (questionList.lastIndex != trainingProgress.currentPage) {
                         event.scope.launch {
                             event.pager.animateScrollToPage(event.pager.currentPage + 1)
                         }.join()
 
                         trainingProgressState.update {
                             it.copy(
-                                currentPage = event.pager.currentPage,
-                                correctAnswers = it.correctAnswers + if(isAnswerCurrent) 1 else 0,
-                                incorrectAnswers = it.incorrectAnswers + if(!isAnswerCurrent) 1 else 0,
+                                currentPage = event.pager.currentPage
                             )
                         }
                     } else {
-                        trainingProgressState.update {
-                            it.copy(
-                                correctAnswers = it.correctAnswers + if(isAnswerCurrent) 1 else 0,
-                                incorrectAnswers = it.incorrectAnswers + if(!isAnswerCurrent) 1 else 0,
-                            )
-                        }
-
                         screenTypeState.update { ScreenType.RESULTS }
                     }
+                }
+
+            }
+
+            LocalUiEvent.CheckQuestion -> {
+                val trainingProgress = trainingProgressState.value
+
+                if (trainingProgress.currentAnswer.isEmpty()) return
+
+                val questionList = questionListState.value
+
+                val isAnswerCurrent = checkAnswer(
+                    questionList[trainingProgress.currentPage].translate,
+                    trainingProgress.currentAnswer
+                )
+
+                trainingProgressState.update {
+                    it.copy(
+                        checkResultState = if (isAnswerCurrent) CheckResultState.Correct
+                        else CheckResultState.Failed(questionList[trainingProgress.currentPage].translate),
+                        correctAnswers = it.correctAnswers + if (isAnswerCurrent) 1 else 0,
+                        incorrectAnswers = it.incorrectAnswers + if (!isAnswerCurrent) 1 else 0,
+                    )
                 }
 
             }
@@ -195,5 +208,13 @@ class WordTranslateTrainingViewModel @Inject constructor(
         }
 
         return newSet.toImmutableSet()
+    }
+
+    private fun checkAnswer(correctAnswerer: String, receivedAnswer: String): Boolean {
+        val prepareStringLambda: (String) -> String = {
+            it.lowercase()
+        }
+
+        return prepareStringLambda(correctAnswerer) == prepareStringLambda(receivedAnswer)
     }
 }

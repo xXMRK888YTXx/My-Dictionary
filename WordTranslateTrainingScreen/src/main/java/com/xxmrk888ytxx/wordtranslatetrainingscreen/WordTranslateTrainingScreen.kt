@@ -1,10 +1,14 @@
 package com.xxmrk888ytxx.wordtranslatetrainingscreen
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -25,7 +29,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -60,6 +66,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
@@ -103,13 +110,23 @@ fun WordTranslateTrainingScreen(
 
                 ScreenType.TRAINING -> {
                     Button(
-                        onClick = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
+                        onClick = {
+                            if(screenState.trainingProgress.checkResultState !is CheckResultState.None) {
+                                onEvent(LocalUiEvent.NextQuestion(pager, scope))
+                            } else {
+                                onEvent(LocalUiEvent.CheckQuestion)
+                            }
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
                         enabled = screenState.trainingProgress.currentAnswer.isNotEmpty()
                     ) {
-                        Text(text = stringResource(R.string.next))
+                        if(screenState.trainingProgress.checkResultState is CheckResultState.None) {
+                            Text(text = stringResource(R.string.check_the_answer))
+                        } else {
+                            Text(text = stringResource(R.string.next))
+                        }
                     }
                 }
 
@@ -201,7 +218,8 @@ fun WordTranslateTrainingScreen(
                         },
                         onGetCurrentQuestion = {
                             screenState.question[it].word
-                        }
+                        },
+                        checkResultState = screenState.trainingProgress.checkResultState
                     )
                 }
 
@@ -446,6 +464,7 @@ private fun TrainingScreenType(
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onGetCurrentQuestion: (Int) -> String,
+    checkResultState: CheckResultState
 ) {
 
     HorizontalPager(
@@ -455,10 +474,73 @@ private fun TrainingScreenType(
     ) { currentPage ->
 
         Column(
-            Modifier.fillMaxSize(),
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
         ) {
+
+            AnimatedVisibility(
+                visible = checkResultState !is CheckResultState.None,
+                enter = slideInHorizontally(
+                    initialOffsetX = { -it }
+                ),
+                exit = slideOutHorizontally(
+                    targetOffsetX = { 0 },
+                )
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                ) {
+                    Column(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+
+                            Icon(
+                                painter = when (checkResultState) {
+                                    is CheckResultState.Failed -> painterResource(id = R.drawable.baseline_clear_24)
+
+                                    else -> painterResource(
+                                        id = R.drawable.baseline_done_24
+                                    )
+                                },
+                                contentDescription = "",
+                                tint = when (checkResultState) {
+                                    is CheckResultState.Failed -> MaterialTheme.colorScheme.error
+                                    else -> MaterialTheme.colorScheme.primary
+                                }
+                            )
+
+                            Text(
+                                text = if(checkResultState is CheckResultState.Failed)
+                                    stringResource(R.string.unfortunately_this_is_the_wrong_answer)
+                                else stringResource(R.string.you_are_right)
+                            )
+                        }
+
+                        Text(
+                            text = if(checkResultState is CheckResultState.Failed)
+                                stringResource(R.string.correct_answer_was) + "\"${checkResultState.correctAnswer}\""
+                            else stringResource(R.string.congratulations)
+                        )
+
+
+                    }
+                }
+            }
+
             Text(
                 text = stringResource(R.string.enter_the_translate_of_the_word),
                 style = MaterialTheme.typography.titleMedium
@@ -479,11 +561,12 @@ private fun TrainingScreenType(
                 singleLine = true,
                 label = {
                     Text(
-                        text = "Answer",
+                        text = stringResource(R.string.answer),
                         style = MaterialTheme.typography.titleMedium
                     )
                 },
-                modifier = Modifier.fillMaxWidth(0.9f)
+                modifier = Modifier.fillMaxWidth(0.9f),
+                enabled = checkResultState is CheckResultState.None
             )
 
         }

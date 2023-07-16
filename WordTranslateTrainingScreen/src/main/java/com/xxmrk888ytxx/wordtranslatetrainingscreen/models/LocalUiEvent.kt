@@ -22,5 +22,7 @@ sealed class LocalUiEvent : UiEvent {
         val scope: CoroutineScope
     ) : LocalUiEvent()
 
+    object CheckQuestion : LocalUiEvent()
+
     object StartTrainingEvent : LocalUiEvent()
 }
