@@ -39,6 +39,12 @@ class WordTranslateTrainingViewModel @Inject constructor(
 
         when (event) {
             is LocalUiEvent.NumberOfQuestionsChangedEvent -> {
+                if(event.newValue.isEmpty()) {
+                    trainingParamsState.update { it.copy(questionCount = Int.MIN_VALUE) }
+
+                    return
+                }
+
                 event.newValue.validateNumberOfQuestionsInput()?.let { newQuestionCount ->
                     trainingParamsState.update { it.copy(questionCount = newQuestionCount) }
                 }

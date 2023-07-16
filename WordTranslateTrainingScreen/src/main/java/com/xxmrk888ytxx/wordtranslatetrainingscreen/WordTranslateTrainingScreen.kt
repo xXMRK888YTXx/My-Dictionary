@@ -114,7 +114,9 @@ fun WordTranslateTrainingScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp),
-                        enabled = screenState.availableWordGroup.isNotEmpty() && screenState.trainingParams.selectedWordGroupsId.isNotEmpty()
+                        enabled = screenState.availableWordGroup.isNotEmpty()
+                                && screenState.trainingParams.selectedWordGroupsId.isNotEmpty()
+                                && screenState.trainingParams.questionCount != Int.MIN_VALUE
                     ) {
                         Text(text = stringResource(R.string.start))
                     }
@@ -672,7 +674,8 @@ private fun ConfigurationScreenType(
             Spacer(modifier = Modifier.weight(1f))
 
             TextField(
-                value = trainingParams.questionCount.toString(),
+                value = if(trainingParams.questionCount != Int.MIN_VALUE) trainingParams.questionCount.toString()
+                else "",
                 onValueChange = onNumberOfQuestionsChanged,
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
