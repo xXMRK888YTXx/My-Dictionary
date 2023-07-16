@@ -190,7 +190,11 @@ fun WordTranslateTrainingScreen(
                 },
                 navigationIcon = {
                     BackNavigationButton {
-                        onEvent(LocalUiEvent.BackScreenEvent(navigator))
+                        if(screenState.screenType == ScreenType.TRAINING) {
+                            onEvent(LocalUiEvent.ShowExitDialog)
+                        } else {
+                            onEvent(LocalUiEvent.BackScreenEvent(navigator))
+                        }
                     }
                 }
             )
