@@ -5,6 +5,6 @@ import kotlinx.collections.immutable.persistentSetOf
 
 data class TrainingParams(
     val questionCount:Int = 10,
-    val isUsePhrases:Boolean = false,
+    val isUsePhrases:Boolean = true,
     val selectedWordGroupsId:ImmutableSet<Int> = persistentSetOf()
 )

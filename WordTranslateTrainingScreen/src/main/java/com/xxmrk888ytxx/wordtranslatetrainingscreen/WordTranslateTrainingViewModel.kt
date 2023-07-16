@@ -233,4 +233,22 @@ class WordTranslateTrainingViewModel @Inject constructor(
 
         return prepareStringLambda(correctAnswerer) == prepareStringLambda(receivedAnswer)
     }
+
+    init {
+
+        //Mark all groups of words to use in training
+        val alreadyMarkedId = hashSetOf<Int>()
+
+        viewModelScope.launch(Dispatchers.Default) {
+            provideWordGroupsContract.wordGroups.collect() {
+                it.forEach { wordGroup ->
+                    if(!alreadyMarkedId.contains(wordGroup.wordGroupId)) {
+                        alreadyMarkedId.add(wordGroup.wordGroupId)
+
+                        handleEvent(LocalUiEvent.ChangeWordGroupSelectedStateEvent(wordGroup.wordGroupId))
+                    }
+                }
+            }
+        }
+    }
 }
