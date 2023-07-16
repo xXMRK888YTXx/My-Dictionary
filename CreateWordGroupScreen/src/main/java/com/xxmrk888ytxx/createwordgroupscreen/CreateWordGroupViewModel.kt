@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.coreandroid.getWithCastOrNull
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateLanguageContract
 import com.xxmrk888ytxx.createwordgroupscreen.contract.CreateWordGroupContract
 import com.xxmrk888ytxx.createwordgroupscreen.contract.ProvideLanguagesContract
@@ -15,14 +16,12 @@ import com.xxmrk888ytxx.createwordgroupscreen.models.CreateNewLanguageDialogStat
 import com.xxmrk888ytxx.createwordgroupscreen.models.Language
 import com.xxmrk888ytxx.createwordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.createwordgroupscreen.models.ScreenState
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.lang.ClassCastException
 import javax.inject.Inject
 
 class CreateWordGroupViewModel @Inject constructor(
@@ -172,22 +171,17 @@ class CreateWordGroupViewModel @Inject constructor(
         createNewLanguageDialogState,
         isCreateWordGroupInProcess
     ) { flowArray ->
-        try {
-            ScreenState(
-                newGroupName = flowArray[0] as String,
-                imageGroupUrl = flowArray[1] as String?,
-                languages = flowArray[2] as ImmutableList<Language>,
-                selectedPrimaryLanguage = flowArray[3] as Language?,
-                selectedSecondaryLanguage = flowArray[4] as Language?,
-                isAddWordGroupInProcess = flowArray[5] as Boolean,
-                createNewLanguageDialogState = flowArray[6] as CreateNewLanguageDialogState,
-                isCreateWordGroupInProcess = flowArray[7] as Boolean
-            ).also { state -> cachedScreenState = state }
-        } catch (e: ClassCastException) {
-            logger.error(e, LOG_TAG)
 
-            defValue
-        }
+        ScreenState(
+            newGroupName = flowArray.getWithCastOrNull(0)!!,
+            imageGroupUrl = flowArray.getWithCastOrNull(1),
+            languages = flowArray.getWithCastOrNull(2)!!,
+            selectedPrimaryLanguage = flowArray.getWithCastOrNull(3),
+            selectedSecondaryLanguage = flowArray.getWithCastOrNull(4),
+            isAddWordGroupInProcess = flowArray.getWithCastOrNull(5)!!,
+            createNewLanguageDialogState = flowArray.getWithCastOrNull(6)!!,
+            isCreateWordGroupInProcess = flowArray.getWithCastOrNull(7)!!
+        ).also { state -> cachedScreenState = state }
     }
 
     private var cachedScreenState: ScreenState = ScreenState()
