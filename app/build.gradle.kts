@@ -63,7 +63,7 @@ dependencies {
     implementation(project(Project.BottomBarScreen))
     implementation(project(Project.TrainingActionsScreen))
     implementation(project(Project.WordTranslateTrainingScreen))
-
+    implementation(project(Project.SettingsScreen))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)

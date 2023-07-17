@@ -11,4 +11,5 @@ object Project {
     const val BottomBarScreen = ":BottomBarScreen"
     const val TrainingActionsScreen = ":TrainingActionsScreen"
     const val WordTranslateTrainingScreen = ":WordTranslateTrainingScreen"
+    const val SettingsScreen = ":SettingsScreen"
 }

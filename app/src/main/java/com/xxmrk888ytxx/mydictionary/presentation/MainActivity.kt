@@ -27,6 +27,8 @@ import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
 import com.xxmrk888ytxx.mydictionary.R
+import com.xxmrk888ytxx.settingsscreen.SettingsScreen
+import com.xxmrk888ytxx.settingsscreen.SettingsViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
@@ -66,6 +68,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var wordTranslateTrainingViewModel : Provider<WordTranslateTrainingViewModel>
+
+    @Inject
+    lateinit var settingsViewModel: Provider<SettingsViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,6 +112,16 @@ class MainActivity : ComponentActivity() {
                         }
                         //
 
+                        //SettingsScreen
+                        val viewModelForSettingScreen = composeViewModel() {
+                            settingsViewModel.get()
+                        }
+
+                        val screenStateForSettingsScreen by viewModelForSettingScreen.state.collectAsStateWithLifecycle(
+                            initialValue = viewModelForSettingScreen.defValue
+                        )
+                        //
+
                         BottomBarScreen(
                             bottomBarScreens = persistentListOf(
                                 BottomBarScreenModel(
@@ -134,9 +149,10 @@ class MainActivity : ComponentActivity() {
                                     title = stringResource(R.string.settings),
                                     icon = R.drawable.baseline_settings_24,
                                     content = {
-                                        Box(modifier = Modifier.fillMaxSize()) {
-
-                                        }
+                                        SettingsScreen(
+                                            screenState = screenStateForSettingsScreen,
+                                            onEvent = viewModelForSettingScreen::handleEvent
+                                        )
                                     }
                                 )
                             )
