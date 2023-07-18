@@ -2,6 +2,7 @@ package com.xxmrk888ytxx.texttospeechmanager
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
+import java.util.Locale
 
 internal class TTSManagerImpl(
     private val context: Context,
@@ -21,10 +22,16 @@ internal class TTSManagerImpl(
         }
     }
 
-    override fun speck(text: String,utteranceId:String) : Result<Unit> {
+    override fun speck(
+        text: String,
+        utteranceId:String,
+        languageCode:String?
+    ) : Result<Unit> {
         if(isInitSuccessful != true) return Result.failure(TTSFailedInitException())
 
         return try {
+            tts.language = Locale.forLanguageTag(languageCode ?: "en")
+
             tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,utteranceId)
 
             Result.success(Unit)

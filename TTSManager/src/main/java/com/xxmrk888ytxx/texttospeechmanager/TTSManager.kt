@@ -43,7 +43,11 @@ interface TTSManager {
      * @param utteranceId - ID of the text playback request
      */
 
-    fun speck(text:String,utteranceId:String = "Default") : Result<Unit>
+    fun speck(
+        text:String,
+        utteranceId:String = "Default",
+        languageCode:String? = null
+    ) : Result<Unit>
 
     companion object {
         fun create(context: Context,onInitSuccessful:() -> Unit = {}, onInitFailed: () -> Unit = {}) : TTSManager {
