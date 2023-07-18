@@ -10,6 +10,8 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordPhrasesRepository.W
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordPhrasesRepository.WordPhrasesRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
+import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProvider
+import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProviderImpl
 import dagger.Binds
 import dagger.Module
 
@@ -30,4 +32,7 @@ interface DomainModule {
 
     @Binds
     fun bindWordPhrasesRepositoryImpl(wordPhrasesRepositoryImpl: WordPhrasesRepositoryImpl) : WordPhrasesRepository
+
+    @Binds
+    fun bindVersionProvider(versionProviderImpl: VersionProviderImpl) : VersionProvider
 }
