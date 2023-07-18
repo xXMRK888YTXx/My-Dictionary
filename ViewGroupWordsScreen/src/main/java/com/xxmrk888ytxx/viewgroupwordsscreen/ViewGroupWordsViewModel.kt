@@ -41,7 +41,9 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
             is LocalUiEvent.OnBackScreenEvent -> event.navigator.backScreen()
 
             is LocalUiEvent.TextToSpeechEvent -> {
-                textToSpeechContract.speck(event.text)
+                viewModelScope.launch(Dispatchers.Default) {
+                    textToSpeechContract.speck(event.text)
+                }
             }
 
             is LocalUiEvent.OpenWordForEditEvent -> toEditNewWordScreen(
