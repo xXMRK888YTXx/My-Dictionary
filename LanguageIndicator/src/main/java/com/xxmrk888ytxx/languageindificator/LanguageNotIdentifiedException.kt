@@ -1,3 +1,3 @@
 package com.xxmrk888ytxx.languageindificator
 
-class LanguageNotIdentifiedException(m:String? = null) : Throwable(m)
+class LanguageNotIdentifiedException(m:String? = null) : Exception(m)
