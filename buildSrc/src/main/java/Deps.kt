@@ -151,5 +151,9 @@ object Deps {
         const val lottie = "com.airbnb.android:lottie-compose:6.0.1"
     }
 
+    object MLKit {
+        const val LanguageIdentification = "com.google.mlkit:language-id:17.0.4"
+    }
+
 
 }

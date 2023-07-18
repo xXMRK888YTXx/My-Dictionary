@@ -65,6 +65,7 @@ dependencies {
     implementation(project(Project.TrainingActionsScreen))
     implementation(project(Project.WordTranslateTrainingScreen))
     implementation(project(Project.SettingsScreen))
+    implementation(project(Project.LanguageIndicator))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
