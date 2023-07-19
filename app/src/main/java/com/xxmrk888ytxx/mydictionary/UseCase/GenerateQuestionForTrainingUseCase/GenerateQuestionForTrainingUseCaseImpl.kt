@@ -5,7 +5,7 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordPhrasesRepository.W
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordModel
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordPhraseModel
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
+import com.xxmrk888ytxx.basetrainingcomponents.models.Question
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.CoroutineScope

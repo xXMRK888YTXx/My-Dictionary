@@ -11,7 +11,7 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.GenerateQuestionFo
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
+import com.xxmrk888ytxx.basetrainingcomponents.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
