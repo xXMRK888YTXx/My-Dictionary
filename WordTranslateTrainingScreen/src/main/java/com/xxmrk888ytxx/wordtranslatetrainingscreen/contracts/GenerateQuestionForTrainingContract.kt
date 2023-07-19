@@ -1,7 +1,7 @@
 package com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts
 
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
+import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.CoroutineScope
 

@@ -14,7 +14,7 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
+import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingProgress
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet

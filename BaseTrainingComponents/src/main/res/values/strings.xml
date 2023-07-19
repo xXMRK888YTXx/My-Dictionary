@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="number_of_questions">Number of questions</string>
+    <string name="need_use_phrases">Need use phrases</string>
+    <string name="select_the_word_groups_that_will_be_used">Select the word groups that will be used.</string>
+    <string name="it_s_allowed_to_use_groups_of_words_containing_more_than_5_words">It\'s allowed to use groups of words containing more than 5 words.</string>
+    <string name="you_don_t_have_word_groups">You don\'t have word groups</string>
+</resources>

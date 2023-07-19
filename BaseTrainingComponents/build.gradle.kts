@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.xxmrk888ytxx.wordtranslatetrainingscreen"
+    namespace = "com.xxmrk888ytxx.basetrainingcomponents"
     compileSdk = Config.compileSdk
 
     defaultConfig {
         minSdk = Config.minSdk
+        targetSdk = Config.compileSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,7 +25,7 @@ android {
         }
 
         debug {
-            isMinifyEnabled = Config.isR8ProGuardEnableForRelease
+            isMinifyEnabled = Config.isR8ProGuardEnableForDebug
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -48,6 +49,4 @@ android {
 
 dependencies {
     implementation(project(Project.CoreCompose))
-    implementation(Deps.Lottie.lottie)
-    api(project(Project.BaseTrainingComponents))
 }

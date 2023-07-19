@@ -1,4 +1,4 @@
-package com.xxmrk888ytxx.wordtranslatetrainingscreen.models
+package com.xxmrk888ytxx.basetrainingcomponents.models
 
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentSetOf

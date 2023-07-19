@@ -16,11 +16,7 @@
     <string name="incorrect">Incorrect:</string>
     <string name="enter_the_translate_of_the_word">Enter the translate of the word:</string>
     <string name="wait_loading">Wait,loading</string>
-    <string name="number_of_questions">Number of questions</string>
-    <string name="need_use_phrases">Need use phrases</string>
-    <string name="select_the_word_groups_that_will_be_used">Select the word groups that will be used.</string>
-    <string name="it_s_allowed_to_use_groups_of_words_containing_more_than_5_words">It\'s allowed to use groups of words containing more than 5 words.</string>
-    <string name="you_don_t_have_word_groups">You don\'t have word groups</string>
+
     <string name="check_the_answer">Check the answer</string>
     <string name="unfortunately_this_is_the_wrong_answer">Unfortunately this is the wrong answer</string>
     <string name="you_are_right">You are right</string>

@@ -16,11 +16,6 @@
     <string name="incorrect">Неверных:</string>
     <string name="enter_the_translate_of_the_word">Введите перевод слова:</string>
     <string name="wait_loading">Пожалуйста,подождите</string>
-    <string name="number_of_questions">Количество вопросов</string>
-    <string name="need_use_phrases">Нужно исполозовать фразы</string>
-    <string name="select_the_word_groups_that_will_be_used">Выберете группы слов которые будут использоваться</string>
-    <string name="it_s_allowed_to_use_groups_of_words_containing_more_than_5_words">Разрешено использование груп слов, где количество слов не меньше 5</string>
-    <string name="you_don_t_have_word_groups">Нет групп слов</string>
     <string name="check_the_answer">Проверьте ответ</string>
     <string name="unfortunately_this_is_the_wrong_answer">К сожалению, это неправильный ответ</string>
     <string name="you_are_right">Вы правы</string>

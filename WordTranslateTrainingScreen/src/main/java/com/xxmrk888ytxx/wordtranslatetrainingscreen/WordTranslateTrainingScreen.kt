@@ -7,7 +7,6 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Canvas
@@ -16,24 +15,18 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -45,10 +38,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -60,7 +51,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,6 +59,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.xxmrk888ytxx.basetrainingcomponents.ConfigurationScreen
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
@@ -76,10 +67,7 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingParams
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingProgress
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.WordGroup
-import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(
     ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
@@ -208,7 +196,7 @@ fun WordTranslateTrainingScreen(
         ) { screenType ->
             when (screenType) {
                 ScreenType.CONFIGURATION -> {
-                    ConfigurationScreenType(
+                    ConfigurationScreen(
                         trainingParams = screenState.trainingParams,
                         wordGroups = screenState.availableWordGroup,
                         onNumberOfQuestionsChanged = {
@@ -660,110 +648,3 @@ private fun LoadingScreenType() {
     }
 }
 
-@Composable
-private fun ConfigurationScreenType(
-    trainingParams: TrainingParams,
-    wordGroups: ImmutableList<WordGroup>,
-    onNumberOfQuestionsChanged: (String) -> Unit,
-    onChangeIsUsePhrases: (Boolean) -> Unit,
-    onIsGroupWord: (Int) -> Boolean,
-    onChangeWordGroupSelectedState: (Int) -> Unit,
-) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        paramContainer {
-            Text(text = stringResource(R.string.number_of_questions))
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            TextField(
-                value = if(trainingParams.questionCount != Int.MIN_VALUE) trainingParams.questionCount.toString()
-                else "",
-                onValueChange = onNumberOfQuestionsChanged,
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
-                ),
-                modifier = Modifier.width(60.dp)
-            )
-        }
-
-        paramContainer {
-            Text(text = stringResource(R.string.need_use_phrases))
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Switch(
-                checked = trainingParams.isUsePhrases,
-                onCheckedChange = onChangeIsUsePhrases
-            )
-        }
-
-        paramContainer(placeInCenter = true) {
-
-            Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(top = 20.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.select_the_word_groups_that_will_be_used),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-                Text(
-                    text = stringResource(R.string.it_s_allowed_to_use_groups_of_words_containing_more_than_5_words),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                if (wordGroups.isEmpty()) {
-                    Text(text = stringResource(R.string.you_don_t_have_word_groups))
-                } else {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) {
-                        items(wordGroups) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-
-                                Text(text = it.name, style = MaterialTheme.typography.titleMedium)
-
-                                Spacer(modifier = Modifier.weight(1f))
-
-                                Switch(
-                                    checked = onIsGroupWord(it.wordGroupId),
-                                    onCheckedChange = { _ ->
-                                        onChangeWordGroupSelectedState(it.wordGroupId)
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-
-
-            }
-        }
-    }
-}
-
-private fun LazyListScope.paramContainer(
-    placeInCenter: Boolean = false,
-    content: @Composable RowScope.() -> Unit,
-) {
-    item {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(
-                10.dp,
-                if (placeInCenter) Alignment.CenterHorizontally else Alignment.Start
-            ),
-            content = content
-        )
-    }
-}

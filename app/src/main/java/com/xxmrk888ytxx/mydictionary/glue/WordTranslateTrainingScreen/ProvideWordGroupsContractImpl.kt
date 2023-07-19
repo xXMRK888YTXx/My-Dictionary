@@ -4,13 +4,11 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordGroupRepository.Wor
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordModel
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.WordGroup
+import com.xxmrk888ytxx.basetrainingcomponents.models.WordGroup
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
