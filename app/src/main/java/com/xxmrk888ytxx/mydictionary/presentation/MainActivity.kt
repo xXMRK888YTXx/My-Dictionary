@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
@@ -286,7 +283,7 @@ class MainActivity : ComponentActivity() {
                         )
 
                         WordByEarTrainingScreen(
-                            screenScreen = screenState,
+                            screenState = screenState,
                             onEvent = viewModel::handleEvent
                         )
                     }

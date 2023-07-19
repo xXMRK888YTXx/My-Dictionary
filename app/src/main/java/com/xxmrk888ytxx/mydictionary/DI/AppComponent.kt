@@ -12,6 +12,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.SettingsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.UseCaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.WordByEarTrainingScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordTranslateTrainingScreenModule
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
@@ -31,7 +32,8 @@ import dagger.Component
         WordTranslateTrainingScreenModule::class,
         SettingsScreenModule::class,
         LanguageIndicatorModule::class,
-        UseCaseModule::class
+        UseCaseModule::class,
+        WordByEarTrainingScreenModule::class
     ]
 )
 @AppScope

@@ -60,6 +60,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.xxmrk888ytxx.basetrainingcomponents.ConfigurationScreen
+import com.xxmrk888ytxx.basetrainingcomponents.LoadingScreen
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
@@ -231,7 +232,7 @@ fun WordTranslateTrainingScreen(
 
                 ScreenType.RESULTS -> ResultScreenType(screenState.trainingProgress)
 
-                ScreenType.LOADING -> LoadingScreenType()
+                ScreenType.LOADING -> LoadingScreen()
             }
         }
     }
@@ -633,18 +634,3 @@ private fun TrainingScreenType(
         }
     }
 }
-
-
-@Composable
-private fun LoadingScreenType() {
-    Column(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = stringResource(R.string.wait_loading))
-
-        LinearProgressIndicator()
-    }
-}
-
