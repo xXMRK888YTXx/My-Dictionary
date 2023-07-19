@@ -13,4 +13,5 @@ object Project {
     const val WordTranslateTrainingScreen = ":WordTranslateTrainingScreen"
     const val SettingsScreen = ":SettingsScreen"
     const val LanguageIndicator = ":LanguageIndicator"
+    const val WordByEarTrainingScreen = ":WordByEarTrainingScreen"
 }

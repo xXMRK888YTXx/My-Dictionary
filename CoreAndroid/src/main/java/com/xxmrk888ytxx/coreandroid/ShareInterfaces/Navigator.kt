@@ -11,4 +11,6 @@ interface Navigator {
     fun backScreen()
 
     fun toWordTranslateTraining()
+
+    fun toWordByEarTraining()
 }

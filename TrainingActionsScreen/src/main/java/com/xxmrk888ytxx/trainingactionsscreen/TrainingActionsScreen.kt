@@ -42,6 +42,10 @@ fun TrainingActionsScreen(
             Actions(
                 text = R.string.word_translation,
                 onClick = { onEvent(LocalUiEvent.OpenWordTranslateTraining(navigator)) }
+            ),
+            Actions(
+                text = R.string.words_by_ear,
+                onClick = { onEvent(LocalUiEvent.OpenWordsByEarTraining(navigator)) }
             )
         )
     }

@@ -2,4 +2,5 @@
 <resources>
     <string name="word_translation">Word translation</string>
     <string name="select_a_training">Select a training</string>
+    <string name="words_by_ear">Words by ear</string>
 </resources>

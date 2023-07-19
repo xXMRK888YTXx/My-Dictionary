@@ -24,7 +24,7 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.CreateWordGroupScreen)
     }
 
-    override fun toViewGroupWordsScreen(wordGroupId: Int) {
+    override fun toViewGroupWordsScreen(wordGroupId: Int) = runOnUiThread {
         navController?.navigate(
             route = "${Screen.ViewGroupWordsScreen.route}/$wordGroupId"
         ) {
@@ -32,7 +32,7 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
-    override fun toEditWordScreen(wordGroupId: Int,editWordId:Int) {
+    override fun toEditWordScreen(wordGroupId: Int,editWordId:Int) = runOnUiThread {
         navController?.navigate(
             route = "${Screen.EditWordScreen.route}/$wordGroupId/$editWordId"
         ) {
@@ -44,8 +44,16 @@ class ActivityViewModel @Inject constructor(
         navController?.navigateUp()
     }
 
-    override fun toWordTranslateTraining() {
-        navController?.navigate(Screen.WordTranslateTrainingScreen.route)
+    override fun toWordTranslateTraining() = runOnUiThread {
+        navController?.navigate(Screen.WordTranslateTrainingScreen.route) {
+            launchSingleTop = true
+        }
+    }
+
+    override fun toWordByEarTraining() = runOnUiThread {
+        navController?.navigate(Screen.WordByEarTrainingScreen.route) {
+            launchSingleTop = true
+        }
     }
 
 

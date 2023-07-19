@@ -33,6 +33,8 @@ import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
+import com.xxmrk888ytxx.wordbyeartrainingscreen.WordByEarTrainingScreen
+import com.xxmrk888ytxx.wordbyeartrainingscreen.WordByEarTrainingViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupScreen
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupViewModel
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.WordTranslateTrainingScreen
@@ -71,6 +73,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var settingsViewModel: Provider<SettingsViewModel>
+
+    @Inject
+    lateinit var wordByEarTrainingViewModel: Provider<WordByEarTrainingViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -268,6 +273,21 @@ class MainActivity : ComponentActivity() {
                         WordTranslateTrainingScreen(
                             screenState,
                             viewModel::handleEvent
+                        )
+                    }
+
+                    composable(Screen.WordByEarTrainingScreen.route) {
+                        val viewModel = composeViewModel {
+                            wordByEarTrainingViewModel.get()
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        WordByEarTrainingScreen(
+                            screenScreen = screenState,
+                            onEvent = viewModel::handleEvent
                         )
                     }
                 }

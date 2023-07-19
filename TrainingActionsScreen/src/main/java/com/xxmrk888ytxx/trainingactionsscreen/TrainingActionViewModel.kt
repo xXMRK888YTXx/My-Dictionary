@@ -17,6 +17,10 @@ class TrainingActionViewModel @Inject constructor(
             is LocalUiEvent.OpenWordTranslateTraining -> {
                 event.navigator.toWordTranslateTraining()
             }
+
+            is LocalUiEvent.OpenWordsByEarTraining -> {
+                event.navigator.toWordByEarTraining()
+            }
         }
     }
 
