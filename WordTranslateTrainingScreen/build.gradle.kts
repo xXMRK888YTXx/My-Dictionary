@@ -48,6 +48,5 @@ android {
 
 dependencies {
     implementation(project(Project.CoreCompose))
-    implementation(Deps.Lottie.lottie)
     api(project(Project.BaseTrainingComponents))
 }
