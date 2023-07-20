@@ -2,6 +2,7 @@ package com.xxmrk888ytxx.wordtranslatetrainingscreen.models
 
 import com.xxmrk888ytxx.basetrainingcomponents.models.Question
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
+import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 import com.xxmrk888ytxx.basetrainingcomponents.models.WordGroup
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf

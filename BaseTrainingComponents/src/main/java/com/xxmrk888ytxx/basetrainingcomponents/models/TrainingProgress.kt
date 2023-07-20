@@ -1,6 +1,5 @@
-package com.xxmrk888ytxx.wordtranslatetrainingscreen.models
+package com.xxmrk888ytxx.basetrainingcomponents.models
 
-import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 
 data class TrainingProgress(
     val correctAnswers:Int = 0,

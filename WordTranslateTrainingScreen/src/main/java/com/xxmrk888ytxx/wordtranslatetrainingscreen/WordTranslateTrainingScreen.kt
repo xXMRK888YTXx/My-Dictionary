@@ -67,7 +67,7 @@ import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingProgress
+import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 
 @OptIn(
     ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,

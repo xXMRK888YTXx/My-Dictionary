@@ -15,7 +15,7 @@ import com.xxmrk888ytxx.basetrainingcomponents.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.TrainingProgress
+import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableSet
 import kotlinx.collections.immutable.persistentListOf
