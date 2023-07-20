@@ -33,7 +33,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -64,7 +63,7 @@ import com.xxmrk888ytxx.basetrainingcomponents.LoadingScreen
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
+import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType

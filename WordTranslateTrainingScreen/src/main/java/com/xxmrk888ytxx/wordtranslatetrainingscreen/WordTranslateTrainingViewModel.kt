@@ -9,7 +9,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.coreandroid.getWithCast
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.GenerateQuestionForTrainingContract
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.contracts.ProvideWordGroupsContract
-import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.CheckResultState
+import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.basetrainingcomponents.models.Question
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
