@@ -42,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.xxmrk888ytxx.basetrainingcomponents.ConfigurationScreen
+import com.xxmrk888ytxx.basetrainingcomponents.ExitDialog
 import com.xxmrk888ytxx.basetrainingcomponents.LoadingScreen
 import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
@@ -232,48 +233,6 @@ fun WordTranslateTrainingScreen(
     }
 }
 
-@Composable
-fun ExitDialog(onDismiss: () -> Unit, onExit: () -> Unit) {
-    Dialog(onDismissRequest = onDismiss) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.large,
-            tonalElevation = AlertDialogDefaults.TonalElevation
-        ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.leave_from_training),
-                    style = MaterialTheme.typography.titleLarge
-                )
-
-                Text(
-                    text = stringResource(R.string.the_progress_won_t_be_saved),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-
-                Row(
-                    Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)
-                ) {
-                    TextButton(onClick = onDismiss) {
-                        Text(text = stringResource(R.string.cancel))
-                    }
-
-                    TextButton(onClick = onExit) {
-                        Text(text = stringResource(R.string.exit))
-                    }
-                }
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

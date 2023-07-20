@@ -13,4 +13,8 @@
     <string name="try_again">Попробуй ещё раз</string>
     <string name="correct">Верных:</string>
     <string name="incorrect">Неверных:</string>
+    <string name="leave_from_training">Выйти с тренировки?</string>
+    <string name="the_progress_won_t_be_saved">Прогресс не будет сохранен</string>
+    <string name="cancel">Отменить</string>
+    <string name="exit">Exit</string>
 </resources>

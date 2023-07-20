@@ -13,4 +13,8 @@
     <string name="try_again">Try again</string>
     <string name="correct">Correct:</string>
     <string name="incorrect">Incorrect:</string>
+    <string name="leave_from_training">Exit from training?</string>
+    <string name="the_progress_won_t_be_saved">The progress won\'t be saved</string>
+    <string name="cancel">Cancel</string>
+    <string name="exit">Exit</string>
 </resources>
