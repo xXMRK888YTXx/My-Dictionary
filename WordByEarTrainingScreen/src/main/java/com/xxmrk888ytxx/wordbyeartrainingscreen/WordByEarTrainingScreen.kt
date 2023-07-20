@@ -39,6 +39,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.basetrainingcomponents.ConfigurationScreen
 import com.xxmrk888ytxx.basetrainingcomponents.LoadingScreen
+import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
@@ -79,7 +80,8 @@ fun WordByEarTrainingScreen(
                 trainingParams = screenState.trainingParams,
                 onStartTraining = { onEvent(LocalUiEvent.StartTrainingEvent) },
                 onCheckAnswer = { onEvent(LocalUiEvent.CheckAnswer) },
-                onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) }
+                onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
+                onBackScreen = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) }
             )
         }
     ) { paddings ->
@@ -122,7 +124,10 @@ fun WordByEarTrainingScreen(
                         checkResultState = screenState.trainingProgress.checkResultState
                     )
                 }
-                ScreenType.RESULTS -> {}
+                ScreenType.RESULTS -> {
+                    ResultScreen(trainingProgress = screenState.trainingProgress)
+                }
+
                 ScreenType.LOADING -> LoadingScreen()
             }
         }
@@ -137,7 +142,8 @@ fun BottomBar(
     trainingProgress: TrainingProgress,
     onStartTraining:() -> Unit,
     onCheckAnswer:() -> Unit,
-    onNextQuestion:() -> Unit
+    onNextQuestion:() -> Unit,
+    onBackScreen:() -> Unit
 ) {
     when (screenType) {
         ScreenType.CONFIGURATION -> {
@@ -174,7 +180,17 @@ fun BottomBar(
                 }
             }
         }
-        ScreenType.RESULTS -> {}
+        ScreenType.RESULTS -> {
+            Button(
+                onClick = onBackScreen,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+            ) {
+                Text(text = stringResource(R.string.exit))
+            }
+        }
+
         ScreenType.LOADING -> {}
     }
 }
