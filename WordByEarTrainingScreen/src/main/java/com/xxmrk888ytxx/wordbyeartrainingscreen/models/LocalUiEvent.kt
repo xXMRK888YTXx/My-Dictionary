@@ -14,6 +14,10 @@ sealed class LocalUiEvent : UiEvent {
 
     object CheckAnswer : LocalUiEvent()
 
+    object ShowExitDialog : LocalUiEvent()
+
+    object HideExitDialog : LocalUiEvent()
+
     data class NumberOfQuestionsChangedEvent(val newValue: String) : LocalUiEvent()
 
     data class ChangeIsUsePhrasesEvent(val newValue: Boolean) : LocalUiEvent()

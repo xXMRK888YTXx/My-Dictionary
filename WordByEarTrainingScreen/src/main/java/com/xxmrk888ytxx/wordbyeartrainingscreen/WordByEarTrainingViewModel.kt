@@ -32,24 +32,27 @@ import javax.inject.Inject
 class WordByEarTrainingViewModel @Inject constructor(
     private val provideWordGroupsContract: ProvideWordGroupsContract,
     private val generateQuestionForTrainingContract: GenerateQuestionForTrainingContract,
-    private val playWordContract: PlayWordContract
-) : ViewModel(),UiModel<ScreenState> {
+    private val playWordContract: PlayWordContract,
+) : ViewModel(), UiModel<ScreenState> {
 
-    private val trainingParamsState:MutableStateFlow<TrainingParams> = MutableStateFlow(
+    private val trainingParamsState: MutableStateFlow<TrainingParams> = MutableStateFlow(
         TrainingParams()
     )
 
-    private val screenTypeState:MutableStateFlow<ScreenType> = MutableStateFlow(ScreenType.CONFIGURATION)
+    private val screenTypeState: MutableStateFlow<ScreenType> =
+        MutableStateFlow(ScreenType.CONFIGURATION)
 
-    private val questionListState:MutableStateFlow<ImmutableList<Question>> = MutableStateFlow(
+    private val questionListState: MutableStateFlow<ImmutableList<Question>> = MutableStateFlow(
         persistentListOf()
     )
 
     private val trainingProgressState = MutableStateFlow(TrainingProgress())
 
+    private val isExitDialogVisibleState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
     @OptIn(ExperimentalFoundationApi::class)
     override fun handleEvent(event: UiEvent) {
-        if(event !is LocalUiEvent) return
+        if (event !is LocalUiEvent) return
 
         when (event) {
             is LocalUiEvent.NumberOfQuestionsChangedEvent -> {
@@ -138,7 +141,7 @@ class WordByEarTrainingViewModel @Inject constructor(
                     val questionList = questionListState.value
                     val trainingProgress = trainingProgressState.value
 
-                    if(trainingProgress.checkResultState is CheckResultState.None) return@launch
+                    if (trainingProgress.checkResultState is CheckResultState.None) return@launch
 
                     trainingProgressState.update {
                         it.copy(
@@ -162,6 +165,13 @@ class WordByEarTrainingViewModel @Inject constructor(
                     }
                 }
             }
+
+            LocalUiEvent.ShowExitDialog -> {
+                isExitDialogVisibleState.update { true }
+            }
+
+            LocalUiEvent.HideExitDialog -> isExitDialogVisibleState.update { false }
+
         }
     }
 
@@ -204,14 +214,16 @@ class WordByEarTrainingViewModel @Inject constructor(
         screenTypeState,
         provideWordGroupsContract.wordGroups,
         questionListState,
-        trainingProgressState
+        trainingProgressState,
+        isExitDialogVisibleState
     ) { flowArray ->
         ScreenState(
             trainingParams = flowArray.getWithCast(0),
             screenType = flowArray.getWithCast(1),
             availableWordGroup = flowArray.getWithCast(2),
             questions = flowArray.getWithCast(3),
-            trainingProgress = flowArray.getWithCast(4)
+            trainingProgress = flowArray.getWithCast(4),
+            isExitDialogVisible = flowArray.getWithCast(5)
         ).also { cashedScreenState = it }
     }
 
@@ -235,7 +247,7 @@ class WordByEarTrainingViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             provideWordGroupsContract.wordGroups.collect() {
                 it.forEach { wordGroup ->
-                    if(!alreadyMarkedId.contains(wordGroup.wordGroupId)) {
+                    if (!alreadyMarkedId.contains(wordGroup.wordGroupId)) {
                         alreadyMarkedId.add(wordGroup.wordGroupId)
 
                         handleEvent(LocalUiEvent.ChangeWordGroupSelectedStateEvent(wordGroup.wordGroupId))

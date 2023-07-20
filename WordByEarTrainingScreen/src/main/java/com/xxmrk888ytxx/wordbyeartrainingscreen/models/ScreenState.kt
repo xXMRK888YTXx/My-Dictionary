@@ -13,4 +13,5 @@ data class ScreenState(
     val availableWordGroup: ImmutableList<WordGroup> = persistentListOf(),
     val questions:ImmutableList<Question> = persistentListOf(),
     val trainingProgress: TrainingProgress = TrainingProgress(),
+    val isExitDialogVisible:Boolean = false
 )

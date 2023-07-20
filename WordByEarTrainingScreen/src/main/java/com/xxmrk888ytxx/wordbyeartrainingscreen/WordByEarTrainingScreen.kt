@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.wordbyeartrainingscreen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -38,6 +39,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.basetrainingcomponents.ConfigurationScreen
+import com.xxmrk888ytxx.basetrainingcomponents.ExitDialog
 import com.xxmrk888ytxx.basetrainingcomponents.LoadingScreen
 import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
@@ -53,8 +55,8 @@ import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenType
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun WordByEarTrainingScreen(
-    screenState:ScreenState,
-    onEvent:(UiEvent) -> Unit
+    screenState: ScreenState,
+    onEvent: (UiEvent) -> Unit,
 ) {
     val navigator = LocalNavigator.current
 
@@ -62,12 +64,24 @@ fun WordByEarTrainingScreen(
 
     val scope = rememberCoroutineScope()
 
+    BackHandler(
+        enabled = screenState.screenType == ScreenType.TRAINING
+    ) {
+        onEvent(LocalUiEvent.ShowExitDialog)
+    }
+
     Scaffold(
         Modifier.fillMaxSize(),
         topBar = {
             TopBar(
                 screenType = screenState.screenType,
-                onBack = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) },
+                onBack = {
+                    if (screenState.screenType == ScreenType.TRAINING) {
+                        onEvent(LocalUiEvent.ShowExitDialog)
+                    } else {
+                        onEvent(LocalUiEvent.BackScreenEvent(navigator))
+                    }
+                },
                 currentQuestion = screenState.trainingProgress.currentPage,
                 questionCount = screenState.questions.size
             )
@@ -91,7 +105,7 @@ fun WordByEarTrainingScreen(
                 .padding(10.dp)
                 .padding(paddings)
         ) { screenType ->
-            when(screenType) {
+            when (screenType) {
                 ScreenType.CONFIGURATION -> {
                     ConfigurationScreen(
                         trainingParams = screenState.trainingParams,
@@ -110,6 +124,7 @@ fun WordByEarTrainingScreen(
                         }
                     )
                 }
+
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
                         pager = pager,
@@ -124,6 +139,7 @@ fun WordByEarTrainingScreen(
                         checkResultState = screenState.trainingProgress.checkResultState
                     )
                 }
+
                 ScreenType.RESULTS -> {
                     ResultScreen(trainingProgress = screenState.trainingProgress)
                 }
@@ -132,18 +148,28 @@ fun WordByEarTrainingScreen(
             }
         }
     }
+
+    if (screenState.isExitDialogVisible) {
+        ExitDialog(
+            onDismiss = { onEvent(LocalUiEvent.HideExitDialog) },
+            onExit = {
+                onEvent(LocalUiEvent.HideExitDialog)
+                onEvent(LocalUiEvent.BackScreenEvent(navigator))
+            }
+        )
+    }
 }
 
 @Composable
 fun BottomBar(
     screenType: ScreenType,
-    isGroupSelected:Boolean,
+    isGroupSelected: Boolean,
     trainingParams: TrainingParams,
     trainingProgress: TrainingProgress,
-    onStartTraining:() -> Unit,
-    onCheckAnswer:() -> Unit,
-    onNextQuestion:() -> Unit,
-    onBackScreen:() -> Unit
+    onStartTraining: () -> Unit,
+    onCheckAnswer: () -> Unit,
+    onNextQuestion: () -> Unit,
+    onBackScreen: () -> Unit,
 ) {
     when (screenType) {
         ScreenType.CONFIGURATION -> {
@@ -159,10 +185,11 @@ fun BottomBar(
                 Text(text = stringResource(R.string.start))
             }
         }
+
         ScreenType.TRAINING -> {
             Button(
                 onClick = {
-                    if(trainingProgress.checkResultState !is CheckResultState.None) {
+                    if (trainingProgress.checkResultState !is CheckResultState.None) {
                         onNextQuestion()
                     } else {
                         onCheckAnswer()
@@ -173,13 +200,14 @@ fun BottomBar(
                     .padding(10.dp),
                 enabled = trainingProgress.currentAnswer.isNotEmpty()
             ) {
-                if(trainingProgress.checkResultState is CheckResultState.None) {
+                if (trainingProgress.checkResultState is CheckResultState.None) {
                     Text(text = stringResource(R.string.check_the_answer))
                 } else {
                     Text(text = stringResource(R.string.next))
                 }
             }
         }
+
         ScreenType.RESULTS -> {
             Button(
                 onClick = onBackScreen,
@@ -199,9 +227,9 @@ fun BottomBar(
 @Composable
 private fun TopBar(
     screenType: ScreenType,
-    onBack:() -> Unit,
-    currentQuestion:Int,
-    questionCount: Int
+    onBack: () -> Unit,
+    currentQuestion: Int,
+    questionCount: Int,
 ) {
     CenterAlignedTopAppBar(
         modifier = Modifier,
@@ -247,7 +275,7 @@ private fun TrainingScreenType(
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onPlayCurrentQuestion: (Int) -> Unit,
-    checkResultState: CheckResultState
+    checkResultState: CheckResultState,
 ) {
 
     HorizontalPager(
@@ -282,7 +310,10 @@ private fun TrainingScreenType(
                         Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                        verticalArrangement = Arrangement.spacedBy(
+                            16.dp,
+                            Alignment.CenterVertically
+                        ),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
@@ -307,14 +338,14 @@ private fun TrainingScreenType(
                             )
 
                             Text(
-                                text = if(checkResultState is CheckResultState.Failed)
+                                text = if (checkResultState is CheckResultState.Failed)
                                     stringResource(R.string.unfortunately_this_is_the_wrong_answer)
                                 else stringResource(R.string.you_are_right)
                             )
                         }
 
                         Text(
-                            text = if(checkResultState is CheckResultState.Failed)
+                            text = if (checkResultState is CheckResultState.Failed)
                                 stringResource(R.string.correct_answer_was) + "\"${checkResultState.correctAnswer}\""
                             else stringResource(R.string.congratulations)
                         )
