@@ -122,14 +122,14 @@ class WordByEarTrainingViewModel @Inject constructor(
                 val questionList = questionListState.value
 
                 val isAnswerCurrent = checkAnswer(
-                    questionList[trainingProgress.currentPage].translate,
+                    questionList[trainingProgress.currentPage].word,
                     trainingProgress.currentAnswer
                 )
 
                 trainingProgressState.update {
                     it.copy(
                         checkResultState = if (isAnswerCurrent) CheckResultState.Correct
-                        else CheckResultState.Failed(questionList[trainingProgress.currentPage].translate),
+                        else CheckResultState.Failed(questionList[trainingProgress.currentPage].word),
                         correctAnswers = it.correctAnswers + if (isAnswerCurrent) 1 else 0,
                         incorrectAnswers = it.incorrectAnswers + if (!isAnswerCurrent) 1 else 0,
                     )
