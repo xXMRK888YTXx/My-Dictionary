@@ -5,4 +5,12 @@
     <string name="results">Результаты</string>
     <string name="loading">Загрузка</string>
     <string name="start">Начать</string>
+    <string name="unfortunately_this_is_the_wrong_answer">К сожалению, это неправильный ответ</string>
+    <string name="you_are_right">Вы правы</string>
+    <string name="correct_answer_was">Правильный ответ был:</string>
+    <string name="congratulations">Поздравления</string>
+    <string name="answer">Answer</string>
+    <string name="write_the_spoken_word">Write the spoken word</string>
+    <string name="check_the_answer">Check the answer</string>
+    <string name="next">Next</string>
 </resources>
