@@ -18,6 +18,8 @@ import com.xxmrk888ytxx.bottombarscreen.BottomBarScreen
 import com.xxmrk888ytxx.bottombarscreen.models.BottomBarScreenModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.createbackupscreen.CreateBackupScreen
+import com.xxmrk888ytxx.createbackupscreen.CreateBackupViewModel
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
@@ -73,6 +75,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var wordByEarTrainingViewModel: Provider<WordByEarTrainingViewModel>
+
+    @Inject
+    lateinit var createBackupScreenModel: Provider<CreateBackupViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -289,7 +294,18 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable(Screen.CreateBackupScreen.route) {
+                        val viewModel = composeViewModel {
+                            createBackupScreenModel.get()
+                        }
 
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        CreateBackupScreen(
+                            screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
                     }
                 }
             }

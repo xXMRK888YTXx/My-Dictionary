@@ -15,4 +15,5 @@ object Project {
     const val LanguageIndicator = ":LanguageIndicator"
     const val WordByEarTrainingScreen = ":WordByEarTrainingScreen"
     const val BaseTrainingComponents = ":BaseTrainingComponents"
+    const val CreateBackupScreen = ":CreateBackupScreen"
 }
