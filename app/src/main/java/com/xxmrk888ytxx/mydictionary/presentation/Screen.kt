@@ -13,4 +13,6 @@ sealed class Screen(val route:String) {
     object WordTranslateTrainingScreen : Screen("WordTranslateTrainingScreen")
 
     object WordByEarTrainingScreen : Screen("WordByEarTrainingScreen")
+
+    object CreateBackupScreen : Screen("CreateBackupScreen")
 }

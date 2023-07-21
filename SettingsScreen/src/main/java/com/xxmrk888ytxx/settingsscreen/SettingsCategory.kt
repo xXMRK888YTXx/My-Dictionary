@@ -1,7 +1,8 @@
 package com.xxmrk888ytxx.settingsscreen
 
+import android.content.Context
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 
 internal fun LazyListScope.aboutApplicationCategory(
@@ -10,40 +11,65 @@ internal fun LazyListScope.aboutApplicationCategory(
     onOpenWriteToDeveloper:() -> Unit,
     onOpenPrivacyPolicy:() -> Unit,
     onOpenTermsOfUse:() -> Unit,
+    context:Context
 ) {
     settingsCategory(
-        title = "About application",
+        title = context.getString(R.string.about_application),
         contents = persistentListOf(
             {
                 LabelItem(
-                    primaryText = "Application version",
+                    primaryText = stringResource(R.string.application_version),
                     secondaryText = versionName
                 )
             },
             {
                 ButtonItem(
-                    text = "Source code",
+                    text = stringResource(R.string.source_code),
                     onClick = onOpenSourceCode
                 )
             },
             {
                 ButtonItem(
-                    text = "Write to the developer",
+                    text = stringResource(R.string.write_to_the_developer),
                     onClick = onOpenWriteToDeveloper
                 )
             },
             {
                 ButtonItem(
-                    text = "Privacy policy",
+                    text = stringResource(R.string.privacy_policy),
                     onClick = onOpenPrivacyPolicy
                 )
             },
             {
                 ButtonItem(
-                    text = "Terms of use",
+                    text = stringResource(R.string.terms_of_use),
                     onClick = onOpenTermsOfUse
                 )
             }
+        )
+    )
+}
+
+internal fun LazyListScope.backupCategory(
+    onOpenCreateBackupScreen:() -> Unit,
+    onOpenRestoreBackupScreen:() -> Unit,
+    context: Context
+) {
+    settingsCategory(
+        title = context.getString(R.string.backup),
+        contents = persistentListOf(
+            {
+                ButtonItem(
+                    text = stringResource(R.string.create_backup),
+                    onClick = onOpenCreateBackupScreen
+                )
+            },
+            {
+                ButtonItem(
+                    text = stringResource(R.string.restore_backup),
+                    onClick = onOpenRestoreBackupScreen
+                )
+            },
         )
     )
 }

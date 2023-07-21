@@ -56,6 +56,10 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
+    override fun toCreateBackupScreen() = runOnUiThread {
+        navigate(Screen.CreateBackupScreen)
+    }
+
 
     private fun navigate(screen:Screen) {
         navController?.navigate(screen.route) {

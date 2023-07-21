@@ -13,4 +13,6 @@ interface Navigator {
     fun toWordTranslateTraining()
 
     fun toWordByEarTraining()
+
+    fun toCreateBackupScreen()
 }

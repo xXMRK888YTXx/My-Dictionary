@@ -32,6 +32,14 @@ class SettingsViewModel @Inject constructor(
             LocalUiEvent.WriteToDeveloperEvent -> {
 
             }
+
+            is LocalUiEvent.OpenCreateBackupScreenEvent -> {
+                event.navigator.toCreateBackupScreen()
+            }
+
+            is LocalUiEvent.OpenRestoreBackupScreenEvent -> {
+
+            }
         }
     }
 
