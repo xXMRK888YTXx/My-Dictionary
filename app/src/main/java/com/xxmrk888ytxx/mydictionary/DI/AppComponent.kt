@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.mydictionary.DI
 import android.content.Context
 import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
+import com.xxmrk888ytxx.mydictionary.DI.module.CreateBackupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
@@ -33,7 +34,8 @@ import dagger.Component
         SettingsScreenModule::class,
         LanguageIndicatorModule::class,
         UseCaseModule::class,
-        WordByEarTrainingScreenModule::class
+        WordByEarTrainingScreenModule::class,
+        CreateBackupScreenModule::class
     ]
 )
 @AppScope

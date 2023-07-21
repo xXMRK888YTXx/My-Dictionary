@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_backup">Create a backup</string>
+    <string name="choose_backup_place">Choose a backup place</string>
+    <string name="select_a_groups_of_words_to_be_include_in_the_backup">Select a groups of words to be include in the backup</string>
+</resources>

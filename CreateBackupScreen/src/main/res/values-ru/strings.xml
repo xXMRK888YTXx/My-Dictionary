@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_backup">Создать резервную копию</string>
+    <string name="choose_backup_place">Выберите место для резервного копирования</string>
+    <string name="select_a_groups_of_words_to_be_include_in_the_backup">Выберите группы слов для включения в резервную копию</string>
+</resources>
