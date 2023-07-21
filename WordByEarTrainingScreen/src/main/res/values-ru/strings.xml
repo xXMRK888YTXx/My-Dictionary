@@ -10,8 +10,8 @@
     <string name="correct_answer_was">Правильный ответ был:</string>
     <string name="congratulations">Поздравления</string>
     <string name="answer">Answer</string>
-    <string name="write_the_spoken_word">Write the spoken word</string>
-    <string name="check_the_answer">Check the answer</string>
-    <string name="next">Next</string>
-    <string name="exit">Exit</string>
+    <string name="write_the_spoken_word">Напишите произнесенное слово</string>
+    <string name="check_the_answer">Проверить ответ</string>
+    <string name="next">Следующий</string>
+    <string name="exit">Выйти</string>
 </resources>
