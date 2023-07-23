@@ -1,5 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
+import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCase
@@ -40,4 +42,9 @@ interface UseCaseModule {
     fun bindFileWriterUseCase(
         FileWriterUseCaseImpl: FileWriterUseCaseImpl
     ) : FileWriterUseCase
+
+    @Binds
+    fun bindCopyFileUseCase(
+        CopyFileUseCaseImpl: CopyFileUseCaseImpl
+    ) : CopyFileUseCase
 }
