@@ -1,6 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.DI
 
 import android.content.Context
+import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateBackupScreenModule
@@ -35,7 +36,8 @@ import dagger.Component
         LanguageIndicatorModule::class,
         UseCaseModule::class,
         WordByEarTrainingScreenModule::class,
-        CreateBackupScreenModule::class
+        CreateBackupScreenModule::class,
+        ArchiverCreatorModule::class
     ]
 )
 @AppScope

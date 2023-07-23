@@ -68,6 +68,8 @@ dependencies {
     implementation(project(Project.LanguageIndicator))
     implementation(project(Project.WordByEarTrainingScreen))
     implementation(project(Project.CreateBackupScreen))
+    implementation(project(Project.ArchiverCreator))
+
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

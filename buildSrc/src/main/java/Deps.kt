@@ -155,5 +155,9 @@ object Deps {
         const val LanguageIdentification = "com.google.mlkit:language-id:17.0.4"
     }
 
+    object Zip {
+        const val zip = "net.lingala.zip4j:zip4j:2.11.5"
+    }
+
 
 }
