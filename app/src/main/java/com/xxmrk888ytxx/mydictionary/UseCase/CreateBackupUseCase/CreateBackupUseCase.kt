@@ -6,7 +6,7 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.models.WordGroupModel
 interface CreateBackupUseCase {
 
     suspend fun execute(
-        backupWordGroupsId:Set<WordGroupModel>,
+        backupWordGroups:Set<WordGroupModel>,
         fileUri:Uri
     ) : Result<Unit>
 }
