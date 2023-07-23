@@ -2,6 +2,8 @@ package com.xxmrk888ytxx.mydictionary.DI.module
 
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCase
@@ -33,4 +35,9 @@ interface UseCaseModule {
     fun bindCreateBackupUseCase(
         CreateBackupUseCaseImpl: CreateBackupUseCaseImpl
     ) : CreateBackupUseCase
+
+    @Binds
+    fun bindFileWriterUseCase(
+        FileWriterUseCaseImpl: FileWriterUseCaseImpl
+    ) : FileWriterUseCase
 }
