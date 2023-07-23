@@ -7,5 +7,6 @@ import kotlinx.collections.immutable.persistentSetOf
 
 data class ScreenState(
     val availableWordGroups: ImmutableList<WordGroup> = persistentListOf(),
-    val selectedWordGroupId:ImmutableSet<Int> = persistentSetOf()
+    val selectedWordGroupId:ImmutableSet<Int> = persistentSetOf(),
+    val isBackupInProcess:Boolean = false
 )
