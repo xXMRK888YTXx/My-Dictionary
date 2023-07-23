@@ -123,8 +123,8 @@ object Deps {
         const val materialDialogs = "io.github.vanpra.compose-material-dialogs:datetime:0.9.0"
     }
 
-    object KolinSerialization {
-        private const val version = "1.4.1"
+    object KotlinSerialization {
+        private const val version = "1.5.1"
         const val plugin = "kotlinx-serialization"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
         const val classPath = "org.jetbrains.kotlin:kotlin-serialization:$KotlinVersion"

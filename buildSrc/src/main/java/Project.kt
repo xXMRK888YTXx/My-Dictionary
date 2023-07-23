@@ -17,4 +17,5 @@ object Project {
     const val BaseTrainingComponents = ":BaseTrainingComponents"
     const val CreateBackupScreen = ":CreateBackupScreen"
     const val ArchiverCreator = ":ArchiverCreator"
+    const val BackupConverter = ":BackupConverter"
 }

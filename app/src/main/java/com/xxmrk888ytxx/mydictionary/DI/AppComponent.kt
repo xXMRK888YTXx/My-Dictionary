@@ -2,6 +2,7 @@ package com.xxmrk888ytxx.mydictionary.DI
 
 import android.content.Context
 import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
+import com.xxmrk888ytxx.mydictionary.DI.module.BackupConverterModule
 import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateBackupScreenModule
@@ -37,7 +38,8 @@ import dagger.Component
         UseCaseModule::class,
         WordByEarTrainingScreenModule::class,
         CreateBackupScreenModule::class,
-        ArchiverCreatorModule::class
+        ArchiverCreatorModule::class,
+        BackupConverterModule::class
     ]
 )
 @AppScope
