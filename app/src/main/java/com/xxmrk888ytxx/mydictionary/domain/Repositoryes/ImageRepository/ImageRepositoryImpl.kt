@@ -5,6 +5,7 @@ import android.content.ContextWrapper
 import android.util.Log
 import androidx.core.net.toUri
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
+import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class ImageRepositoryImpl @Inject constructor(
     private val logger: Logger,
-    private val context: Context
+    private val context: Context,
+    private val copyFileUseCase: CopyFileUseCase
 ) : ImageRepository {
 
 
@@ -25,36 +27,12 @@ class ImageRepositoryImpl @Inject constructor(
 
         val outputFile = File(imageDir,System.currentTimeMillis().toString())
 
-        var outputStream: BufferedOutputStream? = null
-        var inputStream: BufferedInputStream? = null
+        val result = copyFileUseCase.execute(
+            imagePath.toUri(),
+            outputFile.toUri()
+        )
 
-        return@withContext try {
-            val buffer = ByteArray(5000)
-            outputStream = BufferedOutputStream(FileOutputStream(outputFile))
-            inputStream = BufferedInputStream(context.contentResolver.openInputStream(imagePath.toUri()))
-
-            var readerBytes = inputStream.read(buffer)
-
-            while (readerBytes != -1) {
-                outputStream.write(buffer)
-                readerBytes = inputStream.read(buffer)
-            }
-
-            logger.info("export image successful", LOG_TAG)
-
-            outputFile.absolutePath
-        }catch (e:Exception) {
-            logger.error(e, LOG_TAG)
-            null
-        } finally {
-            withContext(NonCancellable) {
-                outputStream?.close()
-                inputStream?.close()
-
-                outputStream = null
-                inputStream = null
-            }
-        }
+        return@withContext if(result.isSuccess) outputFile.absolutePath else null
     }
 
     override suspend fun removeImage(imagePath: String) : Unit = withContext(Dispatchers.IO) {
