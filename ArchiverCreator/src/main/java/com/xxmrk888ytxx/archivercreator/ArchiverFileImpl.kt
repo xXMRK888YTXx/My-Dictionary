@@ -22,6 +22,9 @@ internal class ArchiverFileImpl(
         zipFile.extractAll(file.absolutePath)
     }
 
+    override val innerFilesName: List<String>
+        get() = zipFile.fileHeaders.map { it.fileName }
+
     override fun close() {
         zipFile.close()
     }

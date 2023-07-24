@@ -13,5 +13,7 @@ abstract class ArchiverFile(
 
     abstract suspend fun extractTo(file: File)
 
+    abstract val innerFilesName:List<String>
+
 
 }
