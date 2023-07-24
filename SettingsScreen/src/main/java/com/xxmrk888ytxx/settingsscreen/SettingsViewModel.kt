@@ -38,7 +38,7 @@ class SettingsViewModel @Inject constructor(
             }
 
             is LocalUiEvent.OpenRestoreBackupScreenEvent -> {
-
+                event.navigator.toRestoreBackupScreen()
             }
         }
     }

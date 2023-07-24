@@ -70,6 +70,7 @@ dependencies {
     implementation(project(Project.CreateBackupScreen))
     implementation(project(Project.ArchiverCreator))
     implementation(project(Project.BackupConverter))
+    implementation(project(Project.RestoreBackupScreen))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)

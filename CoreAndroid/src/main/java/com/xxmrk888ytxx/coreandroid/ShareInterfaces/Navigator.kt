@@ -15,4 +15,6 @@ interface Navigator {
     fun toWordByEarTraining()
 
     fun toCreateBackupScreen()
+
+    fun toRestoreBackupScreen()
 }

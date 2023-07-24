@@ -26,6 +26,8 @@ import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
 import com.xxmrk888ytxx.mydictionary.R
+import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupScreen
+import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
 import com.xxmrk888ytxx.settingsscreen.SettingsScreen
 import com.xxmrk888ytxx.settingsscreen.SettingsViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
@@ -78,6 +80,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var createBackupScreenModel: Provider<CreateBackupViewModel>
+
+    @Inject
+    lateinit var restoreBackupViewModel: Provider<RestoreBackupViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -303,6 +308,21 @@ class MainActivity : ComponentActivity() {
                         )
 
                         CreateBackupScreen(
+                            screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
+                    }
+
+                    composable(Screen.RestoreBackupScreen.route) {
+                        val viewModel = composeViewModel() {
+                            restoreBackupViewModel.get()
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        RestoreBackupScreen(
                             screenState = screenState,
                             onEvent = viewModel::handleEvent
                         )

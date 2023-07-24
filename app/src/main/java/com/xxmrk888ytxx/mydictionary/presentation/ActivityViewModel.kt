@@ -60,6 +60,10 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.CreateBackupScreen)
     }
 
+    override fun toRestoreBackupScreen() {
+        navigate(Screen.RestoreBackupScreen)
+    }
+
 
     private fun navigate(screen:Screen) {
         navController?.navigate(screen.route) {
