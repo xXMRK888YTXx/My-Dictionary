@@ -10,6 +10,8 @@ interface BackupExportConverter {
 
     suspend fun wordGroupToJsonString(wordGroupBackupModel: WordGroupBackupModel) : String
 
+    suspend fun getJsonHeader() : String
+
     companion object {
         fun create(logger: Logger) : BackupExportConverter {
             return BackupExportConverterImpl(logger)

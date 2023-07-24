@@ -9,6 +9,9 @@ import com.xxmrk888ytxx.backupconverter.models.LanguagesBackupModel
 import com.xxmrk888ytxx.backupconverter.models.PhrasesBackupModel
 import com.xxmrk888ytxx.backupconverter.models.WordBackupModel
 import com.xxmrk888ytxx.backupconverter.models.WordGroupBackupModel
+import com.xxmrk888ytxx.coreandroid.Const.BACKUP_FILE_NAME
+import com.xxmrk888ytxx.coreandroid.Const.BACKUP_LANGUAGE_FILE_NAME
+import com.xxmrk888ytxx.coreandroid.Const.HEADER_FILE_NAME
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCase
@@ -55,33 +58,50 @@ class CreateBackupUseCaseImpl @Inject constructor(
 
     override suspend fun execute(backupWordGroups: Set<WordGroupModel>, fileUri: Uri): Result<Unit> = withContext(Dispatchers.IO) {
         try {
+            //Collect languages
             val languageMap = getLanguageMap(languageRepository.languageFlow.first())
+            //
 
+            //Collect words
             val backupWordGroupsModels = backupWordGroups.map {
                 collectInfoForWordGroupBackupModel(it) { id -> languageMap[id]!!.backupId }
             }.map { it.await() }
+            //
 
+            //Creating backup dir
             val backupDir = provideCreateBackupDir()
 
             val backupFile = archiverCreator.createArchiver(File(backupDir,"output"))
 
-            val languageFile = File(backupDir,"languages.json")
+            val languageFile = File(backupDir,BACKUP_LANGUAGE_FILE_NAME)
+            //
 
+            //Write languages
             val writeLanguageJob = launch { writeLanguages(languageFile,languageMap.map { it.value }) }
+            //
 
+            //Write groups of words
             backupWordGroupsModels.forEachIndexed { index, wordGroupBackupModel ->
-                val wordGroupBackupFolder = File(backupDir,index.toString())
+                val wordGroupBackupFolder = File(backupDir,"${index}_${wordGroupBackupModel.name}")
 
                 wordGroupBackupFolder.mkdir()
 
-                val backupDataFile = File(wordGroupBackupFolder,"backupData.json")
+                val backupDataFile = File(wordGroupBackupFolder,BACKUP_FILE_NAME)
 
                 fileWriterUseCase.toFile(
                     backupDataFile,
                     backupExportConverter.wordGroupToJsonString(wordGroupBackupModel).toByteArray()
                 )
             }
+            //
 
+            //Create header
+            val headerFile = File(backupDir, HEADER_FILE_NAME)
+
+            fileWriterUseCase.toFile(headerFile,backupExportConverter.getJsonHeader().toByteArray())
+            //
+
+            //Adding files in archive
             writeLanguageJob.join()
 
             val fileFilter = FileFilter { pathname -> pathname?.name != backupFile.fileLocation.name }
@@ -91,11 +111,15 @@ class CreateBackupUseCaseImpl @Inject constructor(
             }
 
             backupFile.close()
+            //
 
+
+            //Copy backup files in external storage
             copyFileUseCase.execute(
                 backupFile.fileLocation.toUri(),
                 fileUri
             )
+            //
 
             Result.success(Unit)
         }catch (e:Throwable) {
