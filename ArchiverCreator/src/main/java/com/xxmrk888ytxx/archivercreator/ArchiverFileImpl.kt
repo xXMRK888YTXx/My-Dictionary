@@ -21,4 +21,8 @@ internal class ArchiverFileImpl(
     override suspend fun extractTo(file: File) {
         zipFile.extractAll(file.absolutePath)
     }
+
+    override fun close() {
+        zipFile.close()
+    }
 }

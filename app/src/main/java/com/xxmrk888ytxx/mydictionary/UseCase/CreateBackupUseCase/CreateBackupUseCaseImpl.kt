@@ -90,6 +90,8 @@ class CreateBackupUseCaseImpl @Inject constructor(
                 backupFile.addFile(it)
             }
 
+            backupFile.close()
+
             copyFileUseCase.execute(
                 backupFile.fileLocation.toUri(),
                 fileUri
