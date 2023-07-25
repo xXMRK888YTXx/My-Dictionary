@@ -15,8 +15,8 @@ class LanguageRepositoryImpl @Inject constructor(
         list.map { it.toModel() }
     }
 
-    override suspend fun insertLanguage(language: LanguageModel) {
-        languageLocalDataSource.insertLanguage(language.toLocalDataModel())
+    override suspend fun insertLanguage(language: LanguageModel) : Int {
+        return languageLocalDataSource.insertLanguage(language.toLocalDataModel())
     }
 
     override suspend fun removeLanguage(id: Int) {

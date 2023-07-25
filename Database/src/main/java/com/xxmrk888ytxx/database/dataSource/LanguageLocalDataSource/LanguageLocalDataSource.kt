@@ -7,7 +7,7 @@ interface LanguageLocalDataSource {
 
     val languageFlow: Flow<List<LanguageLocalModel>>
 
-    suspend fun insertLanguage(language: LanguageLocalModel)
+    suspend fun insertLanguage(language: LanguageLocalModel) : Int
 
     suspend fun removeLanguage(id:Int)
 }

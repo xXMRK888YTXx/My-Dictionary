@@ -17,6 +17,8 @@ internal class LanguageLocalDataSourceImpl(
 
     override suspend fun insertLanguage(language: LanguageLocalModel) = withContext(Dispatchers.IO) {
         languageDao.insertLanguage(language.toLanguageEntity())
+
+        languageDao.getLastId()
     }
 
     override suspend fun removeLanguage(id: Int) = withContext(Dispatchers.IO) {

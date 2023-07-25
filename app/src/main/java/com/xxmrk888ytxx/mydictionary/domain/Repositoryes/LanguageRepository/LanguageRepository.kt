@@ -8,7 +8,7 @@ interface LanguageRepository {
 
     val languageFlow: Flow<List<LanguageModel>>
 
-    suspend fun insertLanguage(language: LanguageModel)
+    suspend fun insertLanguage(language: LanguageModel) : Int
 
     suspend fun removeLanguage(id:Int)
 }

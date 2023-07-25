@@ -18,4 +18,7 @@ internal interface LanguageDao {
 
     @Query("DELETE FROM LANGUAGES WHERE id = :id")
     suspend fun removeLanguage(id:Int)
+
+    @Query("SELECT MAX(id) FROM LANGUAGES")
+    suspend fun getLastId(): Int
 }
