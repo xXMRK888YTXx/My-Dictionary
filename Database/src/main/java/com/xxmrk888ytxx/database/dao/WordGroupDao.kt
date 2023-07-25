@@ -23,4 +23,7 @@ internal interface WordGroupDao {
 
     @Query("SELECT MAX(id) FROM WORDGROUPS")
     suspend fun getLastId(): Int
+
+    @Query("UPDATE WORDGROUPS SET imageUrl = :imagePath WHERE id = :id")
+    suspend fun updateImage(id:Int,imagePath:String?)
 }

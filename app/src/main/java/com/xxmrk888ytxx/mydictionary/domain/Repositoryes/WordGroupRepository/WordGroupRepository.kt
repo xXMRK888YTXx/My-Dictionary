@@ -13,4 +13,6 @@ interface WordGroupRepository {
     suspend fun insertWordGroup(wordGroupModel: WordGroupModel) : Int
 
     suspend fun removeWordGroup(id:Int)
+
+    suspend fun updateImage(id:Int,imagePath:String?)
 }

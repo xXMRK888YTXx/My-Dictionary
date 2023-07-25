@@ -15,4 +15,6 @@ interface WordGroupLocalDataSource {
     suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel) : Int
 
     suspend fun removeWordGroup(id:Int)
+
+    suspend fun updateImage(id:Int,imagePath:String?)
 }

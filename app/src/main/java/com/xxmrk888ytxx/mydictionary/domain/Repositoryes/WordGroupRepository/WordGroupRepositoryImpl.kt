@@ -28,6 +28,10 @@ class WordGroupRepositoryImpl @Inject constructor(
         wordGroupLocalDataSource.removeWordGroup(id)
     }
 
+    override suspend fun updateImage(id: Int, imagePath: String?) {
+        wordGroupLocalDataSource.updateImage(id, imagePath)
+    }
+
     private fun WordGroupLocalModel.toModel(): WordGroupModel {
         return WordGroupModel(
             id,

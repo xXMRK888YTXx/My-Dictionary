@@ -35,6 +35,10 @@ internal class WordGroupLocalDataSourceImpl(
         wordGroupDao.removeWordGroup(id)
     }
 
+    override suspend fun updateImage(id: Int, imagePath: String?) = withContext(Dispatchers.IO) {
+        wordGroupDao.updateImage(id, imagePath)
+    }
+
     private fun WordGroupLocalModel.toEntity(): WordGroupEntity {
         return WordGroupEntity(id, name, primaryLanguageId, secondaryLanguageId, imageUrl)
     }
