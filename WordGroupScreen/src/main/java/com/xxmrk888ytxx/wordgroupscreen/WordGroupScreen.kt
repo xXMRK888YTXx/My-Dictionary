@@ -2,21 +2,20 @@ package com.xxmrk888ytxx.wordgroupscreen
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,21 +24,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
@@ -52,7 +47,6 @@ import com.xxmrk888ytxx.wordgroupscreen.models.WordGroup
 import com.xxmrk888ytxx.wordgroupscreen.models.WordGroupDialogOptionState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import okhttp3.internal.notifyAll
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +54,11 @@ fun WordGroupScreen(
     screenState: ScreenState,
     onEvent: (UiEvent) -> Unit,
 ) {
+
+    val selectImageContract = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { onEvent(LocalUiEvent.OnImagePickedEvent(it)) }
+    )
 
     val navigator = LocalNavigator.current
 
@@ -92,8 +91,13 @@ fun WordGroupScreen(
                 WordListState(
                     onEvent,
                     screenState.wordList,
-                    onShowOptionDialog = { wordGroupId ->
-                        onEvent(LocalUiEvent.ShowWordGroupDialogOptionState(wordGroupId))
+                    onShowOptionDialog = { wordGroupId, isHaveImage ->
+                        onEvent(
+                            LocalUiEvent.ShowWordGroupDialogOptionState(
+                                wordGroupId,
+                                isHaveImage
+                            )
+                        )
                     }
                 )
             }
@@ -103,10 +107,18 @@ fun WordGroupScreen(
 
     if (screenState.wordGroupDialogOptionState is WordGroupDialogOptionState.Showed) {
         WordGroupDialogOption(
+            isHaveImage = screenState.wordGroupDialogOptionState.isHaveImage,
             onDismiss = { onEvent(LocalUiEvent.HideWordGroupDialogOption) },
             onRemoveWordGroup = {
                 onEvent(LocalUiEvent.RemoveWordGroupEvent(screenState.wordGroupDialogOptionState.wordGroupId))
                 onEvent(LocalUiEvent.HideWordGroupDialogOption)
+            },
+            onRemoveImage = {
+                onEvent(LocalUiEvent.RemoveImageEvent(screenState.wordGroupDialogOptionState.wordGroupId))
+                onEvent(LocalUiEvent.HideWordGroupDialogOption)
+            },
+            onAttachImage = {
+                onEvent(LocalUiEvent.AttachImageRequest(selectImageContract))
             }
         )
     }
@@ -117,7 +129,7 @@ fun WordGroupScreen(
 fun WordListState(
     onEvent: (UiEvent) -> Unit,
     wordList: ImmutableList<WordGroup>,
-    onShowOptionDialog:(Int) -> Unit
+    onShowOptionDialog: (Int, Boolean) -> Unit,
 ) {
     val navigator = LocalNavigator.current
 
@@ -129,9 +141,8 @@ fun WordListState(
                     .padding(16.dp)
                     .combinedClickable(
                         onClick = { onEvent(LocalUiEvent.OpenWordGroupEvent(navigator, it)) },
-                        onLongClick = { onShowOptionDialog(it.id) }
-                    )
-                ,
+                        onLongClick = { onShowOptionDialog(it.id, it.imageUrl != null) }
+                    ),
             ) {
                 Column(
                     Modifier
@@ -170,9 +181,33 @@ fun WordListState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WordGroupDialogOption(
+    isHaveImage: Boolean,
     onDismiss: () -> Unit,
     onRemoveWordGroup: () -> Unit,
+    onRemoveImage: () -> Unit,
+    onAttachImage:() -> Unit
 ) {
+
+    val context = LocalContext.current
+
+    val imageItem = remember(isHaveImage) {
+
+        if(isHaveImage) {
+            BottomSheetDialogItem(
+                text = context.getString(R.string.remove_image),
+                icon = R.drawable.baseline_hide_image_24,
+                onClick = onRemoveImage
+            )
+        } else {
+            BottomSheetDialogItem(
+                text = context.getString(R.string.attach_image),
+                icon = R.drawable.baseline_image_24,
+                onClick = onAttachImage
+            )
+        }
+    }
+
+
     BottomSheetDialog(
         onDismiss = onDismiss,
         items = persistentListOf(
@@ -180,7 +215,9 @@ fun WordGroupDialogOption(
                 text = stringResource(id = R.string.remove),
                 icon = R.drawable.baseline_delete_outline_24,
                 onClick = onRemoveWordGroup
-            )
+            ),
+            imageItem,
+
         )
     )
 }

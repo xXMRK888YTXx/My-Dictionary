@@ -1,10 +1,14 @@
 package com.xxmrk888ytxx.wordgroupscreen
 
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.wordgroupscreen.contract.AttachImageContract
 import com.xxmrk888ytxx.wordgroupscreen.contract.ProvideWordGroupContract
+import com.xxmrk888ytxx.wordgroupscreen.contract.RemoveImageContract
 import com.xxmrk888ytxx.wordgroupscreen.contract.RemoveWordGroupContract
 import com.xxmrk888ytxx.wordgroupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordgroupscreen.models.ScreenState
@@ -17,11 +21,14 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class WordGroupViewModel @Inject constructor(
     private val provideWordGroupContract: ProvideWordGroupContract,
-    private val removeWordGroupContract: RemoveWordGroupContract
+    private val removeWordGroupContract: RemoveWordGroupContract,
+    private val removeImageContract: RemoveImageContract,
+    private val attachImageContract: AttachImageContract
 ) : ViewModel(),UiModel<ScreenState> {
 
 
@@ -51,7 +58,28 @@ class WordGroupViewModel @Inject constructor(
             }
 
             is LocalUiEvent.ShowWordGroupDialogOptionState -> {
-                wordGroupDialogOptionStateFlow.update { WordGroupDialogOptionState.Showed(event.wordGroupId) }
+                wordGroupDialogOptionStateFlow.update { WordGroupDialogOptionState.Showed(event.wordGroupId,event.isHaveImage) }
+            }
+
+            is LocalUiEvent.RemoveImageEvent -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    removeImageContract.removeImage(event.wordGroupId)
+                }
+            }
+
+            is LocalUiEvent.AttachImageRequest -> {
+                event.selectImageContract.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+
+            is LocalUiEvent.OnImagePickedEvent -> {
+                if(event.uri == null) return
+                val wordGroupId = (wordGroupDialogOptionStateFlow.value as? WordGroupDialogOptionState.Showed)?.wordGroupId ?: return
+
+                handleEvent(LocalUiEvent.HideWordGroupDialogOption)
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    attachImageContract.attachImage(wordGroupId,event.uri)
+                }
             }
         }
     }

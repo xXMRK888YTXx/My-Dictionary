@@ -54,6 +54,7 @@ fun BottomSheetDialog(
                             horizontalArrangement = Arrangement.spacedBy(16.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .padding(10.dp)
                                 .clickable(
                                     onClick = it.onClick
                                 )
