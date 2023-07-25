@@ -27,6 +27,8 @@ internal class WordGroupLocalDataSourceImpl(
     override suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel) =
         withContext(Dispatchers.IO) {
             wordGroupDao.insertWordGroup(wordGroupLocalModel.toEntity())
+
+            wordGroupDao.getLastId()
         }
 
     override suspend fun removeWordGroup(id: Int) = withContext(Dispatchers.IO) {

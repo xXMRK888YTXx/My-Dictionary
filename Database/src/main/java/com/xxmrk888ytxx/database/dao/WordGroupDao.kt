@@ -20,4 +20,7 @@ internal interface WordGroupDao {
 
     @Query("DELETE FROM WORDGROUPS WHERE id = :id")
     suspend fun removeWordGroup(id:Int)
+
+    @Query("SELECT MAX(id) FROM WORDGROUPS")
+    suspend fun getLastId(): Int
 }

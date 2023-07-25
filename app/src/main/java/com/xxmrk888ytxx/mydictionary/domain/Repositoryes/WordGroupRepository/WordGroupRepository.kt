@@ -10,7 +10,7 @@ interface WordGroupRepository {
 
     fun getWordGroupById(wordGroupId:Int) : Flow<WordGroupModel>
 
-    suspend fun insertWordGroup(wordGroupModel: WordGroupModel)
+    suspend fun insertWordGroup(wordGroupModel: WordGroupModel) : Int
 
     suspend fun removeWordGroup(id:Int)
 }

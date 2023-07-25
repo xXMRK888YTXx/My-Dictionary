@@ -12,7 +12,7 @@ interface WordGroupLocalDataSource {
 
     fun getWordGroupById(wordGroupId:Int) : Flow<WordGroupLocalModel>
 
-    suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel)
+    suspend fun insertWordGroup(wordGroupLocalModel: WordGroupLocalModel) : Int
 
     suspend fun removeWordGroup(id:Int)
 }

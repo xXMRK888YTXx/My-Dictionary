@@ -20,7 +20,7 @@ class WordGroupRepositoryImpl @Inject constructor(
     override fun getWordGroupById(wordGroupId: Int): Flow<WordGroupModel> =
         wordGroupLocalDataSource.getWordGroupById(wordGroupId).map { it.toModel() }
 
-    override suspend fun insertWordGroup(wordGroupModel: WordGroupModel) {
+    override suspend fun insertWordGroup(wordGroupModel: WordGroupModel) : Int {
         return wordGroupLocalDataSource.insertWordGroup(wordGroupModel.toDataSourceModel())
     }
 
