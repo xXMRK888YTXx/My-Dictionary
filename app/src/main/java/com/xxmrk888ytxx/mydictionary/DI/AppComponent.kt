@@ -11,6 +11,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.LanguageIndicatorModule
+import com.xxmrk888ytxx.mydictionary.DI.module.RestoreBackupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.SettingsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.UseCaseModule
@@ -39,7 +40,8 @@ import dagger.Component
         WordByEarTrainingScreenModule::class,
         CreateBackupScreenModule::class,
         ArchiverCreatorModule::class,
-        BackupConverterModule::class
+        BackupConverterModule::class,
+        RestoreBackupScreenModule::class
     ]
 )
 @AppScope

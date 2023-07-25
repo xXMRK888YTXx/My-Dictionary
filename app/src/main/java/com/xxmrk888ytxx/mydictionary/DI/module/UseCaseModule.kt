@@ -10,6 +10,10 @@ import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.ReadFileUseCase.ReadFileUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.ReadFileUseCase.ReadFileUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.RestoreBackupUseCase.RestoreBackupUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.RestoreBackupUseCase.RestoreBackupUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.TextToSpeechUseCase.TextToSpeechUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.TextToSpeechUseCase.TextToSpeechUseCaseImpl
 import dagger.Binds
@@ -47,4 +51,14 @@ interface UseCaseModule {
     fun bindCopyFileUseCase(
         CopyFileUseCaseImpl: CopyFileUseCaseImpl
     ) : CopyFileUseCase
+
+    @Binds
+    fun bindRestoreBackupUseCase(
+        RestoreBackupUseCaseImpl: RestoreBackupUseCaseImpl
+    ) : RestoreBackupUseCase
+
+    @Binds
+    fun bindReadFileUseCase(
+        ReadFileUseCaseImpl: ReadFileUseCaseImpl
+    ) : ReadFileUseCase
 }

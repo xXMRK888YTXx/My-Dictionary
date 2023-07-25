@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="backup_is_restored">Backup is restored</string>
+    <string name="backup_file_is_damaged">Backup file is damaged</string>
+    <string name="selected_file_is_not_backup">Selected file is not backup</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="please_wait">Please,wait</string>
+    <string name="select_backup_file_for_restore">Select backup file for restore</string>
+    <string name="select_file">Select file</string>
+</resources>
