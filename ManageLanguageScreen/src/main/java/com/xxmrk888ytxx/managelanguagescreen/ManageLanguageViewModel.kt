@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.managelanguagescreen
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class ManageLanguageViewModel @Inject constructor(
     private val provideLanguageContract: ProvideLanguageContract,
     private val removeLanguageContract: RemoveLanguageContract,
-    private val createNewLanguageContract: CreateNewLanguageContract
+    private val createNewLanguageContract: CreateNewLanguageContract,
+    private val context: Context
 ) : ViewModel(), UiModel<ScreenState> {
 
     private val createLanguageDialogState: MutableStateFlow<CreateLanguageDialogState> =
@@ -44,9 +46,9 @@ class ManageLanguageViewModel @Inject constructor(
 
                     event.uiScope.launch {
                         val text = if(isSuccess)
-                            "Language successfully deleted"
+                            context.getString(R.string.language_successfully_deleted)
                         else
-                            "The language cannot be deleted. It is used in another group of words"
+                            context.getString(R.string.the_language_cannot_be_deleted_it_is_used_in_another_group_of_words)
 
                         event.snackbarHostState.showSnackbar(text)
                     }

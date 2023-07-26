@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_list">Language list</string>
+    <string name="you_don_t_have_any_languages_added">You don\'t have any languages added</string>
+    <string name="language_successfully_deleted">Language successfully deleted</string>
+    <string name="the_language_cannot_be_deleted_it_is_used_in_another_group_of_words">The language cannot be deleted. It is used in another group of words</string>
+</resources>

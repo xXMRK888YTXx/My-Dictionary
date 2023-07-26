@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
@@ -60,7 +61,7 @@ fun ManageLanguageScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Language list")
+                    Text(text = stringResource(R.string.language_list))
                 },
                 navigationIcon = {
                     BackNavigationButton {
@@ -126,7 +127,7 @@ fun ManageLanguageScreen(
             } else {
                 item {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(text = "You don't have any languages added")
+                        Text(text = stringResource(R.string.you_don_t_have_any_languages_added))
                     }
                 }
             }
