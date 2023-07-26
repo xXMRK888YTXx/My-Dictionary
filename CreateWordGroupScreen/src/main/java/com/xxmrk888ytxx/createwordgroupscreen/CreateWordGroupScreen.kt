@@ -75,6 +75,7 @@ import com.xxmrk888ytxx.createwordgroupscreen.models.Pages
 import com.xxmrk888ytxx.createwordgroupscreen.models.ScreenState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.CreateNewLanguageDialog
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -535,65 +536,6 @@ fun EnterGroupNameState(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun CreateNewLanguageDialog(
-    onHideDialog: () -> Unit,
-    newLanguageText: String,
-    onNewLanguageTextInputted: (String) -> Unit,
-    onNewLanguageCreated: () -> Unit,
-    isAddingInProcess: Boolean,
-) {
-    AlertDialog(onDismissRequest = onHideDialog) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.large,
-            tonalElevation = AlertDialogDefaults.TonalElevation
-        ) {
-            Column(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-
-                Text(text = stringResource(R.string.input_language_name), style = MaterialTheme.typography.titleLarge)
-
-                OutlinedTextField(
-                    value = newLanguageText,
-                    onValueChange = onNewLanguageTextInputted,
-                    label = { Text(text = stringResource(R.string.language_name)) },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = !isAddingInProcess
-                )
-
-                Row(
-                    Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)
-                ) {
-
-                    if (!isAddingInProcess) {
-                        TextButton(onClick = onHideDialog) {
-                            Text(text = stringResource(R.string.cancel))
-                        }
-
-                        TextButton(
-                            onClick = onNewLanguageCreated,
-                            enabled = newLanguageText.isNotEmpty()
-                        ) {
-                            Text(text = stringResource(R.string.add))
-                        }
-                    } else {
-                        LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                    }
-                }
-
-
-            }
-        }
-    }
-}
 
 //Preview
 

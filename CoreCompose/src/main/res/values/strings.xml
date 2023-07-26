@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="input_language_name">Enter a name of language</string>
+    <string name="language_name">Language name</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+</resources>
