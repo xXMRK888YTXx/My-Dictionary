@@ -5,5 +5,6 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class ScreenState(
     val languageList:ImmutableList<Language> = persistentListOf(),
-    val createDialogState:CreateLanguageDialogState = CreateLanguageDialogState.Hidden
+    val createLanguageDialogState:CreateLanguageDialogState = CreateLanguageDialogState.Hidden,
+    val isRemovingInProcess:Boolean = false
 )

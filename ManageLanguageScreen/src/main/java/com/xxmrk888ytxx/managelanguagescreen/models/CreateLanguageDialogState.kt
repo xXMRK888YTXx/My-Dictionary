@@ -5,6 +5,7 @@ sealed class CreateLanguageDialogState {
     object Hidden : CreateLanguageDialogState()
 
     data class Showed(
-        val languageName:String = ""
+        val languageName:String = "",
+        val isAddingInProcess:Boolean = false
     ) : CreateLanguageDialogState()
 }
