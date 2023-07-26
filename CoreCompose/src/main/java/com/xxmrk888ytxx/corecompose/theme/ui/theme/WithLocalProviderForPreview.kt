@@ -42,6 +42,10 @@ fun WithLocalProviderForPreview(content: @Composable () -> Unit) {
 
             }
 
+            override fun toLanguageManageScreen() {
+
+            }
+
         }
     }
 

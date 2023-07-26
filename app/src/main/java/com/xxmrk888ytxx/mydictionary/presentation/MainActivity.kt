@@ -25,6 +25,9 @@ import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
+import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageScreen
+import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
+import com.xxmrk888ytxx.managelanguagescreen.models.CreateLanguageDialogState
 import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupScreen
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
@@ -83,6 +86,9 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var restoreBackupViewModel: Provider<RestoreBackupViewModel>
+
+    @Inject
+    lateinit var manageLanguageDialogState: Provider<ManageLanguageViewModel>
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -324,6 +330,21 @@ class MainActivity : ComponentActivity() {
 
                         RestoreBackupScreen(
                             screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
+                    }
+
+                    composable(Screen.ManageLanguageScreen.route) {
+                        val viewModel = composeViewModel {
+                            manageLanguageDialogState.get()
+                        }
+
+                        val state by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        ManageLanguageScreen(
+                            screenState = state,
                             onEvent = viewModel::handleEvent
                         )
                     }

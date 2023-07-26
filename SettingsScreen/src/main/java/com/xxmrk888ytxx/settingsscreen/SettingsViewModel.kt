@@ -40,6 +40,10 @@ class SettingsViewModel @Inject constructor(
             is LocalUiEvent.OpenRestoreBackupScreenEvent -> {
                 event.navigator.toRestoreBackupScreen()
             }
+
+            is LocalUiEvent.OpenLanguageManageScreen -> {
+                event.navigator.toLanguageManageScreen()
+            }
         }
     }
 

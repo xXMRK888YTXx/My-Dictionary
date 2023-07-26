@@ -64,8 +64,12 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.RestoreBackupScreen)
     }
 
+    override fun toLanguageManageScreen() {
+        navigate(Screen.ManageLanguageScreen)
+    }
 
-    private fun navigate(screen:Screen) {
+
+    private fun navigate(screen:Screen) = runOnUiThread {
         navController?.navigate(screen.route) {
             launchSingleTop = true
         }

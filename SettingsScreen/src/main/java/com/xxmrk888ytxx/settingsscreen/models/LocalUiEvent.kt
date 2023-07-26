@@ -8,6 +8,8 @@ sealed class LocalUiEvent : UiEvent {
 
     class OpenRestoreBackupScreenEvent(val navigator: Navigator) : LocalUiEvent()
 
+    class OpenLanguageManageScreen(val navigator: Navigator) : LocalUiEvent()
+
     object OpenSourceCodeEvent : LocalUiEvent()
 
     object WriteToDeveloperEvent : LocalUiEvent()

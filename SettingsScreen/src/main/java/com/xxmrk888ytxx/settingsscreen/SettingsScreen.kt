@@ -54,6 +54,12 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
+
+            languageConfiguration(
+                context = context,
+                onOpenLanguageConfigurationScreen = { onEvent(LocalUiEvent.OpenLanguageManageScreen(navigator)) }
+            )
+
             backupCategory(
                 onOpenCreateBackupScreen = { onEvent(LocalUiEvent.OpenCreateBackupScreenEvent(navigator)) },
                 onOpenRestoreBackupScreen = { onEvent(LocalUiEvent.OpenRestoreBackupScreenEvent(navigator)) },

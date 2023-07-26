@@ -2,6 +2,7 @@ package com.xxmrk888ytxx.settingsscreen
 
 import android.content.Context
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 
@@ -70,6 +71,23 @@ internal fun LazyListScope.backupCategory(
                     onClick = onOpenRestoreBackupScreen
                 )
             },
+        )
+    )
+}
+
+internal fun LazyListScope.languageConfiguration(
+    onOpenLanguageConfigurationScreen:() -> Unit,
+    context: Context
+) {
+    settingsCategory(
+        title = context.getString(R.string.languages),
+        contents = persistentListOf(
+            {
+                ButtonItem(
+                    text = stringResource(R.string.manage_languages),
+                    onClick = onOpenLanguageConfigurationScreen
+                )
+            }
         )
     )
 }

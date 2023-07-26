@@ -17,4 +17,6 @@ sealed class Screen(val route:String) {
     object CreateBackupScreen : Screen("CreateBackupScreen")
 
     object RestoreBackupScreen : Screen("RestoreBackupScreen")
+
+    object ManageLanguageScreen : Screen("ManageLanguageScreen")
 }

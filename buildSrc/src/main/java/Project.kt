@@ -19,4 +19,5 @@ object Project {
     const val ArchiverCreator = ":ArchiverCreator"
     const val BackupConverter = ":BackupConverter"
     const val RestoreBackupScreen = ":RestoreBackupScreen"
+    const val ManageLanguageScreen = ":ManageLanguageScreen"
 }

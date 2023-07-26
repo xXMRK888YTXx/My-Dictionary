@@ -10,4 +10,6 @@
     <string name="backup">Backup</string>
     <string name="create_backup">Create backup</string>
     <string name="restore_backup">Restore backup</string>
+    <string name="languages">Languages</string>
+    <string name="manage_languages">Manage languages</string>
 </resources>
