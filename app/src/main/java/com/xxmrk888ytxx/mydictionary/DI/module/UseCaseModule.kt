@@ -8,6 +8,10 @@ import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCas
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ReadFileUseCase.ReadFileUseCase
@@ -24,12 +28,12 @@ interface UseCaseModule {
 
     @Binds
     fun bindTextToSpeechUseCase(
-        TextToSpeechUseCaseImpl: TextToSpeechUseCaseImpl
+        textToSpeechUseCaseImpl: TextToSpeechUseCaseImpl
     ) : TextToSpeechUseCase
 
     @Binds
     fun bindGenerateQuestionForTrainingUseCase(
-        GenerateQuestionForTrainingUseCaseImpl: GenerateQuestionForTrainingUseCaseImpl
+        generateQuestionForTrainingUseCaseImpl: GenerateQuestionForTrainingUseCaseImpl
     ) : GenerateQuestionForTrainingUseCase
 
     @Binds
@@ -39,26 +43,36 @@ interface UseCaseModule {
 
     @Binds
     fun bindCreateBackupUseCase(
-        CreateBackupUseCaseImpl: CreateBackupUseCaseImpl
+        createBackupUseCaseImpl: CreateBackupUseCaseImpl
     ) : CreateBackupUseCase
 
     @Binds
     fun bindFileWriterUseCase(
-        FileWriterUseCaseImpl: FileWriterUseCaseImpl
+        fileWriterUseCaseImpl: FileWriterUseCaseImpl
     ) : FileWriterUseCase
 
     @Binds
     fun bindCopyFileUseCase(
-        CopyFileUseCaseImpl: CopyFileUseCaseImpl
+        copyFileUseCaseImpl: CopyFileUseCaseImpl
     ) : CopyFileUseCase
 
     @Binds
     fun bindRestoreBackupUseCase(
-        RestoreBackupUseCaseImpl: RestoreBackupUseCaseImpl
+        restoreBackupUseCaseImpl: RestoreBackupUseCaseImpl
     ) : RestoreBackupUseCase
 
     @Binds
     fun bindReadFileUseCase(
-        ReadFileUseCaseImpl: ReadFileUseCaseImpl
+        readFileUseCaseImpl: ReadFileUseCaseImpl
     ) : ReadFileUseCase
+
+    @Binds
+    fun bindOpenPrivacyPolicyUseCase(
+        openPrivacyPolicyUseCaseImpl:OpenPrivacyPolicyUseCaseImpl
+    ) : OpenPrivacyPolicyUseCase
+
+    @Binds
+    fun bindOpenTermsOfUseUseCase(
+        openTermsOfUseUseCaseImpl: OpenTermsOfUseUseCaseImpl
+    ) : OpenTermsOfUseUseCase
 }
