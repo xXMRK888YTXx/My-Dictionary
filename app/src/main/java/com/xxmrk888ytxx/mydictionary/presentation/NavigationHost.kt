@@ -8,11 +8,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalApplicationName
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
+import com.xxmrk888ytxx.mydictionary.R
 
 
 /**
@@ -34,8 +37,11 @@ fun NavigationHost(
     startDestination: String,
     builder: NavGraphBuilder.() -> Unit
 ) {
+    val applicationName = stringResource(id = R.string.app_name)
+
     CompositionLocalProvider(
-        LocalNavigator provides navigator
+        LocalNavigator provides navigator,
+        LocalApplicationName provides applicationName
     ) {
         NavHost(
             modifier = Modifier
