@@ -29,8 +29,8 @@ import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageScreen
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
-import com.xxmrk888ytxx.managelanguagescreen.models.CreateLanguageDialogState
 import com.xxmrk888ytxx.mydictionary.R
+import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupScreen
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
 import com.xxmrk888ytxx.settingsscreen.SettingsScreen
@@ -95,6 +95,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var featureViewViewModel: Provider<FeatureViewViewModel>
 
+    @Inject
+    lateinit var firstStartAppStateHolder: FirstStartAppStateHolder
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +108,11 @@ class MainActivity : ComponentActivity() {
         setContentWithTheme {
             val navController = rememberNavController()
 
+            val isFirstStart by firstStartAppStateHolder.isFirstAppStart.collectAsStateWithLifecycle(
+                initialValue = false
+            )
+
+
             LaunchedEffect(key1 = navController, block = {
                 activityViewModel.navController = navController
             })
@@ -113,7 +121,7 @@ class MainActivity : ComponentActivity() {
                 NavigationHost(
                     paddingValues = paddings,
                     navController = navController,
-                    startDestination = Screen.FeatureViewScreen.route,
+                    startDestination = getStartDestination(isFirstStart),
                     navigator = activityViewModel
                 ) {
                     composable(Screen.FeatureViewScreen.route) {
@@ -371,6 +379,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun getStartDestination(isFirstStart:Boolean) : String {
+        return if(isFirstStart) Screen.FeatureViewScreen.route else Screen.MainScreen.route
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
+import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
+import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepository
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.LanguageRepository.LanguageRepository
@@ -40,6 +42,11 @@ interface DomainModule {
 
     @Binds
     fun bindRestoreBackupStrategyProvider(
-        RestoreBackupStrategyProviderImpl: RestoreBackupStrategyProviderImpl
+        restoreBackupStrategyProviderImpl: RestoreBackupStrategyProviderImpl
     ) : RestoreBackupStrategyProvider
+
+    @Binds
+    fun bindFirstStartAppStateHolder(
+        firstStartAppStateHolderImpl: FirstStartAppStateHolderImpl
+    ) : FirstStartAppStateHolder
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.xxmrk888ytxx.androidcore.runOnUiThread
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
+import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.texttospeechmanager.TTSManager
 import javax.inject.Inject
 import javax.inject.Provider
