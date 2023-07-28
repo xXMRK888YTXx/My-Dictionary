@@ -13,6 +13,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.FeatureViewScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.LanguageIndicatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ManageLanguageScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.PreferencesStorageModule
 import com.xxmrk888ytxx.mydictionary.DI.module.RestoreBackupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.SettingsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
@@ -45,7 +46,8 @@ import dagger.Component
         BackupConverterModule::class,
         RestoreBackupScreenModule::class,
         ManageLanguageScreenModule::class,
-        FeatureViewScreenModule::class
+        FeatureViewScreenModule::class,
+        PreferencesStorageModule::class
     ]
 )
 @AppScope

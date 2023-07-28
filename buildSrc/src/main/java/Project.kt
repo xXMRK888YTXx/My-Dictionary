@@ -21,4 +21,5 @@ object Project {
     const val RestoreBackupScreen = ":RestoreBackupScreen"
     const val ManageLanguageScreen = ":ManageLanguageScreen"
     const val FeatureViewScreen = ":FeatureViewScreen"
+    const val PreferencesStorage = ":PreferencesStorage"
 }
