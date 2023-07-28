@@ -20,4 +20,5 @@ object Project {
     const val BackupConverter = ":BackupConverter"
     const val RestoreBackupScreen = ":RestoreBackupScreen"
     const val ManageLanguageScreen = ":ManageLanguageScreen"
+    const val FeatureViewScreen = ":FeatureViewScreen"
 }

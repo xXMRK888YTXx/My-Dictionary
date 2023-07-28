@@ -22,6 +22,8 @@ import com.xxmrk888ytxx.createbackupscreen.CreateBackupScreen
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupViewModel
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupScreen
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
+import com.xxmrk888ytxx.featureviewscreen.FeatureViewScreen
+import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
@@ -90,6 +92,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var manageLanguageDialogState: Provider<ManageLanguageViewModel>
 
+    @Inject
+    lateinit var featureViewViewModel: Provider<FeatureViewViewModel>
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,9 +113,24 @@ class MainActivity : ComponentActivity() {
                 NavigationHost(
                     paddingValues = paddings,
                     navController = navController,
-                    startDestination = Screen.MainScreen.route,
+                    startDestination = Screen.FeatureViewScreen.route,
                     navigator = activityViewModel
                 ) {
+                    composable(Screen.FeatureViewScreen.route) {
+                        val viewModel = composeViewModel {
+                            featureViewViewModel.get()
+                        }
+
+                        val screenState by viewModel.state.collectAsStateWithLifecycle(
+                            initialValue = viewModel.defValue
+                        )
+
+                        FeatureViewScreen(
+                            screenState = screenState,
+                            onEvent = viewModel::handleEvent
+                        )
+                    }
+
 
                     composable(Screen.MainScreen.route) {
 
