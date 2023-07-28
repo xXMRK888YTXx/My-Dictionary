@@ -68,6 +68,15 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.ManageLanguageScreen)
     }
 
+    override fun toMainScreen() = runOnUiThread {
+        navController?.navigate(Screen.MainScreen.route) {
+
+            popUpTo(Screen.FeatureViewScreen.route) { inclusive = true }
+
+            launchSingleTop = true
+        }
+    }
+
 
     private fun navigate(screen:Screen) = runOnUiThread {
         navController?.navigate(screen.route) {

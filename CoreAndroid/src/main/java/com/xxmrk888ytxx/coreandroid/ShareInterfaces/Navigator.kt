@@ -19,4 +19,6 @@ interface Navigator {
     fun toRestoreBackupScreen()
 
     fun toLanguageManageScreen()
+
+    fun toMainScreen()
 }

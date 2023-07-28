@@ -10,6 +10,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
+import com.xxmrk888ytxx.mydictionary.DI.module.FeatureViewScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.LanguageIndicatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ManageLanguageScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.RestoreBackupScreenModule
@@ -43,7 +44,8 @@ import dagger.Component
         ArchiverCreatorModule::class,
         BackupConverterModule::class,
         RestoreBackupScreenModule::class,
-        ManageLanguageScreenModule::class
+        ManageLanguageScreenModule::class,
+        FeatureViewScreenModule::class
     ]
 )
 @AppScope
