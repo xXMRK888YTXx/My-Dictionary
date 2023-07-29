@@ -2,6 +2,8 @@ plugins {
     id ("com.android.application")
     id ("org.jetbrains.kotlin.android")
     id (Deps.Dagger.DaggerKaptPlugin)
+    id (Deps.GoogleServices.gmsServicePlugin)
+    id (Deps.Firebase.crashlyticsPlugin)
 }
 
 android {
@@ -80,5 +82,10 @@ dependencies {
 
     //Navigation
     implementation(Deps.Compose.Navigation)
+
+    //Firebase
+    implementation(platform(Deps.Firebase.FirebaseBom))
+    implementation(Deps.Firebase.analytics)
+    implementation(Deps.Firebase.crashlytics)
 
 }
