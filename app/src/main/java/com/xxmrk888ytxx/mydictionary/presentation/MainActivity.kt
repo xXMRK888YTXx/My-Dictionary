@@ -91,6 +91,8 @@ class MainActivity : ComponentActivity() {
         activityViewModel.initAd()
         activityViewModel.initTTS()
 
+        activityViewModel.loadConsentForm(this)
+
         setContentWithThemeAndAdController(
             adController = adController
         ) {

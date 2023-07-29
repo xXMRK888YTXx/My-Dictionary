@@ -1,12 +1,15 @@
 package com.xxmrk888ytxx.mydictionary.presentation
 
 import android.app.Activity
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.xxmrk888ytxx.admobmanager.AdMobManager
+import com.xxmrk888ytxx.admobmanager.ConsentFormLoader
 import com.xxmrk888ytxx.androidcore.runOnUiThread
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
+import com.xxmrk888ytxx.mydictionary.BuildConfig
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.texttospeechmanager.TTSManager
 import javax.inject.Inject
@@ -18,6 +21,8 @@ class ActivityViewModel @Inject constructor(
 ) : ViewModel(),Navigator {
 
     var navController:NavController? = null
+
+    private var isConsentChecked:Boolean = false
 
     fun initTTS() {
         ttsManager.init()
@@ -94,6 +99,45 @@ class ActivityViewModel @Inject constructor(
 
     fun showInterstitialAd(key:String,activity: Activity) {
         adMobManager.showInterstitialAd(key, activity)
+    }
+
+    fun loadConsentForm(activity: Activity) {
+        if(isConsentChecked) return
+
+        isConsentChecked = true
+
+        val logTag = "ConsentFormLoader"
+
+        val loader = ConsentFormLoader.create(
+            activity,
+            BuildConfig.DEBUG,
+            true
+        )
+
+        loader.checkFormState(
+            onFormPrepared = {
+                Log.i(logTag, "onFormPrepared")
+
+                loader.loadAndShowForm(
+                    onSuccessLoad = {
+                        Log.i(logTag, "onSuccessLoad")
+                    },
+                    onLoadError = {
+                        Log.e(logTag, "onLoadError")
+
+                    },
+                    onDismissed = {
+                        Log.i(logTag, "onDismissed")
+                    }
+                )
+            },
+            onFormNotAvailable = {
+                Log.e(logTag, "onFormNotAvailable")
+            },
+            onError = {
+                Log.e(logTag, "onError")
+            }
+        )
     }
 
     @Suppress("UNCHECKED_CAST")
