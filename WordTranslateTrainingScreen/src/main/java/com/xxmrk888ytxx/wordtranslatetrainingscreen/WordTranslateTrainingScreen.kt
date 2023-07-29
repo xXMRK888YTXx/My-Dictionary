@@ -48,6 +48,7 @@ import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
@@ -69,6 +70,8 @@ fun WordTranslateTrainingScreen(
 
     val scope = rememberCoroutineScope()
 
+    val adController = LocalAdController.current
+
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
     ) {
@@ -79,54 +82,58 @@ fun WordTranslateTrainingScreen(
         Modifier
             .fillMaxSize(),
         bottomBar = {
-            when (screenState.screenType) {
-                ScreenType.CONFIGURATION -> {
-                    Button(
-                        onClick = { onEvent(LocalUiEvent.StartTrainingEvent) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        enabled = screenState.availableWordGroup.isNotEmpty()
-                                && screenState.trainingParams.selectedWordGroupsId.isNotEmpty()
-                                && screenState.trainingParams.questionCount != Int.MIN_VALUE
-                    ) {
-                        Text(text = stringResource(R.string.start))
-                    }
-                }
-
-                ScreenType.TRAINING -> {
-                    Button(
-                        onClick = {
-                            if(screenState.trainingProgress.checkResultState !is CheckResultState.None) {
-                                onEvent(LocalUiEvent.NextQuestion(pager, scope))
-                            } else {
-                                onEvent(LocalUiEvent.CheckQuestion)
-                            }
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        enabled = screenState.trainingProgress.currentAnswer.isNotEmpty()
-                    ) {
-                        if(screenState.trainingProgress.checkResultState is CheckResultState.None) {
-                            Text(text = stringResource(R.string.check_the_answer))
-                        } else {
-                            Text(text = stringResource(R.string.next))
+            Column {
+                when (screenState.screenType) {
+                    ScreenType.CONFIGURATION -> {
+                        Button(
+                            onClick = { onEvent(LocalUiEvent.StartTrainingEvent) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            enabled = screenState.availableWordGroup.isNotEmpty()
+                                    && screenState.trainingParams.selectedWordGroupsId.isNotEmpty()
+                                    && screenState.trainingParams.questionCount != Int.MIN_VALUE
+                        ) {
+                            Text(text = stringResource(R.string.start))
                         }
                     }
+
+                    ScreenType.TRAINING -> {
+                        Button(
+                            onClick = {
+                                if(screenState.trainingProgress.checkResultState !is CheckResultState.None) {
+                                    onEvent(LocalUiEvent.NextQuestion(pager, scope))
+                                } else {
+                                    onEvent(LocalUiEvent.CheckQuestion)
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            enabled = screenState.trainingProgress.currentAnswer.isNotEmpty()
+                        ) {
+                            if(screenState.trainingProgress.checkResultState is CheckResultState.None) {
+                                Text(text = stringResource(R.string.check_the_answer))
+                            } else {
+                                Text(text = stringResource(R.string.next))
+                            }
+                        }
+                    }
+
+                    ScreenType.RESULTS -> {
+                        Button(
+                            onClick = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                        ) {
+                            Text(text = stringResource(R.string.exit))
+                        }
+                    }
+                    ScreenType.LOADING -> {}
                 }
 
-                ScreenType.RESULTS -> {
-                    Button(
-                        onClick = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                    ) {
-                        Text(text = stringResource(R.string.exit))
-                    }
-                }
-                ScreenType.LOADING -> {}
+                adController.TrainingBanner()
             }
         },
         topBar = {

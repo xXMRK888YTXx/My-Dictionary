@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.wordgroupscreen.models
 
+import AdController
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -8,11 +9,15 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 
 sealed class LocalUiEvent : UiEvent {
 
-    class FloatButtonClickEvent(val navigator: Navigator) : LocalUiEvent()
+    class FloatButtonClickEvent(val navigator: Navigator,val adController: AdController) : LocalUiEvent()
 
-    class AddFirstWordGroupButtonClickEvent(val navigator: Navigator) : LocalUiEvent()
+    class AddFirstWordGroupButtonClickEvent(val navigator: Navigator,val adController: AdController) : LocalUiEvent()
 
-    class OpenWordGroupEvent(val navigator: Navigator, val wordGroup: WordGroup) : LocalUiEvent()
+    class OpenWordGroupEvent(
+        val navigator: Navigator,
+        val wordGroup: WordGroup,
+        val adController: AdController
+    ) : LocalUiEvent()
 
     object HideWordGroupDialogOption : LocalUiEvent()
 

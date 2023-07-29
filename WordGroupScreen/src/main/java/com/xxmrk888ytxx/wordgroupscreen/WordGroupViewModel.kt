@@ -40,10 +40,15 @@ class WordGroupViewModel @Inject constructor(
                val navigator = (event as? LocalUiEvent.FloatButtonClickEvent)?.navigator
                    ?: (event as? LocalUiEvent.AddFirstWordGroupButtonClickEvent)?.navigator ?: return
 
+               val adController = (event as? LocalUiEvent.FloatButtonClickEvent)?.adController
+                   ?: (event as? LocalUiEvent.AddFirstWordGroupButtonClickEvent)?.adController ?: return
+
+               adController.showWordGroupScreenToCreateWordGroupScreen()
                navigator.toCreateWordGroupScreen()
            }
 
             is LocalUiEvent.OpenWordGroupEvent -> {
+                event.adController.showWordGroupScreenToViewWordOfWordGroup()
                 event.navigator.toViewGroupWordsScreen(event.wordGroup.id)
             }
 

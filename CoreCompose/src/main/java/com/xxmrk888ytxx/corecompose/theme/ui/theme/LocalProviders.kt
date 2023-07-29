@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.corecompose.theme.ui.theme
 
+import AdController
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -21,4 +22,8 @@ val LocalSnackbarHostState = compositionLocalOf<SnackbarHostState> {
 
 val LocalApplicationName = staticCompositionLocalOf<String> {
     error("LocalApplicationName not provided")
+}
+
+val LocalAdController = compositionLocalOf<AdController> {
+    error("LocalAdController not provided")
 }

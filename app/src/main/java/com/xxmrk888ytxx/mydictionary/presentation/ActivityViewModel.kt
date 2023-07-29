@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.mydictionary.presentation
 
+import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -89,6 +90,10 @@ class ActivityViewModel @Inject constructor(
         navController?.navigate(screen.route) {
             launchSingleTop = true
         }
+    }
+
+    fun showInterstitialAd(key:String,activity: Activity) {
+        adMobManager.showInterstitialAd(key, activity)
     }
 
     @Suppress("UNCHECKED_CAST")

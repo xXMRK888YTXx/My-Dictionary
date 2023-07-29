@@ -15,10 +15,12 @@ class TrainingActionViewModel @Inject constructor(
 
         when(event) {
             is LocalUiEvent.OpenWordTranslateTraining -> {
+                event.adController.showMainScreenToTrainingScreenBanner()
                 event.navigator.toWordTranslateTraining()
             }
 
             is LocalUiEvent.OpenWordsByEarTraining -> {
+                event.adController.showMainScreenToTrainingScreenBanner()
                 event.navigator.toWordByEarTraining()
             }
         }

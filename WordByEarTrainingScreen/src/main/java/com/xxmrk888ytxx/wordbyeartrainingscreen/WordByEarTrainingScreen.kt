@@ -47,6 +47,7 @@ import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenState
@@ -63,6 +64,8 @@ fun WordByEarTrainingScreen(
     val pager = rememberPagerState()
 
     val scope = rememberCoroutineScope()
+
+    val adController = LocalAdController.current
 
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
@@ -87,23 +90,28 @@ fun WordByEarTrainingScreen(
             )
         },
         bottomBar = {
-            BottomBar(
-                screenType = screenState.screenType,
-                trainingProgress = screenState.trainingProgress,
-                isGroupSelected = screenState.availableWordGroup.isNotEmpty(),
-                trainingParams = screenState.trainingParams,
-                onStartTraining = { onEvent(LocalUiEvent.StartTrainingEvent) },
-                onCheckAnswer = { onEvent(LocalUiEvent.CheckAnswer) },
-                onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
-                onBackScreen = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) }
-            )
+
+            Column {
+                BottomBar(
+                    screenType = screenState.screenType,
+                    trainingProgress = screenState.trainingProgress,
+                    isGroupSelected = screenState.availableWordGroup.isNotEmpty(),
+                    trainingParams = screenState.trainingParams,
+                    onStartTraining = { onEvent(LocalUiEvent.StartTrainingEvent) },
+                    onCheckAnswer = { onEvent(LocalUiEvent.CheckAnswer) },
+                    onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
+                    onBackScreen = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) }
+                )
+
+                adController.TrainingBanner()
+            }
         }
     ) { paddings ->
         AnimatedContent(
             targetState = screenState.screenType,
             modifier = Modifier
                 .padding(10.dp)
-                .padding(paddings)
+                .padding(paddings), label = ""
         ) { screenType ->
             when (screenType) {
                 ScreenType.CONFIGURATION -> {

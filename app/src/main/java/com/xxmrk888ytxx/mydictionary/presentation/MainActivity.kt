@@ -1,9 +1,12 @@
 package com.xxmrk888ytxx.mydictionary.presentation
 
+import AdController
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -14,9 +17,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.xxmrk888ytxx.addwordscreen.EditWordScreen
 import com.xxmrk888ytxx.addwordscreen.EditWordViewModel
+import com.xxmrk888ytxx.admobmanager.AdMobBanner
 import com.xxmrk888ytxx.bottombarscreen.BottomBarScreen
 import com.xxmrk888ytxx.bottombarscreen.models.BottomBarScreenModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupScreen
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupViewModel
@@ -26,7 +31,7 @@ import com.xxmrk888ytxx.featureviewscreen.FeatureViewScreen
 import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
-import com.xxmrk888ytxx.goals.extensions.setContentWithTheme
+import com.xxmrk888ytxx.goals.extensions.setContentWithThemeAndAdController
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageScreen
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
 import com.xxmrk888ytxx.mydictionary.R
@@ -105,7 +110,9 @@ class MainActivity : ComponentActivity() {
         activityViewModel.initAd()
         activityViewModel.initTTS()
 
-        setContentWithTheme {
+        setContentWithThemeAndAdController(
+            adController = adController
+        ) {
             val navController = rememberNavController()
 
             val isFirstStart by firstStartAppStateHolder.isFirstAppStart.collectAsStateWithLifecycle(
@@ -141,6 +148,8 @@ class MainActivity : ComponentActivity() {
 
 
                     composable(Screen.MainScreen.route) {
+
+                        val adController = LocalAdController.current
 
                         //WordGroupScreen
                         val viewModelForWordGroupScreen = composeViewModel() {
@@ -201,7 +210,8 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 )
-                            )
+                            ),
+                            bannerAd = { adController.MainScreenBanner() }
                         )
                     }
 
@@ -384,6 +394,57 @@ class MainActivity : ComponentActivity() {
     private fun getStartDestination(isFirstStart:Boolean) : String {
         return if(isFirstStart) Screen.FeatureViewScreen.route else Screen.MainScreen.route
     }
+
+    private val adController:AdController by lazy {
+        object : AdController {
+            @Composable
+            override fun MainScreenBanner() {
+                AdMobBanner(
+                    adMobKey = stringResource(R.string.MainScreenBannerKey),
+                    background = MaterialTheme.colorScheme.background
+                )
+            }
+
+            @Composable
+            override fun WordGroupScreenBanner() {
+                AdMobBanner(
+                    adMobKey = stringResource(R.string.WordGroupScreenBannerKey),
+                    background = MaterialTheme.colorScheme.background
+                )
+            }
+
+            @Composable
+            override fun TrainingBanner() {
+                AdMobBanner(
+                    adMobKey = stringResource(R.string.TrainingBannerKey),
+                    background = MaterialTheme.colorScheme.background
+                )
+            }
+
+            override fun showMainScreenToTrainingScreenBanner() {
+                activityViewModel.showInterstitialAd(
+                    key = getString(R.string.showMainScreenToTrainingScreenBannerKey),
+                    activity = this@MainActivity
+                )
+            }
+
+            override fun showWordGroupScreenToViewWordOfWordGroup() {
+                activityViewModel.showInterstitialAd(
+                    key = getString(R.string.showWordGroupScreenToViewWordOfWordGroupKey),
+                    activity = this@MainActivity
+                )
+            }
+
+            override fun showWordGroupScreenToCreateWordGroupScreen() {
+                activityViewModel.showInterstitialAd(
+                    key = getString(R.string.WordGroupScreenToCreateWordGroupScreenKey),
+                    activity = this@MainActivity
+                )
+            }
+
+        }
+    }
+
 
     companion object {
         private const val LOG_TAG = "MainActivity"
