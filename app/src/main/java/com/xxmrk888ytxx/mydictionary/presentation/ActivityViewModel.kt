@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.mydictionary.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import com.xxmrk888ytxx.admobmanager.AdMobManager
 import com.xxmrk888ytxx.androidcore.runOnUiThread
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
@@ -11,13 +12,18 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ActivityViewModel @Inject constructor(
-    private val ttsManager: TTSManager
+    private val ttsManager: TTSManager,
+    private val adMobManager: AdMobManager
 ) : ViewModel(),Navigator {
 
     var navController:NavController? = null
 
     fun initTTS() {
         ttsManager.init()
+    }
+
+    fun initAd() {
+        adMobManager.initAdmob()
     }
 
 

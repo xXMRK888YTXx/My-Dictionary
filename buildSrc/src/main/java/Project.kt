@@ -22,4 +22,5 @@ object Project {
     const val ManageLanguageScreen = ":ManageLanguageScreen"
     const val FeatureViewScreen = ":FeatureViewScreen"
     const val PreferencesStorage = ":PreferencesStorage"
+    const val AdmobManager = ":AdmobManager"
 }

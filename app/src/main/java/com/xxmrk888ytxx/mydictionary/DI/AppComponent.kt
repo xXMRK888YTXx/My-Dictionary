@@ -1,6 +1,7 @@
 package com.xxmrk888ytxx.mydictionary.DI
 
 import android.content.Context
+import com.xxmrk888ytxx.mydictionary.DI.module.AdmobModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ApplicationScopeModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.BackupConverterModule
@@ -49,7 +50,8 @@ import dagger.Component
         ManageLanguageScreenModule::class,
         FeatureViewScreenModule::class,
         PreferencesStorageModule::class,
-        ApplicationScopeModule::class
+        ApplicationScopeModule::class,
+        AdmobModule::class
     ]
 )
 @AppScope

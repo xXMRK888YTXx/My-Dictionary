@@ -76,6 +76,7 @@ dependencies {
     implementation(project(Project.ManageLanguageScreen))
     implementation(project(Project.FeatureViewScreen))
     implementation(project(Project.PreferencesStorage))
+    implementation(project(Project.AdmobManager))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
