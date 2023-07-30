@@ -3,4 +3,5 @@
     <string name="words">Слова</string>
     <string name="training">Тренировка</string>
     <string name="settings">Настройки</string>
+    <string name="choose_a_client">Choose a client</string>
 </resources>

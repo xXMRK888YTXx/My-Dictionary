@@ -8,6 +8,8 @@ import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCas
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenEmailAppForWriteDeveloperUseCase.OpenEmailAppForWriteDeveloperUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenEmailAppForWriteDeveloperUseCase.OpenEmailAppForWriteDeveloperUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenSourceCodeUseCase.OpenSourceCodeUseCase
@@ -82,4 +84,9 @@ interface UseCaseModule {
     fun bindOpenSourceCodeUseCase(
         openSourceCodeUseCaseImpl: OpenSourceCodeUseCaseImpl
     ) : OpenSourceCodeUseCase
+
+    @Binds
+    fun bindOpenEmailAppForWriteDeveloperUseCase(
+        openEmailAppForWriteDeveloperUseCaseImpl: OpenEmailAppForWriteDeveloperUseCaseImpl
+    ) : OpenEmailAppForWriteDeveloperUseCase
 }
