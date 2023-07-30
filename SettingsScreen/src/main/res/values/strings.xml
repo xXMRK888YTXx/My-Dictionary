@@ -12,4 +12,7 @@
     <string name="restore_backup">Restore backup</string>
     <string name="languages">Languages</string>
     <string name="manage_languages">Manage languages</string>
+    <string name="remove_ads">Remove ads</string>
+    <string name="restore_purchases">Restore purchases</string>
+    <string name="advertisement">Advertisement</string>
 </resources>

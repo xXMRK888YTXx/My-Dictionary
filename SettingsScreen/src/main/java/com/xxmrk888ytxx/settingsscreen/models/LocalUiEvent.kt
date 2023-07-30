@@ -17,4 +17,8 @@ sealed class LocalUiEvent : UiEvent {
     object OpenPrivacyPolicy : LocalUiEvent()
 
     object OpenTermsOfUse : LocalUiEvent()
+
+    object RequestBuyRemoveAdsEvent : LocalUiEvent()
+
+    object RestorePurchasesEvent : LocalUiEvent()
 }

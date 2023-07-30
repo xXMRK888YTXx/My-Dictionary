@@ -3,11 +3,13 @@ package com.xxmrk888ytxx.settingsscreen
 import androidx.lifecycle.ViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.settingsscreen.contract.BuyRemoveAdsContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenEmailClientForWriteDeveloperContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenSourceCodeContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
 import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersion
+import com.xxmrk888ytxx.settingsscreen.contract.RestorePurchasesContract
 import com.xxmrk888ytxx.settingsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.settingsscreen.models.ScreenState
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +21,9 @@ class SettingsViewModel @Inject constructor(
     private val openPrivacyPolicyContract: OpenPrivacyPolicyContract,
     private val openTermsOfUseContract: OpenTermsOfUseContract,
     private val openSourceCodeContract: OpenSourceCodeContract,
-    private val openEmailClientForWriteDeveloperContract: OpenEmailClientForWriteDeveloperContract
+    private val openEmailClientForWriteDeveloperContract: OpenEmailClientForWriteDeveloperContract,
+    private val buyRemoveAdsContract: BuyRemoveAdsContract,
+    private val restorePurchasesContract: RestorePurchasesContract
 ) : ViewModel(),UiModel<ScreenState> {
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
@@ -51,6 +55,14 @@ class SettingsViewModel @Inject constructor(
 
             is LocalUiEvent.OpenLanguageManageScreen -> {
                 event.navigator.toLanguageManageScreen()
+            }
+
+            LocalUiEvent.RequestBuyRemoveAdsEvent -> {
+                buyRemoveAdsContract.buy()
+            }
+
+            LocalUiEvent.RestorePurchasesEvent -> {
+                restorePurchasesContract.restore()
             }
         }
     }

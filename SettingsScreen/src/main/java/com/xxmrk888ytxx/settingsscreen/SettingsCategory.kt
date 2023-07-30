@@ -2,7 +2,6 @@ package com.xxmrk888ytxx.settingsscreen
 
 import android.content.Context
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import kotlinx.collections.immutable.persistentListOf
 
@@ -86,6 +85,30 @@ internal fun LazyListScope.languageConfiguration(
                 ButtonItem(
                     text = stringResource(R.string.manage_languages),
                     onClick = onOpenLanguageConfigurationScreen
+                )
+            }
+        )
+    )
+}
+
+internal fun LazyListScope.advertisement(
+    context: Context,
+    onBuyRemoveAdRequest:() -> Unit,
+    onRestorePurchases:() -> Unit
+) {
+    settingsCategory(
+        title = context.getString(R.string.advertisement),
+        contents = persistentListOf(
+            {
+                ButtonItem(
+                    text = stringResource(R.string.remove_ads),
+                    onClick = onBuyRemoveAdRequest
+                )
+            },
+            {
+                ButtonItem(
+                    text = stringResource(R.string.restore_purchases),
+                    onClick = onRestorePurchases
                 )
             }
         )

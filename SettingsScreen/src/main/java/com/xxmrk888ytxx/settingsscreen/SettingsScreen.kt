@@ -55,6 +55,12 @@ fun SettingsScreen(
                 .padding(paddings)
         ) {
 
+            advertisement(
+                context = context,
+                onBuyRemoveAdRequest = {},
+                onRestorePurchases = {}
+            )
+
             languageConfiguration(
                 context = context,
                 onOpenLanguageConfigurationScreen = { onEvent(LocalUiEvent.OpenLanguageManageScreen(navigator)) }
