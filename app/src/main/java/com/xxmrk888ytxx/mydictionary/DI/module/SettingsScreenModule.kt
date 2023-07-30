@@ -1,9 +1,13 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
+import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenEmailClientForWriteDeveloperContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenPrivacyPolicyContractImpl
+import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenSourceCodeContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenTermsOfUseContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideApplicationVersionImpl
+import com.xxmrk888ytxx.settingsscreen.contract.OpenEmailClientForWriteDeveloperContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
+import com.xxmrk888ytxx.settingsscreen.contract.OpenSourceCodeContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
 import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersion
 import dagger.Binds
@@ -26,4 +30,14 @@ interface SettingsScreenModule {
     fun bindOpenTermsOfUseContract(
         openTermsOfUseContractImpl: OpenTermsOfUseContractImpl
     ) : OpenTermsOfUseContract
+
+    @Binds
+    fun bindOpenSourceCodeContract(
+        openSourceCodeContractImpl: OpenSourceCodeContractImpl
+    ) : OpenSourceCodeContract
+
+    @Binds
+    fun bindOpenEmailClientForWriteDeveloperContract(
+        openEmailClientForWriteDeveloperContractImpl: OpenEmailClientForWriteDeveloperContractImpl
+    ) : OpenEmailClientForWriteDeveloperContract
 }

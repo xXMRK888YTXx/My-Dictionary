@@ -2,8 +2,8 @@ package com.xxmrk888ytxx.mydictionary.UseCase.OpenEmailAppForWriteDeveloperUseCa
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
-import android.util.Log
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.mydictionary.R
 import javax.inject.Inject
@@ -18,7 +18,11 @@ class OpenEmailAppForWriteDeveloperUseCaseImpl @Inject constructor(
         try {
             val email = context.getString(R.string.email)
             val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
-            context.startActivity(Intent.createChooser(emailIntent, context.getString(R.string.choose_a_client)))
+            val chooser = Intent.createChooser(emailIntent, context.getString(R.string.choose_a_client)).apply {
+                flags = FLAG_ACTIVITY_NEW_TASK
+            }
+
+            context.startActivity(chooser)
         }catch (e:Exception) {
             logger.error(e,LOG_TAG)
         }
