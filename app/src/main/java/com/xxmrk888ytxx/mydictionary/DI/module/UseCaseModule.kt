@@ -10,6 +10,8 @@ import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.
 import com.xxmrk888ytxx.mydictionary.UseCase.GenerateQuestionForTrainingUseCase.GenerateQuestionForTrainingUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenPrivacyPolicyUseCase.OpenPrivacyPolicyUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenSourceCodeUseCase.OpenSourceCodeUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenSourceCodeUseCase.OpenSourceCodeUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCase
@@ -75,4 +77,9 @@ interface UseCaseModule {
     fun bindOpenTermsOfUseUseCase(
         openTermsOfUseUseCaseImpl: OpenTermsOfUseUseCaseImpl
     ) : OpenTermsOfUseUseCase
+
+    @Binds
+    fun bindOpenSourceCodeUseCase(
+        openSourceCodeUseCaseImpl: OpenSourceCodeUseCaseImpl
+    ) : OpenSourceCodeUseCase
 }
