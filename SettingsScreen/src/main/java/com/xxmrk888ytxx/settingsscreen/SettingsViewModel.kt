@@ -3,6 +3,8 @@ package com.xxmrk888ytxx.settingsscreen
 import androidx.lifecycle.ViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
+import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
+import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
 import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersion
 import com.xxmrk888ytxx.settingsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.settingsscreen.models.ScreenState
@@ -11,14 +13,16 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class SettingsViewModel @Inject constructor(
-    private val provideApplicationVersion: ProvideApplicationVersion
+    private val provideApplicationVersion: ProvideApplicationVersion,
+    private val openPrivacyPolicyContract: OpenPrivacyPolicyContract,
+    private val openTermsOfUseContract: OpenTermsOfUseContract
 ) : ViewModel(),UiModel<ScreenState> {
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
 
         when(event) {
             LocalUiEvent.OpenPrivacyPolicy -> {
-
+                openPrivacyPolicyContract.open()
             }
 
             LocalUiEvent.OpenSourceCodeEvent -> {
@@ -26,7 +30,7 @@ class SettingsViewModel @Inject constructor(
             }
 
             LocalUiEvent.OpenTermsOfUse -> {
-
+                openTermsOfUseContract.open()
             }
 
             LocalUiEvent.WriteToDeveloperEvent -> {
