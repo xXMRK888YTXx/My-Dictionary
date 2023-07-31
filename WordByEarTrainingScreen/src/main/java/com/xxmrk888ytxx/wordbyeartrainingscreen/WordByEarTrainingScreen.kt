@@ -53,6 +53,16 @@ import com.xxmrk888ytxx.wordbyeartrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenType
 
+
+/**
+ * [Ru]
+ *Экран для тренировки слов на слух
+ */
+
+/**
+ * [En]
+ * Screen for training words by ear
+ */
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun WordByEarTrainingScreen(
