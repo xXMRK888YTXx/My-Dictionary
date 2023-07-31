@@ -34,6 +34,16 @@ import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createbackupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.createbackupscreen.models.ScreenState
 
+
+/**
+ * [Ru]
+ * Экран для создания бэкапа
+ */
+
+/**
+ * [En]
+ * Screen for creating a backup
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateBackupScreen(
