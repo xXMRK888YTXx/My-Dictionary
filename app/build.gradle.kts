@@ -29,7 +29,7 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
 
-        release {
+        debug {
             isMinifyEnabled = Config.isR8ProGuardEnableForDebug
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -88,5 +88,8 @@ dependencies {
     implementation(platform(Deps.Firebase.FirebaseBom))
     implementation(Deps.Firebase.analytics)
     implementation(Deps.Firebase.crashlytics)
+
+    //Billing
+    implementation(Deps.Billing.billing)
 
 }

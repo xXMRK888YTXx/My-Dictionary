@@ -159,5 +159,9 @@ object Deps {
         const val zip = "net.lingala.zip4j:zip4j:2.11.5"
     }
 
+    object Billing {
+        const val billing = "com.android.billingclient:billing-ktx:6.0.1"
+    }
+
 
 }
