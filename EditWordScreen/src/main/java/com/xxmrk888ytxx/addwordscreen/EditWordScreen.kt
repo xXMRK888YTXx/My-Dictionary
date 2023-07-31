@@ -42,6 +42,16 @@ import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalSnackbarHostState
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithUiEventHandler
 import kotlinx.collections.immutable.ImmutableList
 
+
+/**
+ * [Ru]
+ * Экран для редактирования информации о сохранённом слове
+ */
+
+/**
+ * [En]
+ * Screen for editing information about saved word
+ */
 @Composable
 fun EditWordScreen(
     screenState: ScreenState,
