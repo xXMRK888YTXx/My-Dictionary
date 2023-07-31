@@ -35,6 +35,16 @@ import com.xxmrk888ytxx.managelanguagescreen.models.CreateLanguageDialogState
 import com.xxmrk888ytxx.managelanguagescreen.models.LocalUiEvent
 import com.xxmrk888ytxx.managelanguagescreen.models.ScreenState
 
+
+/**
+ * [Ru]
+ *Экран для управления языками
+ */
+
+/**
+ * [En]
+ * Screen for language control
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageLanguageScreen(

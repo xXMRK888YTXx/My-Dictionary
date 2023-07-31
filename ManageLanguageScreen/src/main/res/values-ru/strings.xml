@@ -4,4 +4,5 @@
     <string name="you_don_t_have_any_languages_added">У вас нет добавленных языков</string>
     <string name="language_successfully_deleted">Язык успешно удален</string>
     <string name="the_language_cannot_be_deleted_it_is_used_in_another_group_of_words">Язык не может быть удален. Оно используется в другой группе слов</string>
+    <string name="language_created">Language created</string>
 </resources>

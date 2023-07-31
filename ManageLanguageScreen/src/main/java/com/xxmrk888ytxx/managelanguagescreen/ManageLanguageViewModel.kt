@@ -84,7 +84,7 @@ class ManageLanguageViewModel @Inject constructor(
                     createLanguageDialogState.update { CreateLanguageDialogState.Hidden }
 
                     event.scope.launch {
-                        event.snackbarHostState.showSnackbar("Language created")
+                        event.snackbarHostState.showSnackbar(context.getString(R.string.language_created))
                     }
                 }
             }
