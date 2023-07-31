@@ -29,6 +29,16 @@ import com.xxmrk888ytxx.trainingactionsscreen.models.LocalUiEvent
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
+
+/**
+ * [Ru]
+ * Экран со списоком тренировок
+ */
+
+/**
+ * [En]
+ * Screen with list of trainings
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ResourceType")
 @Composable
