@@ -31,6 +31,16 @@ import com.xxmrk888ytxx.settingsscreen.models.ScreenState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
+
+/**
+ * [Ru]
+ * Экран для управления настройками приложения
+ */
+
+/**
+ * [En]
+ * Screen for managing settings of application
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun SettingsScreen(
