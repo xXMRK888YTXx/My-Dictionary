@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
@@ -48,6 +49,16 @@ import com.xxmrk888ytxx.featureviewscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.featureviewscreen.models.ScreenState
 import com.xxmrk888ytxx.featureviewscreen.models.ScreenType
 
+
+/**
+ * [Ru]
+ * Экран для демонстрации возможностей приложения
+ */
+
+/**
+ * [En]
+ * Screen for demonstration features of application
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun FeatureViewScreen(
@@ -123,7 +134,7 @@ fun TopBar(
         TextButton(
             onClick = onSkip,
         ) {
-            Text(text = "Skip")
+            Text(text = stringResource(R.string.skip))
         }
     }
 }
@@ -173,7 +184,7 @@ fun AgreeWithRulesScreenType(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "By using the application you will agree with:",
+                text = stringResource(R.string.by_using_the_application_you_will_agree_with),
                 style = MaterialTheme.typography.bodyLarge
             )
 
@@ -188,7 +199,7 @@ fun AgreeWithRulesScreenType(
 
                 TextButton(onClick = onOpenPrivacyPolicy) {
                     Text(
-                        text = "Privacy policy",
+                        text = stringResource(R.string.privacy_policy),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -205,7 +216,7 @@ fun AgreeWithRulesScreenType(
 
                 TextButton(onClick = onOpenTermsOfUse) {
                     Text(
-                        text = "Terms of use",
+                        text = stringResource(R.string.terms_of_use),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
@@ -235,8 +246,8 @@ fun FreeScreenType() {
                     .height(200.dp),
             )
         },
-        primaryText = "It is free",
-        secondaryText = "All features of the application are completely free, except for disabling the display of ads."
+        primaryText = stringResource(R.string.it_is_free),
+        secondaryText = stringResource(R.string.all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads)
     )
 }
 
@@ -261,8 +272,8 @@ fun TrainingScreenType() {
                     .height(300.dp),
             )
         },
-        primaryText = "Train your words",
-        secondaryText = "You can train the words that you have written down to consolidate your result or learn new words."
+        primaryText = stringResource(R.string.train_your_words),
+        secondaryText = stringResource(R.string.you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words)
     )
 }
 
@@ -287,8 +298,8 @@ fun WordScreenType() {
                     .height(200.dp),
             )
         },
-        primaryText = "Save the translation of words",
-        secondaryText = "Write down the translations of the words that you have learned so as not to lose or forget the translation."
+        primaryText = stringResource(R.string.save_the_translation_of_words),
+        secondaryText = stringResource(R.string.write_down_the_translations_of_the_words_that_you_have_learned_so_as_not_to_lose_or_forget_the_translation)
     )
 
 }
@@ -394,8 +405,10 @@ fun WelcomeScreenType() {
                 modifier = Modifier.size(200.dp)
             )
         },
-        primaryText = "Welcome in " + LocalApplicationName.current + " application",
-        secondaryText = "Let's take a little tour of the app's capabilities"
+        primaryText = stringResource(R.string.welcome_in) + LocalApplicationName.current + stringResource(
+            R.string.application
+        ),
+        secondaryText = stringResource(R.string.let_s_take_a_little_tour_of_the_app_s_capabilities)
     )
 }
 
