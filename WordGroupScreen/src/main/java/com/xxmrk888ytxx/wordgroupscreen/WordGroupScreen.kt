@@ -49,6 +49,16 @@ import com.xxmrk888ytxx.wordgroupscreen.models.WordGroupDialogOptionState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
+
+/**
+ * [Ru]
+ * Экран для показа групп слов
+ */
+
+/**
+ * [En]
+ * Screen for view groups of words
+ */
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun WordGroupScreen(
