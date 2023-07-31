@@ -10,15 +10,21 @@ import com.xxmrk888ytxx.admobmanager.ConsentFormLoader
 import com.xxmrk888ytxx.androidcore.runOnUiThread
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 import com.xxmrk888ytxx.mydictionary.BuildConfig
+import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.texttospeechmanager.TTSManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Provider
 
 class ActivityViewModel @Inject constructor(
     private val ttsManager: TTSManager,
-    private val adMobManager: AdMobManager
+    private val adMobManager: AdMobManager,
+    private val adsStateManager: AdsStateManager
 ) : ViewModel(),Navigator {
+
+    val isAdsEnabledFlow = adsStateManager.isAdsEnabledFlow
 
     var navController:NavController? = null
 
@@ -98,6 +104,8 @@ class ActivityViewModel @Inject constructor(
     }
 
     fun showInterstitialAd(key:String,activity: Activity) {
+        if(!runBlocking { isAdsEnabledFlow.first() }) return
+
         adMobManager.showInterstitialAd(key, activity)
     }
 

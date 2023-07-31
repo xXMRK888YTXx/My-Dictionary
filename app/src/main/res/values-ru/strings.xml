@@ -4,4 +4,5 @@
     <string name="training">Тренировка</string>
     <string name="settings">Настройки</string>
     <string name="choose_a_client">Choose a client</string>
+    <string name="the_ads_has_been_removed_thanks_for_the_purchase">The ads has been removed.Thanks for the purchase</string>
 </resources>

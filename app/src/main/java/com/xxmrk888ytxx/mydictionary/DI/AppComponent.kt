@@ -24,6 +24,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordByEarTrainingScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordGroupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordTranslateTrainingScreenModule
+import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManager
 import com.xxmrk888ytxx.mydictionary.presentation.MainActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -58,6 +59,8 @@ import dagger.Component
 interface AppComponent {
 
     fun inject(mainActivity: MainActivity)
+
+    val billingManager:BillingManager
 
     @Component.Factory
     interface Factory {

@@ -146,26 +146,44 @@ class MainActivity : ComponentActivity() {
         object : AdController {
             @Composable
             override fun MainScreenBanner() {
-                AdMobBanner(
-                    adMobKey = stringResource(R.string.MainScreenBannerKey),
-                    background = MaterialTheme.colorScheme.background
+                val isAdsEnabled by activityViewModel.isAdsEnabledFlow.collectAsStateWithLifecycle(
+                    initialValue = true
                 )
+
+                if(isAdsEnabled) {
+                    AdMobBanner(
+                        adMobKey = stringResource(R.string.MainScreenBannerKey),
+                        background = MaterialTheme.colorScheme.background
+                    )
+                }
             }
 
             @Composable
             override fun WordGroupScreenBanner() {
-                AdMobBanner(
-                    adMobKey = stringResource(R.string.WordGroupScreenBannerKey),
-                    background = MaterialTheme.colorScheme.background
+                val isAdsEnabled by activityViewModel.isAdsEnabledFlow.collectAsStateWithLifecycle(
+                    initialValue = true
                 )
+
+                if(isAdsEnabled) {
+                    AdMobBanner(
+                        adMobKey = stringResource(R.string.WordGroupScreenBannerKey),
+                        background = MaterialTheme.colorScheme.background
+                    )
+                }
             }
 
             @Composable
             override fun TrainingBanner() {
-                AdMobBanner(
-                    adMobKey = stringResource(R.string.TrainingBannerKey),
-                    background = MaterialTheme.colorScheme.background
+                val isAdsEnabled by activityViewModel.isAdsEnabledFlow.collectAsStateWithLifecycle(
+                    initialValue = true
                 )
+
+                if(isAdsEnabled) {
+                    AdMobBanner(
+                        adMobKey = stringResource(R.string.TrainingBannerKey),
+                        background = MaterialTheme.colorScheme.background
+                    )
+                }
             }
 
             override fun showMainScreenToTrainingScreenBanner() {
