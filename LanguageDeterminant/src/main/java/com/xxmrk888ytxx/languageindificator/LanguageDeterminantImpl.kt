@@ -2,15 +2,14 @@ package com.xxmrk888ytxx.languageindificator
 
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.nl.languageid.LanguageIdentification
-import com.xxmrk888ytxx.androidcore.fastDebugLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
-class LanguageIndicatorImpl(
+class LanguageDeterminantImpl(
     private val taskExecuteScope:CoroutineScope
-) : LanguageIndicator {
+) : LanguageDeterminant {
 
 
     override suspend fun getLanguageCodeFromText(text: String): String {

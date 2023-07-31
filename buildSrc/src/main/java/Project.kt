@@ -12,7 +12,7 @@ object Project {
     const val TrainingActionsScreen = ":TrainingActionsScreen"
     const val WordTranslateTrainingScreen = ":WordTranslateTrainingScreen"
     const val SettingsScreen = ":SettingsScreen"
-    const val LanguageIndicator = ":LanguageIndicator"
+    const val LanguageDeterminant = ":LanguageDeterminant"
     const val WordByEarTrainingScreen = ":WordByEarTrainingScreen"
     const val BaseTrainingComponents = ":BaseTrainingComponents"
     const val CreateBackupScreen = ":CreateBackupScreen"

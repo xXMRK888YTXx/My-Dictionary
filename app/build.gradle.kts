@@ -67,7 +67,7 @@ dependencies {
     implementation(project(Project.TrainingActionsScreen))
     implementation(project(Project.WordTranslateTrainingScreen))
     implementation(project(Project.SettingsScreen))
-    implementation(project(Project.LanguageIndicator))
+    implementation(project(Project.LanguageDeterminant))
     implementation(project(Project.WordByEarTrainingScreen))
     implementation(project(Project.CreateBackupScreen))
     implementation(project(Project.ArchiverCreator))

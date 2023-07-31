@@ -3,7 +3,7 @@ package com.xxmrk888ytxx.languageindificator
 import kotlinx.coroutines.CoroutineScope
 import kotlin.jvm.Throws
 
-interface LanguageIndicator {
+interface LanguageDeterminant {
 
     @Throws(LanguageNotIdentifiedException::class)
     suspend fun getLanguageCodeFromText(text:String) : String
@@ -11,8 +11,8 @@ interface LanguageIndicator {
     companion object {
         fun create(
             taskExecuteScope: CoroutineScope
-        ) : LanguageIndicator {
-            return LanguageIndicatorImpl(taskExecuteScope)
+        ) : LanguageDeterminant {
+            return LanguageDeterminantImpl(taskExecuteScope)
         }
     }
 }

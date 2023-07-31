@@ -1,6 +1,6 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
-import com.xxmrk888ytxx.languageindificator.LanguageIndicator
+import com.xxmrk888ytxx.languageindificator.LanguageDeterminant
 import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.ScopeForLanguageIndicatorQualifier
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import dagger.Module
@@ -25,8 +25,8 @@ interface LanguageIndicatorModule {
         @Provides
         fun provideLanguageIndicator(
             @ScopeForLanguageIndicatorQualifier scope : CoroutineScope
-        ) : LanguageIndicator {
-            return LanguageIndicator.create(scope)
+        ) : LanguageDeterminant {
+            return LanguageDeterminant.create(scope)
         }
     }
 }
