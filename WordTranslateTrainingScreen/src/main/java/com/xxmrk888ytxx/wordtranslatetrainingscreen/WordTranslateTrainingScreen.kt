@@ -54,6 +54,15 @@ import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenType
 
+/**
+ * [Ru]
+ * Экран для тренировки перевода слов
+ */
+
+/**
+ * [En]
+ * Screen for training translation of words
+ */
 @OptIn(
     ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class,
     ExperimentalFoundationApi::class
@@ -183,7 +192,7 @@ fun WordTranslateTrainingScreen(
             targetState = screenState.screenType,
             modifier = Modifier
                 .padding(10.dp)
-                .padding(paddings)
+                .padding(paddings), label = ""
         ) { screenType ->
             when (screenType) {
                 ScreenType.CONFIGURATION -> {
