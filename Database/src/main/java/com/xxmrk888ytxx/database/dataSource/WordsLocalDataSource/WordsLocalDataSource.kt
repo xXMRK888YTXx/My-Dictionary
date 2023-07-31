@@ -5,6 +5,15 @@ import com.xxmrk888ytxx.database.models.WordGroupLocalModel
 import com.xxmrk888ytxx.database.models.WordLocalModel
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * [Ru]
+ * Интерфейс для управления хранимыми словами
+ * */
+
+/**
+ * [En]
+ * Interface for manipulating stored words
+ */
 interface WordsLocalDataSource {
 
     fun getWordsFlow() : Flow<List<WordLocalModel>>

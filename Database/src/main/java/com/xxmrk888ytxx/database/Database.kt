@@ -6,6 +6,15 @@ import com.xxmrk888ytxx.database.dataSource.WordGroupLocalDataSource.WordGroupLo
 import com.xxmrk888ytxx.database.dataSource.WordPhraseLocalDataSource.WordPhraseLocalDataSource
 import com.xxmrk888ytxx.database.dataSource.WordsLocalDataSource.WordsLocalDataSource
 
+/**
+ * [Ru]
+ * Интерфейс для получения data source для управления данными
+ */
+
+/**
+ * [En]
+ * Interface for getting data source for manipulate data
+ */
 interface Database {
 
     val languageLocalDataSource: LanguageLocalDataSource

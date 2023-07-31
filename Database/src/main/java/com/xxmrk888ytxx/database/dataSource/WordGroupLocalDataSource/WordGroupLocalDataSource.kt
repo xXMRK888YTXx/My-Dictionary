@@ -6,6 +6,15 @@ import com.xxmrk888ytxx.database.entityes.WordGroupEntity
 import com.xxmrk888ytxx.database.models.WordGroupLocalModel
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * [Ru]
+ * Интерфейс для управления хранимыми группами слов приложения
+ * */
+
+/**
+ * [En]
+ * Interface for manipulating stored application's groups of word
+ */
 interface WordGroupLocalDataSource {
 
     val wordGroupsFlow: Flow<List<WordGroupLocalModel>>
