@@ -29,6 +29,16 @@ import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.restorebackupscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.restorebackupscreen.models.ScreenState
 
+
+/**
+ * [Ru]
+ * Экран для восстановления резервной копии
+ */
+
+/**
+ * [En]
+ * Screen for restore from backup
+ */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun RestoreBackupScreen(
