@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.settingsscreen.models
 
+import android.content.Context
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Navigator
 
@@ -18,7 +19,7 @@ sealed class LocalUiEvent : UiEvent {
 
     object OpenTermsOfUse : LocalUiEvent()
 
-    object RequestBuyRemoveAdsEvent : LocalUiEvent()
+    class RequestBuyRemoveAdsEvent(val context: Context) : LocalUiEvent()
 
     object RestorePurchasesEvent : LocalUiEvent()
 }

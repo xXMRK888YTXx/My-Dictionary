@@ -1,6 +1,8 @@
 package com.xxmrk888ytxx.settingsscreen.contract
 
+import android.app.Activity
+
 interface BuyRemoveAdsContract {
 
-    fun buy()
+    fun buy(activity: Activity)
 }

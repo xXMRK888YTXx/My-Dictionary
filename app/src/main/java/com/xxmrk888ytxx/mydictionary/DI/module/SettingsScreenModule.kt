@@ -5,14 +5,16 @@ import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenEmailClientForWrite
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenPrivacyPolicyContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenSourceCodeContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenTermsOfUseContractImpl
-import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideApplicationVersionImpl
+import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideApplicationVersionContractImpl
+import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideIsAdsEnabledInfoContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.RestorePurchasesContractImpl
 import com.xxmrk888ytxx.settingsscreen.contract.BuyRemoveAdsContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenEmailClientForWriteDeveloperContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenSourceCodeContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
-import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersion
+import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersionContract
+import com.xxmrk888ytxx.settingsscreen.contract.ProvideIsAdsEnabledInfoContract
 import com.xxmrk888ytxx.settingsscreen.contract.RestorePurchasesContract
 import dagger.Binds
 import dagger.Module
@@ -22,8 +24,8 @@ interface SettingsScreenModule {
 
     @Binds
     fun bindProvideApplicationVersion(
-        provideApplicationVersionImpl: ProvideApplicationVersionImpl
-    ): ProvideApplicationVersion
+        provideApplicationVersionImpl: ProvideApplicationVersionContractImpl
+    ): ProvideApplicationVersionContract
 
     @Binds
     fun bindOpenPrivacyPolicyContract(
@@ -54,4 +56,9 @@ interface SettingsScreenModule {
     fun bindRestorePurchasesContract(
         restorePurchasesContractImpl: RestorePurchasesContractImpl
     ) : RestorePurchasesContract
+
+    @Binds
+    fun bindProvideIsAdsEnabledInfoContract(
+        provideIsAdsEnabledInfoContractImpl: ProvideIsAdsEnabledInfoContractImpl
+    ) : ProvideIsAdsEnabledInfoContract
 }

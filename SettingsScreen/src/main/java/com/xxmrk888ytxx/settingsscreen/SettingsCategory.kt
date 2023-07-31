@@ -93,6 +93,7 @@ internal fun LazyListScope.languageConfiguration(
 
 internal fun LazyListScope.advertisement(
     context: Context,
+    isAdsEnabled:Boolean,
     onBuyRemoveAdRequest:() -> Unit,
     onRestorePurchases:() -> Unit
 ) {
@@ -100,10 +101,12 @@ internal fun LazyListScope.advertisement(
         title = context.getString(R.string.advertisement),
         contents = persistentListOf(
             {
-                ButtonItem(
-                    text = stringResource(R.string.remove_ads),
-                    onClick = onBuyRemoveAdRequest
-                )
+                if(isAdsEnabled) {
+                    ButtonItem(
+                        text = stringResource(R.string.remove_ads),
+                        onClick = onBuyRemoveAdRequest
+                    )
+                }
             },
             {
                 ButtonItem(

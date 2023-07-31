@@ -1,7 +1,7 @@
 package com.xxmrk888ytxx.settingsscreen.contract
 
 
-interface ProvideApplicationVersion {
+interface ProvideApplicationVersionContract {
 
     val applicationVersion:String
 }

@@ -57,8 +57,9 @@ fun SettingsScreen(
 
             advertisement(
                 context = context,
-                onBuyRemoveAdRequest = {},
-                onRestorePurchases = {}
+                onBuyRemoveAdRequest = { onEvent(LocalUiEvent.RequestBuyRemoveAdsEvent(context)) },
+                onRestorePurchases = { onEvent(LocalUiEvent.RestorePurchasesEvent) },
+                isAdsEnabled = screenState.isAdsEnabled
             )
 
             languageConfiguration(
