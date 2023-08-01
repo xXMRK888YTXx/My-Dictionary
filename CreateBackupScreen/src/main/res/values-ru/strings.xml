@@ -3,8 +3,8 @@
     <string name="create_backup">Создать резервную копию</string>
     <string name="choose_backup_place">Выберите место для резервного копирования</string>
     <string name="select_a_groups_of_words_to_be_include_in_the_backup">Выберите группы слов для включения в резервную копию</string>
-    <string name="backup_created">Backup created</string>
-    <string name="in_backup_process_was_been_error">In backup process was been error</string>
-    <string name="please_wait">Please,wait</string>
-    <string name="location_selection_has_been_canceled">Location selection has been canceled</string>
+    <string name="backup_created">Резервная копия создана</string>
+    <string name="in_backup_process_was_been_error">В процессе резервного копирования возникла ошибка</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="location_selection_has_been_canceled">Выбор файла отменён</string>
 </resources>
