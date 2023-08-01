@@ -3,6 +3,6 @@
     <string name="you_are_haven_t_word_groups_but_you_can_change_it">У вас нет групп слов. Но вы можете это изменить.</string>
     <string name="add_first_word_group">Добавьте свою первую группу слов</string>
     <string name="remove">Удалить</string>
-    <string name="remove_image">Remove image</string>
-    <string name="attach_image">Attach image</string>
+    <string name="remove_image">Удалить изображение</string>
+    <string name="attach_image">Прикрепить изображение</string>
 </resources>
