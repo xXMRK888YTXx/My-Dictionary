@@ -365,7 +365,9 @@ fun BottomBar(
             enabled = screenState.currentScreenType != ScreenType.AGREE_WITH_RULES || (screenState.isAgreeWithTermsOfUse && screenState.isAgreeWithPrivacyPolicy)
         ) {
             Text(
-                text = if (screenState.currentScreenType != ScreenType.AGREE_WITH_RULES) "Next" else "To application"
+                text = if (screenState.currentScreenType != ScreenType.AGREE_WITH_RULES) stringResource(
+                    R.string.next
+                ) else stringResource(R.string.to_application)
             )
         }
     }
@@ -405,9 +407,7 @@ fun WelcomeScreenType() {
                 modifier = Modifier.size(200.dp)
             )
         },
-        primaryText = stringResource(R.string.welcome_in) + LocalApplicationName.current + stringResource(
-            R.string.application
-        ),
+        primaryText = stringResource(R.string.welcome_in) + " " + LocalApplicationName.current,
         secondaryText = stringResource(R.string.let_s_take_a_little_tour_of_the_app_s_capabilities)
     )
 }

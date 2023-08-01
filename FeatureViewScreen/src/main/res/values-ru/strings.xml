@@ -10,7 +10,9 @@
     <string name="you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words">Вы можете тренировать записанные слова, чтобы закрепить полученный результат или выучить новые слова.</string>
     <string name="save_the_translation_of_words">Сохраните перевод слов</string>
     <string name="write_down_the_translations_of_the_words_that_you_have_learned_so_as_not_to_lose_or_forget_the_translation">Запишите перевод выученных слов, чтобы не потерять и не забыть перевод.</string>
-    <string name="welcome_in">Добро пожаловать в </string>
-    <string name="application"></string>
+    <string name="welcome_in">Добро пожаловать в  </string>
+    <string name="application"> </string>
     <string name="let_s_take_a_little_tour_of_the_app_s_capabilities">Давайте совершим небольшую экскурсию по возможностям приложения</string>
+    <string name="next">Дальше</string>
+    <string name="to_application">В приложение</string>
 </resources>
