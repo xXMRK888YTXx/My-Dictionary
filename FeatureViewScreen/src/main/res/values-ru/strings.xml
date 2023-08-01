@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="skip">Skip</string>
-    <string name="by_using_the_application_you_will_agree_with">By using the application you will agree with:</string>
-    <string name="privacy_policy">Privacy policy</string>
-    <string name="terms_of_use">Terms of use</string>
-    <string name="it_is_free">It is free</string>
-    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">All features of the application are completely free, except for disabling the display of ads.</string>
-    <string name="train_your_words">Train your words</string>
-    <string name="you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words">You can train the words that you have written down to consolidate your result or learn new words.</string>
-    <string name="save_the_translation_of_words">Save the translation of words</string>
-    <string name="write_down_the_translations_of_the_words_that_you_have_learned_so_as_not_to_lose_or_forget_the_translation">Write down the translations of the words that you have learned so as not to lose or forget the translation.</string>
-    <string name="welcome_in">"Welcome in "</string>
-    <string name="application">" application"</string>
-    <string name="let_s_take_a_little_tour_of_the_app_s_capabilities">Let\'s take a little tour of the app\'s capabilities</string>
+    <string name="skip">Пропустить</string>
+    <string name="by_using_the_application_you_will_agree_with">Используя данное приложение, вы соглашаетесь с:</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="terms_of_use">Условия использования</string>
+    <string name="it_is_free">Это бесплатно</string>
+    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">Все возможности приложения полностью бесплатны, за исключением отключения показа рекламы.</string>
+    <string name="train_your_words">Тренируйте свои слова</string>
+    <string name="you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words">Вы можете тренировать записанные слова, чтобы закрепить полученный результат или выучить новые слова.</string>
+    <string name="save_the_translation_of_words">Сохраните перевод слов</string>
+    <string name="write_down_the_translations_of_the_words_that_you_have_learned_so_as_not_to_lose_or_forget_the_translation">Запишите перевод выученных слов, чтобы не потерять и не забыть перевод.</string>
+    <string name="welcome_in">Добро пожаловать в </string>
+    <string name="application"></string>
+    <string name="let_s_take_a_little_tour_of_the_app_s_capabilities">Давайте совершим небольшую экскурсию по возможностям приложения</string>
 </resources>
