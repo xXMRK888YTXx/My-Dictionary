@@ -4,6 +4,7 @@ package com.xxmrk888ytxx.featureviewscreen
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -401,8 +402,8 @@ fun CurrentProgressWidget(
 fun WelcomeScreenType() {
     BaseScreenType(
         icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_android_24),
+            Image(
+                painter = painterResource(id = R.drawable.app_icon),
                 contentDescription = "",
                 modifier = Modifier.size(200.dp)
             )
