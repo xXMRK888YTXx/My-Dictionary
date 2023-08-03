@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -91,6 +92,11 @@ fun WordGroupScreen(
                 )
             }
         },
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(text = stringResource(R.string.groups_of_words), style = MaterialTheme.typography.titleLarge) }
+            )
+        }
     ) { paddings ->
 
         AnimatedContent(
@@ -156,7 +162,15 @@ fun WordListState(
                     .fillMaxWidth()
                     .padding(16.dp)
                     .combinedClickable(
-                        onClick = { onEvent(LocalUiEvent.OpenWordGroupEvent(navigator, it,adController)) },
+                        onClick = {
+                            onEvent(
+                                LocalUiEvent.OpenWordGroupEvent(
+                                    navigator,
+                                    it,
+                                    adController
+                                )
+                            )
+                        },
                         onLongClick = { onShowOptionDialog(it.id, it.imageUrl != null) }
                     ),
             ) {
@@ -252,7 +266,8 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
         Text(
             text = stringResource(R.string.you_are_haven_t_word_groups_but_you_can_change_it),
             style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(10.dp)
         )
 
         Button(

@@ -5,4 +5,5 @@
     <string name="remove">Удалить</string>
     <string name="remove_image">Удалить изображение</string>
     <string name="attach_image">Прикрепить изображение</string>
+    <string name="groups_of_words">Группы слов</string>
 </resources>
