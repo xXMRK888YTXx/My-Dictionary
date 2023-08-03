@@ -1,25 +1,21 @@
 package com.xxmrk888ytxx.viewgroupwordsscreen
 
 import android.annotation.SuppressLint
-import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
-import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.BottomSheetDefaults
-import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -28,39 +24,32 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.pointer.changedToUp
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
-import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
+import com.xxmrk888ytxx.viewgroupwordsscreen.models.SearchState
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.Word
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.WordOptionDialogState
 import kotlinx.collections.immutable.persistentListOf
@@ -91,6 +80,10 @@ fun ViewGroupWordsScreen(
 
     val adController = LocalAdController.current
 
+    val lazyListState = rememberLazyListState()
+
+    val uiScope = rememberCoroutineScope()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         floatingActionButton = {
@@ -103,39 +96,94 @@ fun ViewGroupWordsScreen(
             }
         },
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(
-                            10.dp,
-                            Alignment.CenterVertically
-                        ),
-                        horizontalAlignment = Alignment.CenterHorizontally
+
+            Column {
+
+                CenterAlignedTopAppBar(
+                    title = {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(
+                                10.dp,
+                                Alignment.CenterVertically
+                            ),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = screenState.wordGroupInfo.name,
+                                style = MaterialTheme.typography.titleLarge
+                            )
+
+                            Text(
+                                text = "${screenState.wordGroupInfo.primaryLanguageName} -" +
+                                        " ${screenState.wordGroupInfo.secondaryLanguageName}",
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+
+
+                        }
+                    },
+                    navigationIcon = {
+                        BackNavigationButton {
+                            onEvent(LocalUiEvent.OnBackScreenEvent(navigator))
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { onEvent(LocalUiEvent.ChangeSearchStateEvent()) }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_search_24),
+                                contentDescription = "",
+                                modifier =  Modifier.size(32.dp)
+                            )
+                        }
+                    }
+
+                )
+
+
+                AnimatedVisibility(visible = screenState.searchState is SearchState.Enabled) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp)
                     ) {
-                        Text(
-                            text = screenState.wordGroupInfo.name,
-                            style = MaterialTheme.typography.titleLarge
-                        )
+                        Column(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            val text = remember(screenState.searchState) {
+                                (screenState.searchState as? SearchState.Enabled)?.searchValue ?: ""
+                            }
 
-                        Text(
-                            text = "${screenState.wordGroupInfo.primaryLanguageName} -" +
-                                    " ${screenState.wordGroupInfo.secondaryLanguageName}",
-                            style = MaterialTheme.typography.bodyLarge
-                        )
+                            Text(
+                                text = stringResource(R.string.enter_the_search_text),
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
 
 
+                            OutlinedTextField(
+                                value = text,
+                                onValueChange = { onEvent(LocalUiEvent.OnChangeSearchValueEvent(it)) },
+                                label = { Text(
+                                    text = stringResource(R.string.search),
+                                    style = MaterialTheme.typography.titleLarge
+                                ) },
+                                modifier = Modifier.fillMaxWidth(),
+                                textStyle = MaterialTheme.typography.titleLarge
+                            )
+                        }
                     }
-                },
-                navigationIcon = {
-                    BackNavigationButton {
-                        onEvent(LocalUiEvent.OnBackScreenEvent(navigator))
-                    }
-                },
-            )
+                }
+            }
+
+
         },
         bottomBar = {
             adController.WordGroupScreenBanner()
-        }
+        },
+
     ) { paddings ->
 
         Column(
@@ -145,11 +193,13 @@ fun ViewGroupWordsScreen(
         ) {
 
             if (isWordListEmpty) {
-                EmptyState(onEvent)
+                EmptyState(onEvent,screenState.searchState is SearchState.Enabled)
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
+                    state = lazyListState
                 ) {
+
                     items(screenState.words, key = { it.id }) {
                         Box(modifier = Modifier.animateItemPlacement()) {
                             WordItem(
@@ -276,7 +326,10 @@ fun WordOptionDialog(
 }
 
 @Composable
-private fun EmptyState(onEvent: (UiEvent) -> Unit) {
+private fun EmptyState(
+    onEvent: (UiEvent) -> Unit,
+    isSearchState:Boolean
+) {
 
     val navigator = LocalNavigator.current
 
@@ -286,12 +339,14 @@ private fun EmptyState(onEvent: (UiEvent) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.in_this_group_haven_t_words),
+            text = if(isSearchState) stringResource(R.string.nothing_found) else stringResource(R.string.in_this_group_haven_t_words),
             style = MaterialTheme.typography.titleLarge
         )
 
-        Button(onClick = { onEvent(LocalUiEvent.ClickButtonForAddNewWordOnEmptyStateEvent(navigator)) }) {
-            Text(text = stringResource(R.string.add_new_word))
+        if(!isSearchState) {
+            Button(onClick = { onEvent(LocalUiEvent.ClickButtonForAddNewWordOnEmptyStateEvent(navigator)) }) {
+                Text(text = stringResource(R.string.add_new_word))
+            }
         }
 
     }

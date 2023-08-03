@@ -3,4 +3,7 @@
     <string name="in_this_group_haven_t_words">In this group haven\'t words</string>
     <string name="add_new_word">Add new word</string>
     <string name="remove">Remove</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="enter_the_search_text">Enter the search text</string>
+    <string name="search">Search</string>
 </resources>

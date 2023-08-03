@@ -3,4 +3,7 @@
     <string name="in_this_group_haven_t_words">В группе нет слов</string>
     <string name="add_new_word">Добавить новое слово</string>
     <string name="remove">Удалить</string>
+    <string name="nothing_found">Ничего не найдено</string>
+    <string name="enter_the_search_text">Введите текст для поиска</string>
+    <string name="search">Поиск</string>
 </resources>

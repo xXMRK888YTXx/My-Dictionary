@@ -11,14 +11,18 @@ import com.xxmrk888ytxx.viewgroupwordsscreen.contract.RemoveWordContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.ScreenState
+import com.xxmrk888ytxx.viewgroupwordsscreen.models.SearchState
+import com.xxmrk888ytxx.viewgroupwordsscreen.models.Word
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.WordOptionDialogState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -64,22 +68,51 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
             is LocalUiEvent.ShowWordOptionDialogEvent -> {
                 wordOptionDialogStateFlow.update { WordOptionDialogState.Showed(event.wordId) }
             }
+
+            is LocalUiEvent.ChangeSearchStateEvent -> {
+                searchStateFlow.update { if(it is SearchState.Enabled) SearchState.Disabled else SearchState.Enabled() }
+            }
+
+            is LocalUiEvent.OnChangeSearchValueEvent -> {
+                searchStateFlow.update { if(it is SearchState.Enabled) it.copy(event.value) else it }
+            }
         }
     }
 
     private val wordOptionDialogStateFlow: MutableStateFlow<WordOptionDialogState> =
         MutableStateFlow(WordOptionDialogState.Hidden)
 
+    private val searchStateFlow:MutableStateFlow<SearchState> = MutableStateFlow(SearchState.Disabled)
+
+    private val words = combine(
+        provideWordForWordGroupContract.getWords(wordGroupId),
+        searchStateFlow
+    ) { wordsList,searchState ->
+        val list = if(searchState is SearchState.Disabled) wordsList else wordsList.filter {
+            isValidForSearch(it,searchState)
+        }
+
+        list.toImmutableList()
+    }
+
+    private suspend fun isValidForSearch(word: Word, searchState: SearchState) : Boolean {
+        val searchText = (searchState as? SearchState.Enabled)?.searchValue ?: return true
+
+        return word.wordText.contains(searchText,true)
+                || word.translateText.contains(searchText,true)
+    }
+
     private fun toEditNewWordScreen(navigator: Navigator, editWordId: Int = 0) {
         navigator.toEditWordScreen(wordGroupId, editWordId)
     }
 
     override val state: Flow<ScreenState> = combine(
-        provideWordForWordGroupContract.getWords(wordGroupId),
+        words,
         provideWordGroupInfoContract.getWordGroupInfo(wordGroupId),
-        wordOptionDialogStateFlow
-    ) { wordList, wordGroupInfo,wordOptionDialogState ->
-        ScreenState(wordGroupInfo, wordList,wordOptionDialogState)
+        wordOptionDialogStateFlow,
+        searchStateFlow
+    ) { wordList, wordGroupInfo,wordOptionDialogState,searchState ->
+        ScreenState(wordGroupInfo, wordList,wordOptionDialogState,searchState)
     }
 
     private var cachedScreenState: ScreenState = ScreenState()
