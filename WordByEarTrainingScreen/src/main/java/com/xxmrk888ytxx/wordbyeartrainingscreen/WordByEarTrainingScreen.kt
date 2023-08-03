@@ -378,16 +378,15 @@ private fun TrainingScreenType(
                 style = MaterialTheme.typography.titleMedium
             )
 
-            IconButton(
-                onClick = { onPlayCurrentQuestion(currentPage) },
-                modifier = Modifier.size(72.dp)
-            ) {
+
+            Button(onClick = { onPlayCurrentQuestion(currentPage) }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_volume_up_24),
                     contentDescription = "",
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.size(72.dp)
                 )
             }
+
 
             Spacer(modifier = Modifier.height(30.dp))
 
