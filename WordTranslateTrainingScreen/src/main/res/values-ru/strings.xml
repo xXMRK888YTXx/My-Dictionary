@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start">Начать</string>
+    <string name="next">Следуйщий</string>
+    <string name="exit">Выйти</string>
+    <string name="configuration">Настройка</string>
+    <string name="training">Тренировка</string>
+    <string name="results">Результаты</string>
+    <string name="loading">Загрузка</string>
+    <string name="keep_up_the_good_work">Продолжайте в том же духе</string>
+    <string name="don_t_be_upset_try_again">Не растрайвайся. Попробуй ещё раз</string>
+    <string name="congratulation">Поздравляем</string>
+    <string name="good_but_you_can_do_better">Молодец. Но ты можешь лучше</string>
+    <string name="try_again">Попробуй ещё раз</string>
+    <string name="correct">Верных:</string>
+    <string name="incorrect">Неверных:</string>
+    <string name="enter_the_translate_of_the_word">Введите перевод слова:</string>
+    <string name="wait_loading">Пожалуйста,подождите</string>
+    <string name="check_the_answer">Проверьте ответ</string>
+    <string name="unfortunately_this_is_the_wrong_answer">К сожалению, это неправильный ответ</string>
+    <string name="you_are_right">Вы правы</string>
+    <string name="correct_answer_was">Правильный ответ был:</string>
+    <string name="congratulations">Поздравления</string>
+    <string name="answer">Ответ</string>
+    <string name="leave_from_training">Выйти с тренировки?</string>
+    <string name="the_progress_won_t_be_saved">Прогресс не будет сохранен</string>
+    <string name="cancel">Отменить</string>
+</resources>

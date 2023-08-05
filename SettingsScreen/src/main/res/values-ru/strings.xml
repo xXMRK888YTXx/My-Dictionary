@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings">Настройки</string>
+    <string name="about_application">О приложении</string>
+    <string name="application_version">Версия приложения</string>
+    <string name="source_code">Исходный код</string>
+    <string name="write_to_the_developer">Написать разработчику</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="terms_of_use">Условия использования</string>
+    <string name="backup">Резервное копирование</string>
+    <string name="create_backup">Создание резервной копии</string>
+    <string name="restore_backup">Восстановление резервной копии</string>
+    <string name="languages">Языки</string>
+    <string name="manage_languages">Управление языками</string>
+    <string name="remove_ads">Удалить рекламу</string>
+    <string name="restore_purchases">Восстановление покупок</string>
+    <string name="advertisement">Реклама</string>
+</resources>

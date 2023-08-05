@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="backup_is_restored">Бэкап восстановлена</string>
+    <string name="backup_file_is_damaged">Бэкап файл поврежден</string>
+    <string name="selected_file_is_not_backup">Выбранный файл не является бэкапом</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="select_backup_file_for_restore">Выберите бэкап файл для восстановления</string>
+    <string name="select_file">Выбрать файл</string>
+</resources>

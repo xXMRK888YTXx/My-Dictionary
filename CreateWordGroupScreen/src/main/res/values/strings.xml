@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_group_name">Enter group name</string>
+    <string name="select_languages">Select languages</string>
+    <string name="select_image">Select image</string>
+    <string name="enter_name_of_new_word_group">Enter name of new word group</string>
+    <string name="group_name">Group name</string>
+    <string name="next">Next</string>
+    <string name="choose_the_language_you_will_translate_into">Select the language from which you will translate</string>
+    <string name="choose_the_language_on_which_you_will_translate">Choose the language on which you will translate</string>
+    <string name="add_language">Add language</string>
+    <string name="you_can_add_image_to_you_word_group_it_is_optional_but_make_your_group_more_beautiful">You can add image to you word group. It is optional, but make your group more beautiful</string>
+    <string name="finish">Finish</string>
+</resources>

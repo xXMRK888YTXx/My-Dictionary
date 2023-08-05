@@ -48,4 +48,6 @@ android {
 
 dependencies {
     implementation(project(Project.CoreCompose))
+
+    implementation(Deps.Coil.coil)
 }

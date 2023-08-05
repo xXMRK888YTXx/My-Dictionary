@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="you_are_haven_t_word_groups_but_you_can_change_it">You are haven\'t word groups. But you can change it.</string>
+    <string name="add_first_word_group">Add your first word group</string>
+    <string name="remove">Remove</string>
+    <string name="remove_image">Remove image</string>
+    <string name="attach_image">Attach image</string>
+    <string name="groups_of_words">Groups of words</string>
+</resources>

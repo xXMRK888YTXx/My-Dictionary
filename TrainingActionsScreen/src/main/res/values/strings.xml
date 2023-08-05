@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="word_translation">Word translation</string>
+    <string name="select_a_training">Select a training</string>
+    <string name="words_by_ear">Words by ear</string>
+</resources>

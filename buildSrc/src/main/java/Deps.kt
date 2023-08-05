@@ -123,8 +123,8 @@ object Deps {
         const val materialDialogs = "io.github.vanpra.compose-material-dialogs:datetime:0.9.0"
     }
 
-    object KolinSerialization {
-        private const val version = "1.4.1"
+    object KotlinSerialization {
+        private const val version = "1.5.1"
         const val plugin = "kotlinx-serialization"
         const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
         const val classPath = "org.jetbrains.kotlin:kotlin-serialization:$KotlinVersion"
@@ -145,6 +145,22 @@ object Deps {
     object GoogleServices {
         const val gmsServicePlugin = "com.google.gms.google-services"
         const val gmsServiceClassPath = "com.google.gms:google-services:4.3.15"
+    }
+
+    object Lottie {
+        const val lottie = "com.airbnb.android:lottie-compose:6.0.1"
+    }
+
+    object MLKit {
+        const val LanguageIdentification = "com.google.mlkit:language-id:17.0.4"
+    }
+
+    object Zip {
+        const val zip = "net.lingala.zip4j:zip4j:2.11.5"
+    }
+
+    object Billing {
+        const val billing = "com.android.billingclient:billing-ktx:6.0.1"
     }
 
 

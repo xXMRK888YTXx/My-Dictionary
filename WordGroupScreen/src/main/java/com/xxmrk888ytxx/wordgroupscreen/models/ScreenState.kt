@@ -1,6 +1,9 @@
 package com.xxmrk888ytxx.wordgroupscreen.models
 
-sealed class ScreenState {
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
-    object EmptyWordGroupState : ScreenState()
-}
+data class ScreenState(
+    val wordList:ImmutableList<WordGroup> = persistentListOf(),
+    val wordGroupDialogOptionState: WordGroupDialogOptionState = WordGroupDialogOptionState.Hidden
+)

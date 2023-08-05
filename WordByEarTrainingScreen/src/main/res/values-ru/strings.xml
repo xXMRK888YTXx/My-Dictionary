@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="configuration">Настройка</string>
+    <string name="training">Тренировка</string>
+    <string name="results">Результаты</string>
+    <string name="loading">Загрузка</string>
+    <string name="start">Начать</string>
+    <string name="unfortunately_this_is_the_wrong_answer">К сожалению, это неправильный ответ</string>
+    <string name="you_are_right">Вы правы</string>
+    <string name="correct_answer_was">Правильный ответ был:</string>
+    <string name="congratulations">Поздравления</string>
+    <string name="answer">Answer</string>
+    <string name="write_the_spoken_word">Напишите произнесенное слово</string>
+    <string name="check_the_answer">Проверить ответ</string>
+    <string name="next">Следующий</string>
+    <string name="exit">Выйти</string>
+</resources>

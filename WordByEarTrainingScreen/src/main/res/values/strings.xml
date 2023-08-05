@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="configuration">Configuration</string>
+    <string name="training">Training</string>
+    <string name="results">Results</string>
+    <string name="loading">Loading</string>
+    <string name="start">Start</string>
+    <string name="unfortunately_this_is_the_wrong_answer">Unfortunately this is the wrong answer</string>
+    <string name="you_are_right">You are right</string>
+    <string name="correct_answer_was">Correct answer was: </string>
+    <string name="congratulations">Congratulations</string>
+    <string name="answer">Answer</string>
+    <string name="write_the_spoken_word">Write the spoken word</string>
+    <string name="check_the_answer">Check the answer</string>
+    <string name="next">Next</string>
+    <string name="exit">Exit</string>
+</resources>

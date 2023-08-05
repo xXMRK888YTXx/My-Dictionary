@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_backup">Create a backup</string>
+    <string name="choose_backup_place">Choose a backup place</string>
+    <string name="select_a_groups_of_words_to_be_include_in_the_backup">Select a groups of words to be include in the backup</string>
+    <string name="backup_created">Backup created</string>
+    <string name="in_backup_process_was_been_error">In backup process was been error</string>
+    <string name="please_wait">Please,wait</string>
+    <string name="location_selection_has_been_canceled">Location selection has been canceled</string>
+</resources>

@@ -1,13 +1,16 @@
 package com.xxmrk888ytxx.goals.extensions
 
+import AdController
 import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compose.AppTheme
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.mydictionary.App
 import com.xxmrk888ytxx.mydictionary.DI.AppComponent
 
@@ -44,16 +47,21 @@ inline fun <reified T : ViewModel> composeViewModel(
     }
 )
 
-fun ComponentActivity.setContentWithTheme(
+fun ComponentActivity.setContentWithThemeAndAdController(
     useDynamicColors: Boolean = true,
     useDarkTheme: Boolean? = null,
+    adController: AdController,
     content: @Composable () -> Unit,
 ) {
     setContent {
-        AppTheme(
-            useDarkTheme = useDarkTheme ?: isSystemInDarkTheme(),
-            useDynamicColors = useDynamicColors,
-            content = content
-        )
+        CompositionLocalProvider(
+            LocalAdController provides adController
+        ) {
+            AppTheme(
+                useDarkTheme = useDarkTheme ?: isSystemInDarkTheme(),
+                useDynamicColors = useDynamicColors,
+                content = content
+            )
+        }
     }
 }
