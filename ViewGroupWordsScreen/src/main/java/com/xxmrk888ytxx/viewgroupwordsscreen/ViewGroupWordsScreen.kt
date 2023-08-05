@@ -168,10 +168,10 @@ fun ViewGroupWordsScreen(
                                 onValueChange = { onEvent(LocalUiEvent.OnChangeSearchValueEvent(it)) },
                                 label = { Text(
                                     text = stringResource(R.string.search),
-                                    style = MaterialTheme.typography.titleLarge
+                                    style = MaterialTheme.typography.titleMedium
                                 ) },
                                 modifier = Modifier.fillMaxWidth(),
-                                textStyle = MaterialTheme.typography.titleLarge
+                                textStyle = MaterialTheme.typography.titleMedium
                             )
                         }
                     }
