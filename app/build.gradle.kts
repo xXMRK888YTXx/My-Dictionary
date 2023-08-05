@@ -14,7 +14,7 @@ android {
         applicationId = "com.xxmrk888ytxx.mydictionary"
         minSdk = Config.minSdk
         targetSdk = Config.compileSdk
-        versionCode = 4
+        versionCode = 5
         versionName = Config.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
