@@ -1,18 +1,18 @@
 # [En] Application Description
 
-YourDictionary - your personal assistant for learning foreign languages!
+My dictionary - your personal assistant for learning foreign languages!
 
-YourDictionary is an intuitive and effective application for learning foreign words, designed specifically for those who want to improve their vocabulary and increase their level of foreign language proficiency.
+My dictionary is an intuitive and effective application for learning foreign words, designed specifically for those who want to improve their vocabulary and increase their level of foreign language proficiency.
 
 The main features of the application are:
 
 1. Create your own personalized dictionary: You can easily add new words and phrases that you have learned during the learning process. Just enter a word and its translation and it will be automatically saved in your personalized dictionary.
 
-2. Practice Modes: Practice modes in YourDictionary ensures effective memorization of added words and phrases. We can practice translation by memory or by ear.
+2. Practice Modes: Practice modes in My dictionary ensures effective memorization of added words and phrases. We can practice translation by memory or by ear.
 
-Regardless of your language proficiency level, YourDictionary will be your faithful companion in your journey to language mastery. Learn words, practice and reach new heights in language learning with YourDictionary!
+Regardless of your language proficiency level, My dictionary will be your faithful companion in your journey to language mastery. Learn words, practice and reach new heights in language learning with My dictionary!
 
-# Описание структуры проекта
+# Description of the project structure
 
 ## [AdmobManager]
 Module with Admob components
@@ -85,17 +85,17 @@ Module with screen for practicing word translation
 
 # [Ru] Описание приложения
 
-YourDictionary - ваш персональный помощник для изучения иностранных языков!
+Мой словарь - ваш персональный помощник для изучения иностранных языков!
 
-YourDictionary - это интуитивное и эффективное приложение для изучения иностранных слов, разработанное специально для тех, кто стремится усовершенствовать свой словарный запас и повысить уровень владения иностранным языком.
+Мой словарь - это интуитивное и эффективное приложение для изучения иностранных слов, разработанное специально для тех, кто стремится усовершенствовать свой словарный запас и повысить уровень владения иностранным языком.
 
 Основные возможности приложения:
 
 1. Создание своего персонального словаря: Вы можете легко добавлять новые слова и фразы, которые вы изучили в процессе обучения. Просто введите слово и его перевод, и оно будет автоматически сохранено в вашем персональном словаре.
 
-2. Режимы тренировки: Режимы тренировки в YourDictionary обеспечивает эффективное запоминание добавленных слов и фраз. Мы можете тренировать перевод по памяти или на слух.
+2. Режимы тренировки: Режимы тренировки в Мой словарь обеспечивает эффективное запоминание добавленных слов и фраз. Мы можете тренировать перевод по памяти или на слух.
 
-Независимо от вашего уровня владения иностранным языком, YourDictionary станет вашим верным спутником в путешествии к языковому мастерству. Учите слова, тренируйтесь и достигайте новых высот в изучении иностранных языков с YourDictionary!
+Независимо от вашего уровня владения иностранным языком, Мой словарь станет вашим верным спутником в путешествии к языковому мастерству. Учите слова, тренируйтесь и достигайте новых высот в изучении иностранных языков с Мой словарь!
 
 # Описание структуры проекта
 
