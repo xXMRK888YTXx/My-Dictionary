@@ -234,7 +234,7 @@ class WordByEarTrainingViewModel @Inject constructor(
 
     private fun checkAnswer(correctAnswerer: String, receivedAnswer: String): Boolean {
         val prepareStringLambda: (String) -> String = {
-            it.lowercase()
+            it.trim().lowercase()
         }
 
         return prepareStringLambda(correctAnswerer) == prepareStringLambda(receivedAnswer)
