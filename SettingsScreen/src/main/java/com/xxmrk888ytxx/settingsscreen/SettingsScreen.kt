@@ -80,6 +80,7 @@ fun SettingsScreen(
             backupCategory(
                 onOpenCreateBackupScreen = { onEvent(LocalUiEvent.OpenCreateBackupScreenEvent(navigator)) },
                 onOpenRestoreBackupScreen = { onEvent(LocalUiEvent.OpenRestoreBackupScreenEvent(navigator)) },
+                onOpenAutoBackupToTelegramScreen = { onEvent(LocalUiEvent.OpenAutoBackupToTelegramEvent(navigator)) },
                 context = context
             )
 
