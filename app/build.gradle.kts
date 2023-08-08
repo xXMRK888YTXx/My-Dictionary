@@ -77,6 +77,7 @@ dependencies {
     implementation(project(Project.FeatureViewScreen))
     implementation(project(Project.PreferencesStorage))
     implementation(project(Project.AdmobManager))
+    implementation(project(Project.AutoBackupToTelegramScreen))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)

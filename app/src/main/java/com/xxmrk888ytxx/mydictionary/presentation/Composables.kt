@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.xxmrk888ytxx.addwordscreen.EditWordScreen
 import com.xxmrk888ytxx.addwordscreen.EditWordViewModel
+import com.xxmrk888ytxx.autobackuptotelegramscreen.AutoBackupToTelegramScreen
+import com.xxmrk888ytxx.autobackuptotelegramscreen.AutoBackupToTelegramViewModel
 import com.xxmrk888ytxx.bottombarscreen.BottomBarScreen
 import com.xxmrk888ytxx.bottombarscreen.models.BottomBarScreenModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
@@ -338,6 +340,20 @@ fun NavGraphBuilder.manageLanguageScreen(
             screenState = state,
             onEvent = viewModel::handleEvent
         )
+    }
+}
+
+fun NavGraphBuilder.autoBackupToTelegramScreen(
+    autoBackupToTelegramViewModel:Provider<AutoBackupToTelegramViewModel>
+) {
+    composable(Screen.AutoBackupToTelegramScreen.route) {
+        val viewModel = composeViewModel {
+            autoBackupToTelegramViewModel.get()
+        }
+
+        val state by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
+
+        AutoBackupToTelegramScreen(screenState = state, onEvent = viewModel::handleEvent)
     }
 }
 

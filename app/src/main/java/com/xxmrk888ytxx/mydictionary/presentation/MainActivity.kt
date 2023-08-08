@@ -14,6 +14,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.xxmrk888ytxx.addwordscreen.EditWordViewModel
 import com.xxmrk888ytxx.admobmanager.AdMobBanner
+import com.xxmrk888ytxx.autobackuptotelegramscreen.AutoBackupToTelegramViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupViewModel
 import com.xxmrk888ytxx.createwordgroupscreen.CreateWordGroupViewModel
@@ -82,6 +83,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var firstStartAppStateHolder: FirstStartAppStateHolder
 
+    @Inject
+    lateinit var autoBackupToTelegramViewModel: Provider<AutoBackupToTelegramViewModel>
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +137,8 @@ class MainActivity : ComponentActivity() {
                     restoreBackupScreen(restoreBackupViewModel)
 
                     manageLanguageScreen(manageLanguageViewModel)
+
+                    autoBackupToTelegramScreen(autoBackupToTelegramViewModel)
                 }
             }
         }

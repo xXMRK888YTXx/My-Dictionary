@@ -104,7 +104,7 @@ class ActivityViewModel @Inject constructor(
     }
 
     override fun toAutoBackupToTelegramScreen() {
-
+        navigate(Screen.AutoBackupToTelegramScreen)
     }
 
 
