@@ -4,6 +4,7 @@ import android.content.Context
 import com.xxmrk888ytxx.mydictionary.DI.module.AdmobModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ApplicationScopeModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
+import com.xxmrk888ytxx.mydictionary.DI.module.AutoBackupToTelegramScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.BackupConverterModule
 import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
@@ -52,7 +53,8 @@ import dagger.Component
         FeatureViewScreenModule::class,
         PreferencesStorageModule::class,
         ApplicationScopeModule::class,
-        AdmobModule::class
+        AdmobModule::class,
+        AutoBackupToTelegramScreenModule::class
     ]
 )
 @AppScope
