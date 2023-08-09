@@ -39,25 +39,6 @@ class AutoBackupToTelegramViewModel @Inject constructor(
                 validateNoOneLineData()
             }
 
-            is LocalUiEvent.OneLineDataTextChangedEvent -> {
-                oneLineDataState.update { event.value }
-
-                validateOneLineData()
-            }
-
-            is LocalUiEvent.SaveOneLineTelegramDataEvent -> {
-                try {
-                    val telegramData = convertOneLineDataToTelegramData(oneLineDataState.value)
-
-                    screenTypeState.update { ScreenType.LOADING }
-
-                    startSaveTelegramDataJob(telegramData,event.snackbarHostState)
-                }catch (e:ConvertOneLineDataException) {
-                    viewModelScope.launch {
-                        event.snackbarHostState.showSnackbar("One line data is not correct")
-                    }
-                }
-            }
 
             is LocalUiEvent.SaveTelegramDataEvent -> {
                 val telegramData = TelegramData(userIdState.value,botKeyState.value)
@@ -91,14 +72,6 @@ class AutoBackupToTelegramViewModel @Inject constructor(
 
         isSaveTelegramDataAvailableState.update {
             userIdText.isNotEmpty() && botKeyText.isNotEmpty()
-        }
-    }
-
-    private fun validateOneLineData() {
-        val oneLineData = oneLineDataState.value
-
-        isSaveOneLineTelegramDataAvailableState.update {
-            oneLineData.isNotEmpty() && oneLineData.contains(":")
         }
     }
 
@@ -158,28 +131,20 @@ class AutoBackupToTelegramViewModel @Inject constructor(
 
     private val botKeyState = MutableStateFlow("")
 
-    private val oneLineDataState = MutableStateFlow("")
-
     private val isSaveTelegramDataAvailableState = MutableStateFlow(false)
-
-    private val isSaveOneLineTelegramDataAvailableState = MutableStateFlow(false)
 
 
     override val state: Flow<ScreenState> = combine(
         screenTypeState,
         userIdState,
         botKeyState,
-        oneLineDataState,
-        isSaveTelegramDataAvailableState,
-        isSaveOneLineTelegramDataAvailableState
+        isSaveTelegramDataAvailableState
     ) { flowArray:Array<Any> ->
         ScreenState(
             screenType = flowArray.getWithCast(0),
             userIdText = flowArray.getWithCast(1),
             botKeyText = flowArray.getWithCast(2),
-            oneLineDataText = flowArray.getWithCast(3),
-            isSaveTelegramDataAvailable = flowArray.getWithCast(4),
-            isSaveOneLineTelegramDataAvailable = flowArray.getWithCast(5)
+            isSaveTelegramDataAvailable = flowArray.getWithCast(3),
         ).also { cashedScreenState = it }
     }
 
@@ -187,18 +152,6 @@ class AutoBackupToTelegramViewModel @Inject constructor(
 
     override val defValue: ScreenState
         get() = cashedScreenState
-
-    private fun convertOneLineDataToTelegramData(oneLineData:String) : TelegramData {
-        try {
-            val list = oneLineData.split(':')
-
-            if(list.size != 2 && !list[0].isDigitsOnly()) error("No valid telegram data")
-
-            return TelegramData(list[0],list[1])
-        }catch (_:Exception) {
-            throw ConvertOneLineDataException()
-        }
-    }
 
 
     init {

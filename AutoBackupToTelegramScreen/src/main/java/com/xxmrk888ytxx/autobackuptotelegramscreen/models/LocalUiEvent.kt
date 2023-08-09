@@ -8,13 +8,9 @@ internal sealed class LocalUiEvent : UiEvent {
     
     class SaveTelegramDataEvent(val snackbarHostState: SnackbarHostState) : LocalUiEvent()
 
-    class SaveOneLineTelegramDataEvent(val snackbarHostState: SnackbarHostState) : LocalUiEvent()
-
     class UserIdTextChangedEvent(val value: String) : LocalUiEvent()
 
     class BotKeyTextChangedEvent(val value: String) : LocalUiEvent()
-
-    class OneLineDataTextChangedEvent(val value: String) : LocalUiEvent()
 
     class OnBackEvent(val navigator: Navigator) : LocalUiEvent()
 

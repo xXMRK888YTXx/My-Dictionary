@@ -62,15 +62,11 @@ fun AutoBackupToTelegramScreen(
                     InputTelegramDataScreenType(
                         userIdText = screenState.userIdText,
                         botKeyText = screenState.botKeyText,
-                        oneLineDataText = screenState.oneLineDataText,
                         onUserIdTextChanged = { onEvent(LocalUiEvent.UserIdTextChangedEvent(it)) },
                         onBotKeyTextChanged = { onEvent(LocalUiEvent.BotKeyTextChangedEvent(it)) },
-                        onOneLineDataTextChanged = { onEvent(LocalUiEvent.OneLineDataTextChangedEvent(it)) },
                         onSaveTelegramData = { onEvent(LocalUiEvent.SaveTelegramDataEvent(snackbarHostState)) },
-                        onSaveOneLineTelegramData = { onEvent(LocalUiEvent.SaveOneLineTelegramDataEvent(snackbarHostState)) },
                         onWhereToGet = { onEvent(LocalUiEvent.WhereToGetEvent) },
                         isSaveTelegramDataButtonAvailable = screenState.isSaveTelegramDataAvailable,
-                        isSaveOneLineTelegramDataButtonAvailable = screenState.isSaveOneLineTelegramDataAvailable
                     )
                 }
 
@@ -110,15 +106,11 @@ fun TopBar(
 private fun InputTelegramDataScreenType(
     userIdText:String,
     botKeyText:String,
-    oneLineDataText:String,
     onUserIdTextChanged:(String) -> Unit,
     onBotKeyTextChanged:(String) -> Unit,
-    onOneLineDataTextChanged:(String) -> Unit,
     onSaveTelegramData:() -> Unit,
-    onSaveOneLineTelegramData:() -> Unit,
     onWhereToGet:() -> Unit,
     isSaveTelegramDataButtonAvailable:Boolean,
-    isSaveOneLineTelegramDataButtonAvailable:Boolean,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -142,28 +134,6 @@ private fun InputTelegramDataScreenType(
             SaveTelegramDataButton(
                 onClick = onSaveTelegramData,
                 enabled = isSaveTelegramDataButtonAvailable
-            )
-        }
-
-        item {
-            Text(
-                text = "Or\n you can enter telegram data in one line",
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-        }
-
-        item {
-            InputTelegramDataTextField(
-                text = oneLineDataText,
-                onChange = onOneLineDataTextChanged,
-                label = "{userId}:{bot_key}"
-            )
-
-            SaveTelegramDataButton(
-                onClick = onSaveOneLineTelegramData,
-                enabled = isSaveOneLineTelegramDataButtonAvailable
             )
         }
 
