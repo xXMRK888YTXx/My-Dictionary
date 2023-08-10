@@ -5,7 +5,8 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.CheckTelegramDataContract
-import com.xxmrk888ytxx.autobackuptotelegramscreen.exception.ConvertOneLineDataException
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.ValidateTelegramDataContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.SaveTelegramDataContract
 import com.xxmrk888ytxx.autobackuptotelegramscreen.exception.NoInternetException
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.ScreenState
@@ -16,7 +17,6 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.coreandroid.getWithCast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -25,6 +25,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AutoBackupToTelegramViewModel @Inject constructor(
+    private val validateTelegramDataContract: ValidateTelegramDataContract,
+    private val saveTelegramDataContract: SaveTelegramDataContract,
     private val checkTelegramDataContract: CheckTelegramDataContract
 ) : ViewModel(),UiModel<ScreenState> {
 
@@ -36,7 +38,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
             is LocalUiEvent.BotKeyTextChangedEvent -> {
                 botKeyState.update { event.value }
 
-                validateNoOneLineData()
+                validateData()
             }
 
 
@@ -53,7 +55,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
 
                 userIdState.update { event.value }
 
-                validateNoOneLineData()
+                validateData()
             }
 
             LocalUiEvent.WhereToGetEvent -> {
@@ -66,7 +68,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
         }
     }
 
-    private fun validateNoOneLineData() {
+    private fun validateData() {
         val userIdText = userIdState.value
         val botKeyText = botKeyState.value
 
@@ -80,7 +82,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
         snackbarHostState: SnackbarHostState
     ) : Boolean {
         return try {
-            val result = checkTelegramDataContract.checkData(telegramData)
+            val result = validateTelegramDataContract.validateData(telegramData)
 
             if(!result) {
                 viewModelScope.launch {
@@ -122,6 +124,8 @@ class AutoBackupToTelegramViewModel @Inject constructor(
                 return@launch
             }
 
+            saveTelegramDataContract.saveTelegramData(telegramData)
+
             screenTypeState.update { ScreenType.BACKUP_SETTINGS }
         }
     }
@@ -157,6 +161,12 @@ class AutoBackupToTelegramViewModel @Inject constructor(
 
 
     init {
-        screenTypeState.update { ScreenType.INPUT_TELEGRAM_DATA }
+        viewModelScope.launch(Dispatchers.IO) {
+            if(checkTelegramDataContract.isTelegramDataExist()) {
+                screenTypeState.update { ScreenType.BACKUP_SETTINGS }
+            } else {
+                screenTypeState.update { ScreenType.INPUT_TELEGRAM_DATA }
+            }
+        }
     }
 }

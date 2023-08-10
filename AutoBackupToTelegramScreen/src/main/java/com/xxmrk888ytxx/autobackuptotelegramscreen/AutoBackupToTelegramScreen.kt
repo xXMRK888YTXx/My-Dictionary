@@ -70,12 +70,17 @@ fun AutoBackupToTelegramScreen(
                     )
                 }
 
-                ScreenType.BACKUP_SETTINGS -> TODO()
+                ScreenType.BACKUP_SETTINGS -> BackupSettingsScreenType()
 
                 ScreenType.LOADING -> LoadingScreenType()
             }
         }
     }
+}
+
+@Composable
+fun BackupSettingsScreenType() {
+    
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
