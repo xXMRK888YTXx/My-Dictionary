@@ -20,6 +20,8 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepo
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProvider
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProviderImpl
+import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolder
+import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProvider
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProviderImpl
 import dagger.Binds
@@ -71,6 +73,12 @@ interface DomainModule {
     fun bindAdsStateManager(
         adsStateManagerImpl: AdsStateManagerImpl
     ) : AdsStateManager
+
+    @Binds
+    fun bindTelegramDataHolder(
+        telegramDataHolderImpl: TelegramDataHolderImpl
+    ) : TelegramDataHolder
+
 
     companion object {
 
