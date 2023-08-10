@@ -10,6 +10,7 @@ import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateBackupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateWordGroupScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.CryptoManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.DomainModule
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
@@ -56,7 +57,8 @@ import dagger.Component
         ApplicationScopeModule::class,
         AdmobModule::class,
         AutoBackupToTelegramScreenModule::class,
-        TelegramApiModule::class
+        TelegramApiModule::class,
+        CryptoManagerModule::class
     ]
 )
 @AppScope
