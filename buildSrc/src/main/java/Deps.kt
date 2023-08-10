@@ -163,5 +163,13 @@ object Deps {
         const val billing = "com.android.billingclient:billing-ktx:6.0.1"
     }
 
+    object Ktor {
+        private const val ktor_version = "2.3.3"
+        const val KtorAndroid = "io.ktor:ktor-client-android:$ktor_version"
+        const val KtorSerialization = "io.ktor:ktor-serialization-kotlinx-json:$ktor_version"
+        const val loggier = "io.ktor:ktor-client-logging-jvm:$ktor_version"
+        const val KtorNegotiation = "io.ktor:ktor-client-content-negotiation:$ktor_version"
+    }
+
 
 }

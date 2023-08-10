@@ -121,6 +121,8 @@ class AutoBackupToTelegramViewModel @Inject constructor(
                 screenTypeState.update { ScreenType.INPUT_TELEGRAM_DATA }
                 return@launch
             }
+
+            screenTypeState.update { ScreenType.BACKUP_SETTINGS }
         }
     }
 

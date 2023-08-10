@@ -78,6 +78,7 @@ dependencies {
     implementation(project(Project.PreferencesStorage))
     implementation(project(Project.AdmobManager))
     implementation(project(Project.AutoBackupToTelegramScreen))
+    implementation(project(Project.TelegramApi))
 
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
