@@ -79,7 +79,7 @@ dependencies {
     implementation(project(Project.AdmobManager))
     implementation(project(Project.AutoBackupToTelegramScreen))
     implementation(project(Project.TelegramApi))
-
+    implementation(project(Project.CryptoManager))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

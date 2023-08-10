@@ -25,4 +25,5 @@ object Project {
     const val AdmobManager = ":AdmobManager"
     const val AutoBackupToTelegramScreen = ":AutoBackupToTelegramScreen"
     const val TelegramApi = ":TelegramApi"
+    const val CryptoManager = ":CryptoManager"
 }
