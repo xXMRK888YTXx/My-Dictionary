@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.BackupTime
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.LocalUiEvent
@@ -127,16 +125,17 @@ fun BackupSettingsScreenType(
         item {
             SwitchParam(
                 text = "Enable auto backup to Telegram",
-                isEnabled = isAutoBackupEnabled,
-                onStateChanged = onBackupStateChanged
+                isChecked = isAutoBackupEnabled,
+                onStateChanged = onBackupStateChanged,
             )
         }
 
         item {
             SwitchParam(
                 text = "Do not backup if there are no changes",
-                isEnabled = isNotExecuteIfNotChanges,
-                onStateChanged = onIsNotExecuteIfNotChangesStateChanged
+                isChecked = isNotExecuteIfNotChanges,
+                onStateChanged = onIsNotExecuteIfNotChangesStateChanged,
+                isEnabled = isAutoBackupEnabled
             )
         }
 
@@ -248,8 +247,9 @@ fun SelectTimeWidget(
 @Composable
 private fun SwitchParam(
     text:String,
-    isEnabled:Boolean,
-    onStateChanged:(Boolean) -> Unit
+    isChecked:Boolean,
+    onStateChanged:(Boolean) -> Unit,
+    isEnabled:Boolean = true
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -263,8 +263,9 @@ private fun SwitchParam(
         Spacer(modifier = Modifier.weight(1f))
 
         Switch(
-            checked = isEnabled,
-            onCheckedChange = onStateChanged
+            checked = isChecked,
+            onCheckedChange = onStateChanged,
+            enabled = isEnabled
         )
     }
 }
