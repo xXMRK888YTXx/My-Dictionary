@@ -4,6 +4,8 @@ import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupFileUseCase.CreateBackupFileUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupFileUseCase.CreateBackupFileUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupToTelegramUseCase.CreateBackupToTelegramUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupToTelegramUseCase.CreateBackupToTelegramUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCase
@@ -96,4 +98,9 @@ interface UseCaseModule {
     fun bindCreateBackupFileUseCase(
         createBackupFileUseCaseImpl: CreateBackupFileUseCaseImpl
     ) : CreateBackupFileUseCase
+
+    @Binds
+    fun bindsCreateBackupToTelegramUseCase(
+        createBackupToTelegramUseCaseImpl: CreateBackupToTelegramUseCaseImpl
+    ) : CreateBackupToTelegramUseCase
 }
