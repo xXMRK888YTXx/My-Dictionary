@@ -5,6 +5,11 @@ import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.CheckTelegramDataContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.CreateBackupContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.ManageBackupSettingsContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.OpenWhereToGetInstructionsContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.ProvideBackupSettingsContract
+import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.RemoveTelegramDataContract
 import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.ValidateTelegramDataContract
 import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.SaveTelegramDataContract
 import com.xxmrk888ytxx.autobackuptotelegramscreen.exception.NoInternetException
@@ -27,7 +32,12 @@ import javax.inject.Inject
 class AutoBackupToTelegramViewModel @Inject constructor(
     private val validateTelegramDataContract: ValidateTelegramDataContract,
     private val saveTelegramDataContract: SaveTelegramDataContract,
-    private val checkTelegramDataContract: CheckTelegramDataContract
+    private val checkTelegramDataContract: CheckTelegramDataContract,
+    private val manageBackupSettingsContract: ManageBackupSettingsContract,
+    private val provideBackupSettingsContract: ProvideBackupSettingsContract,
+    private val openWhereToGetInstructionsContract: OpenWhereToGetInstructionsContract,
+    private val createBackupContract: CreateBackupContract,
+    private val removeTelegramDataContract: RemoveTelegramDataContract
 ) : ViewModel(),UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -59,11 +69,50 @@ class AutoBackupToTelegramViewModel @Inject constructor(
             }
 
             LocalUiEvent.WhereToGetEvent -> {
-
+                openWhereToGetInstructionsContract.openInstructions()
             }
 
             is LocalUiEvent.OnBackEvent -> {
                 event.navigator.backScreen()
+            }
+
+            is LocalUiEvent.BackupStateChanged -> {
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    manageBackupSettingsContract.setBackupState(event.value)
+                }
+            }
+
+            is LocalUiEvent.BackupTimeChangedEvent -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    manageBackupSettingsContract.setBackupTime(event.backupTime)
+                }
+            }
+
+            LocalUiEvent.CreateBackup -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    createBackupContract.createBackup()
+                }
+            }
+
+            is LocalUiEvent.IsNotExecuteIfNotChangesStateChangedEvent -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    manageBackupSettingsContract.setNotExecuteIfNotChangesState(event.value)
+                }
+            }
+
+            LocalUiEvent.RemoveTelegramData -> {
+
+                viewModelScope.launch(Dispatchers.IO) {
+
+                    screenTypeState.update { ScreenType.LOADING }
+
+                    removeTelegramDataContract.remove()
+
+                    manageBackupSettingsContract.reset()
+
+                    screenTypeState.update { ScreenType.INPUT_TELEGRAM_DATA }
+                }
             }
         }
     }
@@ -140,17 +189,21 @@ class AutoBackupToTelegramViewModel @Inject constructor(
     private val isSaveTelegramDataAvailableState = MutableStateFlow(false)
 
 
+
+
     override val state: Flow<ScreenState> = combine(
         screenTypeState,
         userIdState,
         botKeyState,
-        isSaveTelegramDataAvailableState
+        isSaveTelegramDataAvailableState,
+        provideBackupSettingsContract.backupSettings
     ) { flowArray:Array<Any> ->
         ScreenState(
             screenType = flowArray.getWithCast(0),
             userIdText = flowArray.getWithCast(1),
             botKeyText = flowArray.getWithCast(2),
             isSaveTelegramDataAvailable = flowArray.getWithCast(3),
+            backupSettings = flowArray.getWithCast(4)
         ).also { cashedScreenState = it }
     }
 

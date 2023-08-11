@@ -4,6 +4,8 @@ import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.BillingScopeQualifier
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
 import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManagerImpl
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManager
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
@@ -78,6 +80,11 @@ interface DomainModule {
     fun bindTelegramDataHolder(
         telegramDataHolderImpl: TelegramDataHolderImpl
     ) : TelegramDataHolder
+
+    @Binds
+    fun bindAutoBackupTelegramSettingsHolder(
+        autoBackupTelegramSettingsHolderImpl: AutoBackupTelegramSettingsHolderImpl
+    ) : AutoBackupTelegramSettingsHolder
 
 
     companion object {

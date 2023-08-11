@@ -13,7 +13,17 @@ internal sealed class LocalUiEvent : UiEvent {
     class BotKeyTextChangedEvent(val value: String) : LocalUiEvent()
 
     class OnBackEvent(val navigator: Navigator) : LocalUiEvent()
+    
+    class BackupStateChanged(val value: Boolean) : LocalUiEvent()
+    
+    class BackupTimeChangedEvent(val backupTime: BackupTime) : LocalUiEvent()
+    
+    class IsNotExecuteIfNotChangesStateChangedEvent(val value: Boolean) : LocalUiEvent()
 
     object WhereToGetEvent : LocalUiEvent()
+
+    object CreateBackup : LocalUiEvent()
+
+    object RemoveTelegramData : LocalUiEvent()
 
 }
