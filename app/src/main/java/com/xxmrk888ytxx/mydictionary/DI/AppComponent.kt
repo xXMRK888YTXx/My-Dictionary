@@ -1,11 +1,15 @@
 package com.xxmrk888ytxx.mydictionary.DI
 
 import android.content.Context
+import com.xxmrk888ytxx.backupworker.workers.BackupToTelegramWorker.BackupMaker
+import com.xxmrk888ytxx.backupworker.workers.BackupToTelegramWorker.IsBackupNeededChecker
+import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.mydictionary.DI.module.AdmobModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ApplicationScopeModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.AutoBackupToTelegramScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.BackupConverterModule
+import com.xxmrk888ytxx.mydictionary.DI.module.BackupToTelegramWorkerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.EditWordScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CoreModule
 import com.xxmrk888ytxx.mydictionary.DI.module.CreateBackupScreenModule
@@ -58,7 +62,8 @@ import dagger.Component
         AdmobModule::class,
         AutoBackupToTelegramScreenModule::class,
         TelegramApiModule::class,
-        CryptoManagerModule::class
+        CryptoManagerModule::class,
+        BackupToTelegramWorkerModule::class
     ]
 )
 @AppScope
@@ -67,6 +72,12 @@ interface AppComponent {
     fun inject(mainActivity: MainActivity)
 
     val billingManager:BillingManager
+
+    val logger:Logger
+
+    val backupMaker:BackupMaker
+
+    val isBackupNeededChecker:IsBackupNeededChecker
 
     @Component.Factory
     interface Factory {

@@ -171,5 +171,11 @@ object Deps {
         const val KtorNegotiation = "io.ktor:ktor-client-content-negotiation:$ktor_version"
     }
 
+    object WorkManager {
+        private const val version = "2.8.1"
+        const val workManager = "androidx.work:work-runtime-ktx:$version"
+        const val workManagerTest = "androidx.work:work-testing:$version"
+    }
+
 
 }

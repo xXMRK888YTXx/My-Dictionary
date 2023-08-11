@@ -26,4 +26,5 @@ object Project {
     const val AutoBackupToTelegramScreen = ":AutoBackupToTelegramScreen"
     const val TelegramApi = ":TelegramApi"
     const val CryptoManager = ":CryptoManager"
+    const val BackupWorker = ":BackupWorker"
 }
