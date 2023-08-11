@@ -56,7 +56,7 @@ class CreateBackupToTelegramUseCaseImpl @Inject constructor(
 
             telegramApi.uploadFile(
                 readFileUseCase.execute(backupFile.toUri()).getOrThrow(),
-            )
+            ).getOrThrow()
 
             autoBackupToTelegramLastBackupHashHolder.updateHash()
 
