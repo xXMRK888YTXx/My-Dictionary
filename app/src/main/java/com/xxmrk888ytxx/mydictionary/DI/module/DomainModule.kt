@@ -6,6 +6,8 @@ import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
 import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolderImpl
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolder
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManager
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
@@ -85,6 +87,11 @@ interface DomainModule {
     fun bindAutoBackupTelegramSettingsHolder(
         autoBackupTelegramSettingsHolderImpl: AutoBackupTelegramSettingsHolderImpl
     ) : AutoBackupTelegramSettingsHolder
+
+    @Binds
+    fun bindAutoBackupToTelegramLastBackupHashHolder(
+        autoBackupToTelegramLastBackupHashHolderImpl: AutoBackupToTelegramLastBackupHashHolderImpl
+    ) : AutoBackupToTelegramLastBackupHashHolder
 
 
     companion object {
