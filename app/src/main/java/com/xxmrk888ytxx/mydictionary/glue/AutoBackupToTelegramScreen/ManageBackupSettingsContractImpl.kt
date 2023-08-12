@@ -4,6 +4,7 @@ import com.xxmrk888ytxx.autobackuptotelegramscreen.contract.ManageBackupSettings
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.BackupTime
 import com.xxmrk888ytxx.backupworker.BackupWorkerManager
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolder
 import kotlinx.coroutines.flow.first
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -14,7 +15,8 @@ import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.Bac
  */
 class ManageBackupSettingsContractImpl @Inject constructor(
     private val backupTelegramSettingsHolder: AutoBackupTelegramSettingsHolder,
-    private val backupWorkerManager: BackupWorkerManager
+    private val backupWorkerManager: BackupWorkerManager,
+    private val autoBackupToTelegramLastBackupHashHolder: AutoBackupToTelegramLastBackupHashHolder
 ) : ManageBackupSettingsContract {
 
     private data class TimeInfoForBackup(
@@ -66,6 +68,7 @@ class ManageBackupSettingsContractImpl @Inject constructor(
     override suspend fun reset() {
         setBackupState(false)
         setNotExecuteIfNotChangesState(false)
+        autoBackupToTelegramLastBackupHashHolder.reset()
     }
 
 
