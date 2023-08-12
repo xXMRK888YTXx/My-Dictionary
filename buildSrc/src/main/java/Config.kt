@@ -6,7 +6,7 @@ object Config {
     const val packageName = "com.xxmrk888ytxx.goals"
     const val isR8ProGuardEnableForRelease = true
     const val isR8ProGuardEnableForDebug = false
-    const val versionName = "1.1.0rc1"
+    const val versionName = "1.1.0r"
 
     //JDK Config
     val sourceCompatibility = JavaVersion.VERSION_17
