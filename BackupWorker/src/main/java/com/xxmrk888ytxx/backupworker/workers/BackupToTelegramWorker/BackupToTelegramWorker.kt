@@ -24,12 +24,12 @@ internal class BackupToTelegramWorker(
 
         applicationContext.buildNotificationChannel(
             NOTIFICATION_CHANNEL_ID,
-            "Channel for backup notification"
+            context.getString(R.string.channel_for_backup_notification)
         )
 
         val notification = applicationContext.buildNotification(NOTIFICATION_CHANNEL_ID) {
-            setContentTitle("Backup in process")
-            setContentText("Don't turn off internet")
+            setContentTitle(context.getString(R.string.backup_in_process))
+            setContentText(context.getString(R.string.don_t_turn_off_internet))
             setSmallIcon(R.drawable.baseline_backup_24)
         }
 
