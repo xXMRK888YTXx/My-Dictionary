@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.autobackuptotelegramscreen
 
+import android.content.Context
 import androidx.compose.material3.SnackbarHostState
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
@@ -37,7 +38,8 @@ class AutoBackupToTelegramViewModel @Inject constructor(
     private val provideBackupSettingsContract: ProvideBackupSettingsContract,
     private val openWhereToGetInstructionsContract: OpenWhereToGetInstructionsContract,
     private val createBackupContract: CreateBackupContract,
-    private val removeTelegramDataContract: RemoveTelegramDataContract
+    private val removeTelegramDataContract: RemoveTelegramDataContract,
+    private val context: Context
 ) : ViewModel(),UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -136,7 +138,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
             if(!result) {
                 viewModelScope.launch {
                     snackbarHostState.showSnackbar(
-                        "Entered telegram data is not valid"
+                        context.getString(R.string.entered_telegram_data_is_not_valid)
                     )
                 }
             }
@@ -146,7 +148,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
         catch (e:NoInternetException) {
             viewModelScope.launch {
                 snackbarHostState.showSnackbar(
-                    "No internet connection."
+                    context.getString(R.string.no_internet_connection)
                 )
             }
             return false
@@ -154,7 +156,7 @@ class AutoBackupToTelegramViewModel @Inject constructor(
         catch (e:Exception) {
             viewModelScope.launch {
                 snackbarHostState.showSnackbar(
-                    "An unknown error has occurred"
+                    context.getString(R.string.an_unknown_error_has_occurred)
                 )
             }
             return false

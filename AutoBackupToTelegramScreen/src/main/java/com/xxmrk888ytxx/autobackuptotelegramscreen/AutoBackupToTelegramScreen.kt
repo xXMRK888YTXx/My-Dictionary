@@ -31,7 +31,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.BackupTime
 import com.xxmrk888ytxx.autobackuptotelegramscreen.models.LocalUiEvent
@@ -124,7 +126,7 @@ fun BackupSettingsScreenType(
     ) {
         item {
             SwitchParam(
-                text = "Enable auto backup to Telegram",
+                text = stringResource(R.string.enable_auto_backup_to_telegram),
                 isChecked = isAutoBackupEnabled,
                 onStateChanged = onBackupStateChanged,
             )
@@ -132,7 +134,7 @@ fun BackupSettingsScreenType(
 
         item {
             SwitchParam(
-                text = "Do not backup if there are no changes",
+                text = stringResource(R.string.do_not_backup_if_there_are_no_changes),
                 isChecked = isNotExecuteIfNotChanges,
                 onStateChanged = onIsNotExecuteIfNotChangesStateChanged,
                 isEnabled = isAutoBackupEnabled
@@ -141,7 +143,7 @@ fun BackupSettingsScreenType(
 
         
         item {
-            Text(text = "Backup frequency", modifier = Modifier.padding(bottom = 10.dp))
+            Text(text = stringResource(R.string.backup_frequency), modifier = Modifier.padding(bottom = 10.dp))
 
             SelectTimeWidget(
                 selectedTime = backupTime,
@@ -151,14 +153,14 @@ fun BackupSettingsScreenType(
 
         item {
             ActionButton(
-                text = "Create backup now",
+                text = stringResource(R.string.create_backup_now),
                 onClick = onCreateBackupNow
             )
         }
 
         item {
             ActionButton(
-                text = "Remove telegram data",
+                text = stringResource(R.string.remove_telegram_data),
                 onClick = onRemoveTelegramData
             )
         }
@@ -204,22 +206,24 @@ fun SelectTimeWidget(
         val linkedBackupTime:BackupTime
     )
 
+    val context = LocalContext.current
+
     val items = remember {
         persistentListOf(
             SelectTimeWidgetItem(
-                title = "6 hours",
+                title = context.getString(R.string._6_hours),
                 linkedBackupTime = BackupTime.HOURS_6
             ),
             SelectTimeWidgetItem(
-                title = "12 hours",
+                title = context.getString(R.string._12_hours),
                 linkedBackupTime = BackupTime.HOURS_12
             ),
             SelectTimeWidgetItem(
-                title = "1 day",
+                title = context.getString(R.string._1_day),
                 linkedBackupTime = BackupTime.DAY_1
             ),
             SelectTimeWidgetItem(
-                title = "1 week",
+                title = context.getString(R.string._1_week),
                 linkedBackupTime = BackupTime.WEEK_1
             ),
         )
@@ -281,9 +285,9 @@ fun TopBar(
         title = {
             Text(
                 text = when (screenType) {
-                    ScreenType.INPUT_TELEGRAM_DATA -> "Enter telegram data"
-                    ScreenType.BACKUP_SETTINGS -> "Backup settings"
-                    ScreenType.LOADING -> "Loading"
+                    ScreenType.INPUT_TELEGRAM_DATA -> stringResource(R.string.enter_telegram_data)
+                    ScreenType.BACKUP_SETTINGS -> stringResource(R.string.backup_settings)
+                    ScreenType.LOADING -> stringResource(R.string.loading)
                 }
             )
         },
@@ -315,13 +319,13 @@ private fun InputTelegramDataScreenType(
             InputTelegramDataTextField(
                 text = userIdText,
                 onChange = onUserIdTextChanged,
-                label = "UserId"
+                label = stringResource(R.string.userid)
             )
 
             InputTelegramDataTextField(
                 text = botKeyText,
                 onChange = onBotKeyTextChanged,
-                label = "Bot key"
+                label = stringResource(R.string.bot_key)
             )
 
             SaveTelegramDataButton(
@@ -334,7 +338,7 @@ private fun InputTelegramDataScreenType(
             TextButton(
                 onClick = onWhereToGet,
             ) {
-                Text(text = "Where to get?", style = MaterialTheme.typography.titleMedium)
+                Text(text = stringResource(R.string.where_to_get), style = MaterialTheme.typography.titleMedium)
             }
         }
     }
@@ -353,7 +357,7 @@ private fun SaveTelegramDataButton(
             .padding(16.dp),
         enabled = enabled
     ) {
-        Text(text = "Save")
+        Text(text = stringResource(R.string.save))
     }
 }
 
