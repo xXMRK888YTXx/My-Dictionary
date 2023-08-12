@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.telegramapi
 
+import com.xxmrk888ytxx.coreandroid.Const
 import com.xxmrk888ytxx.telegramapi.exception.ApiException
 import com.xxmrk888ytxx.telegramapi.exception.NoConnectionException
 import com.xxmrk888ytxx.telegramapi.exception.UnknownException
@@ -74,7 +75,7 @@ internal class TelegramKtorApi(
                     Headers.build {
                         append(
                             HttpHeaders.ContentDisposition,
-                            "${ContentDisposition.Parameters.FileName}=\"backup-${System.currentTimeMillis()}\" "
+                            "${ContentDisposition.Parameters.FileName}=\"backup-${System.currentTimeMillis()}.${Const.BACKUP_FILE_TYPE}\" "
                         )
                     }
                 )
