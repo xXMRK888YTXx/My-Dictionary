@@ -25,10 +25,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -80,11 +82,22 @@ fun WordGroupScreen(
 
     val adController = LocalAdController.current
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         floatingActionButton = {
 
-            FloatingActionButton(onClick = { onEvent(LocalUiEvent.FloatButtonClickEvent(navigator,adController)) }) {
+            FloatingActionButton(onClick = {
+                onEvent(
+                    LocalUiEvent.FloatButtonClickEvent(
+                        navigator,
+                        adController
+                    )
+                )
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_add_24),
                     contentDescription = "",
@@ -94,7 +107,13 @@ fun WordGroupScreen(
         },
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.groups_of_words), style = MaterialTheme.typography.titleLarge) }
+                title = {
+                    Text(
+                        text = stringResource(R.string.groups_of_words),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                scrollBehavior = scrollBehavior
             )
         }
     ) { paddings ->
@@ -215,14 +234,14 @@ fun WordGroupDialogOption(
     onDismiss: () -> Unit,
     onRemoveWordGroup: () -> Unit,
     onRemoveImage: () -> Unit,
-    onAttachImage:() -> Unit
+    onAttachImage: () -> Unit,
 ) {
 
     val context = LocalContext.current
 
     val imageItem = remember(isHaveImage) {
 
-        if(isHaveImage) {
+        if (isHaveImage) {
             BottomSheetDialogItem(
                 text = context.getString(R.string.remove_image),
                 icon = R.drawable.baseline_hide_image_24,
@@ -248,7 +267,7 @@ fun WordGroupDialogOption(
             ),
             imageItem,
 
-        )
+            )
     )
 }
 
@@ -271,7 +290,14 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
         )
 
         Button(
-            onClick = { onEvent(LocalUiEvent.AddFirstWordGroupButtonClickEvent(navigator,adController)) }
+            onClick = {
+                onEvent(
+                    LocalUiEvent.AddFirstWordGroupButtonClickEvent(
+                        navigator,
+                        adController
+                    )
+                )
+            }
         ) {
             Text(text = stringResource(R.string.add_first_word_group))
         }

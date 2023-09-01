@@ -18,9 +18,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,11 +53,15 @@ fun SettingsScreen(
 
     val context = LocalContext.current
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+
     Scaffold(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = stringResource(R.string.settings)) }
+                title = { Text(text = stringResource(R.string.settings)) },
+                scrollBehavior = scrollBehavior
             )
         }
     ) { paddings ->
@@ -80,6 +86,7 @@ fun SettingsScreen(
             backupCategory(
                 onOpenCreateBackupScreen = { onEvent(LocalUiEvent.OpenCreateBackupScreenEvent(navigator)) },
                 onOpenRestoreBackupScreen = { onEvent(LocalUiEvent.OpenRestoreBackupScreenEvent(navigator)) },
+                onOpenAutoBackupToTelegramScreen = { onEvent(LocalUiEvent.OpenAutoBackupToTelegramEvent(navigator)) },
                 context = context
             )
 

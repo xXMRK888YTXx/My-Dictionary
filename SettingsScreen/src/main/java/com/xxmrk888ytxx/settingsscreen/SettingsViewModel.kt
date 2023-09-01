@@ -71,6 +71,10 @@ class SettingsViewModel @Inject constructor(
             is LocalUiEvent.RestorePurchasesEvent -> {
                 restorePurchasesContract.restore()
             }
+
+            is LocalUiEvent.OpenAutoBackupToTelegramEvent -> {
+                event.navigator.toAutoBackupToTelegramScreen()
+            }
         }
     }
 

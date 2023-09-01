@@ -14,7 +14,7 @@ android {
         applicationId = "com.xxmrk888ytxx.mydictionary"
         minSdk = Config.minSdk
         targetSdk = Config.compileSdk
-        versionCode = 5
+        versionCode = 7
         versionName = Config.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -77,7 +77,10 @@ dependencies {
     implementation(project(Project.FeatureViewScreen))
     implementation(project(Project.PreferencesStorage))
     implementation(project(Project.AdmobManager))
-
+    implementation(project(Project.AutoBackupToTelegramScreen))
+    implementation(project(Project.TelegramApi))
+    implementation(project(Project.CryptoManager))
+    implementation(project(Project.BackupWorker))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

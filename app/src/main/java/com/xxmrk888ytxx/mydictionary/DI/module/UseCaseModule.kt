@@ -2,6 +2,10 @@ package com.xxmrk888ytxx.mydictionary.DI.module
 
 import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CopyFileUseCase.CopyFileUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupFileUseCase.CreateBackupFileUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupFileUseCase.CreateBackupFileUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupToTelegramUseCase.CreateBackupToTelegramUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupToTelegramUseCase.CreateBackupToTelegramUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.CreateBackupUseCase.CreateBackupUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.FileWritterUseCase.FileWriterUseCase
@@ -16,6 +20,8 @@ import com.xxmrk888ytxx.mydictionary.UseCase.OpenSourceCodeUseCase.OpenSourceCod
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenSourceCodeUseCase.OpenSourceCodeUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.OpenTermsOfUseUseCase.OpenTermsOfUseUseCaseImpl
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenWhereGetTelegramDataSiteUseCase.OpenWhereGetTelegramDataSiteUseCase
+import com.xxmrk888ytxx.mydictionary.UseCase.OpenWhereGetTelegramDataSiteUseCase.OpenWhereGetTelegramDataSiteUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCase
 import com.xxmrk888ytxx.mydictionary.UseCase.ProvideWordGroupsForTrainingUseCase.ProvideWordGroupsForTrainingUseCaseImpl
 import com.xxmrk888ytxx.mydictionary.UseCase.ReadFileUseCase.ReadFileUseCase
@@ -89,4 +95,19 @@ interface UseCaseModule {
     fun bindOpenEmailAppForWriteDeveloperUseCase(
         openEmailAppForWriteDeveloperUseCaseImpl: OpenEmailAppForWriteDeveloperUseCaseImpl
     ) : OpenEmailAppForWriteDeveloperUseCase
+
+    @Binds
+    fun bindCreateBackupFileUseCase(
+        createBackupFileUseCaseImpl: CreateBackupFileUseCaseImpl
+    ) : CreateBackupFileUseCase
+
+    @Binds
+    fun bindsCreateBackupToTelegramUseCase(
+        createBackupToTelegramUseCaseImpl: CreateBackupToTelegramUseCaseImpl
+    ) : CreateBackupToTelegramUseCase
+
+    @Binds
+    fun bindsOpenWhereGetTelegramDataSiteUseCase(
+        openWhereGetTelegramDataSiteUseCaseImpl: OpenWhereGetTelegramDataSiteUseCaseImpl
+    ) : OpenWhereGetTelegramDataSiteUseCase
 }

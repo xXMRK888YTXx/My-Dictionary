@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_for_backup_notification">Channel for backup notification</string>
+    <string name="backup_in_process">Backup in process</string>
+    <string name="don_t_turn_off_internet">Don\'t turn off internet</string>
+</resources>

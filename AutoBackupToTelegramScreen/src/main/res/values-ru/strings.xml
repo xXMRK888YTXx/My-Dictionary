@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enable_auto_backup_to_telegram">Включить авто бекап в Telegram</string>
+    <string name="do_not_backup_if_there_are_no_changes">Не создавать бекап, если нет изменений</string>
+    <string name="backup_frequency">Переодичность бекапа</string>
+    <string name="create_backup_now">Создать бекап сейчас</string>
+    <string name="remove_telegram_data">Удалить данные телеграм</string>
+    <string name="_6_hours">6 часов</string>
+    <string name="_12_hours">12 часов</string>
+    <string name="_1_day">1 день</string>
+    <string name="_1_week">1 неделя</string>
+    <string name="enter_telegram_data">Введите данные телеграм</string>
+    <string name="backup_settings">Настройки бекапа</string>
+    <string name="loading">Загрузка</string>
+    <string name="userid">UserId</string>
+    <string name="bot_key">Bot key</string>
+    <string name="where_to_get">Где взять?</string>
+    <string name="save">Сохранить</string>
+    <string name="entered_telegram_data_is_not_valid">Введённые данные телеграм не верны</string>
+    <string name="no_internet_connection">Нет подключения к интернету</string>
+    <string name="an_unknown_error_has_occurred">Произошла неизвестная ошибка</string>
+</resources>

@@ -28,11 +28,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -82,10 +85,12 @@ fun ViewGroupWordsScreen(
 
     val lazyListState = rememberLazyListState()
 
-    val uiScope = rememberCoroutineScope()
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         floatingActionButton = {
             FloatingActionButton(onClick = { onEvent(LocalUiEvent.FloatButtonClickEvent(navigator)) }) {
                 Icon(
@@ -135,7 +140,8 @@ fun ViewGroupWordsScreen(
                                 modifier =  Modifier.size(32.dp)
                             )
                         }
-                    }
+                    },
+                    scrollBehavior = scrollBehavior
 
                 )
 
@@ -196,7 +202,9 @@ fun ViewGroupWordsScreen(
                 EmptyState(onEvent,screenState.searchState is SearchState.Enabled)
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .nestedScroll(rememberNestedScrollInteropConnection()),
                     state = lazyListState
                 ) {
 

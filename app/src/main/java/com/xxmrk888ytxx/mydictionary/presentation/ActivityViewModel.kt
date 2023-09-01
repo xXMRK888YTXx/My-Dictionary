@@ -103,6 +103,10 @@ class ActivityViewModel @Inject constructor(
         }
     }
 
+    override fun toAutoBackupToTelegramScreen() {
+        navigate(Screen.AutoBackupToTelegramScreen)
+    }
+
 
     private fun navigate(screen:Screen) = runOnUiThread {
         navController?.navigate(screen.route) {

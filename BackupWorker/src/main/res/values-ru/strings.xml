@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="channel_for_backup_notification">Канал для уведомлений бекапа</string>
+    <string name="backup_in_process">Бекап в процессе</string>
+    <string name="don_t_turn_off_internet">Не отключайте интернет</string>
+</resources>

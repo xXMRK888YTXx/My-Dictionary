@@ -4,6 +4,10 @@ import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.BillingScopeQualifier
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
 import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManagerImpl
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolderImpl
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolder
+import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManager
 import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
@@ -20,6 +24,8 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepo
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProvider
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProviderImpl
+import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolder
+import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProvider
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProviderImpl
 import dagger.Binds
@@ -71,6 +77,22 @@ interface DomainModule {
     fun bindAdsStateManager(
         adsStateManagerImpl: AdsStateManagerImpl
     ) : AdsStateManager
+
+    @Binds
+    fun bindTelegramDataHolder(
+        telegramDataHolderImpl: TelegramDataHolderImpl
+    ) : TelegramDataHolder
+
+    @Binds
+    fun bindAutoBackupTelegramSettingsHolder(
+        autoBackupTelegramSettingsHolderImpl: AutoBackupTelegramSettingsHolderImpl
+    ) : AutoBackupTelegramSettingsHolder
+
+    @Binds
+    fun bindAutoBackupToTelegramLastBackupHashHolder(
+        autoBackupToTelegramLastBackupHashHolderImpl: AutoBackupToTelegramLastBackupHashHolderImpl
+    ) : AutoBackupToTelegramLastBackupHashHolder
+
 
     companion object {
 

@@ -23,4 +23,8 @@ object Project {
     const val FeatureViewScreen = ":FeatureViewScreen"
     const val PreferencesStorage = ":PreferencesStorage"
     const val AdmobManager = ":AdmobManager"
+    const val AutoBackupToTelegramScreen = ":AutoBackupToTelegramScreen"
+    const val TelegramApi = ":TelegramApi"
+    const val CryptoManager = ":CryptoManager"
+    const val BackupWorker = ":BackupWorker"
 }

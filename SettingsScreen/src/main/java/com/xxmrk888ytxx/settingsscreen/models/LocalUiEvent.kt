@@ -21,5 +21,7 @@ sealed class LocalUiEvent : UiEvent {
 
     class RequestBuyRemoveAdsEvent(val context: Context) : LocalUiEvent()
 
+    class OpenAutoBackupToTelegramEvent(val navigator: Navigator) : LocalUiEvent()
+
     object RestorePurchasesEvent : LocalUiEvent()
 }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
  * [En]
  * Implementation of [PreferencesStorage] based on [DataStore]
  */
-internal open class AndroidDataStorePreferencesStorage(
+internal class AndroidDataStorePreferencesStorage(
     protected val context: Context,
     protected val name:String
 ) : PreferencesStorage() {

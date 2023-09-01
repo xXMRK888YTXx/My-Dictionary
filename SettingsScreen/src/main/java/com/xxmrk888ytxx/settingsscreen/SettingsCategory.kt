@@ -53,6 +53,7 @@ internal fun LazyListScope.aboutApplicationCategory(
 internal fun LazyListScope.backupCategory(
     onOpenCreateBackupScreen:() -> Unit,
     onOpenRestoreBackupScreen:() -> Unit,
+    onOpenAutoBackupToTelegramScreen:() -> Unit,
     context: Context
 ) {
     settingsCategory(
@@ -70,6 +71,12 @@ internal fun LazyListScope.backupCategory(
                     onClick = onOpenRestoreBackupScreen
                 )
             },
+            {
+                ButtonItem(
+                    text = context.getString(R.string.automatic_backup_in_telegram),
+                    onClick = onOpenAutoBackupToTelegramScreen
+                )
+            }
         )
     )
 }
