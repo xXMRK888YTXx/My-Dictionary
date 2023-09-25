@@ -81,6 +81,8 @@ dependencies {
     implementation(project(Project.TelegramApi))
     implementation(project(Project.CryptoManager))
     implementation(project(Project.BackupWorker))
+    implementation(project(Project.TranslatorScreen))
+
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 
