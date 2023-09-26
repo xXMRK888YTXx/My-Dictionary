@@ -11,17 +11,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -96,6 +96,7 @@ fun TranslatorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .verticalScroll(rememberScrollState())
         ) {
             TranslateCard(
                 text = screenState.textForState,
@@ -123,7 +124,7 @@ fun ColumnScope.TranslateCard(
 ) {
     data class Action(
         @IdRes val icon:Int,
-        val isVisible:Boolean = true,
+        val isEnabled:Boolean = true,
         val onClick:() -> Unit
     )
 
@@ -134,9 +135,14 @@ fun ColumnScope.TranslateCard(
     val textForTranslateActions = remember(isEmpty) {
         persistentListOf(
             Action(
+                icon = R.drawable.baseline_close_24,
+                onClick = onClear,
+                isEnabled = !isEmpty
+            ),
+            Action(
                 icon = R.drawable.baseline_volume_up_24,
                 onClick = onAskText,
-                isVisible = !isEmpty
+                isEnabled = !isEmpty
             ),
             Action(
                 icon = R.drawable.baseline_content_paste_24,
@@ -156,7 +162,7 @@ fun ColumnScope.TranslateCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.5f)
+            .weight(1f)
             .padding(16.dp)
         ,
         shape = RoundedCornerShape(
@@ -197,29 +203,16 @@ fun ColumnScope.TranslateCard(
                                 it()
                             }
 
-                            IconButton(
-                                onClick = onClear,
+                            LazyColumn(
+                                modifier = Modifier
+                                    .animateContentSize(),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
                             ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_close_24),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(24.dp)
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .animateContentSize(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(5.dp,Alignment.End)
-                        ) {
-                            items(textForTranslateActions, key = { it.icon }) {
-                                if(it.isVisible) {
-                                    IconButton(onClick = it.onClick) {
+                                items(textForTranslateActions, key = { it.icon }) {
+                                    IconButton(
+                                        onClick = it.onClick,
+                                        enabled = it.isEnabled
+                                    ) {
                                         Icon(
                                             painter = painterResource(id = it.icon),
                                             contentDescription = "",
@@ -229,6 +222,7 @@ fun ColumnScope.TranslateCard(
                                 }
                             }
                         }
+
                     }
                 }
             )
@@ -237,10 +231,9 @@ fun ColumnScope.TranslateCard(
     }
 
     AnimatedVisibility(
-        isEmpty,
+        true,
         modifier = Modifier
             .fillMaxWidth()
-            .weight(1f)
     ) {
        Column(
            modifier = Modifier
