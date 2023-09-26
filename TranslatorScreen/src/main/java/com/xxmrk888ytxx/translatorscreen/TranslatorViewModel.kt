@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.translatorscreen
 
+import android.content.ActivityNotFoundException
 import androidx.lifecycle.ViewModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TranslatorViewModel @Inject constructor(
@@ -25,8 +27,34 @@ class TranslatorViewModel @Inject constructor(
                 textForTranslate.update { event.text }
             }
 
-            LocalUiEvent.ClearTextForTranslate -> { textForTranslate.update { "" } }
+            LocalUiEvent.ClearTextForTranslate -> { updateTextForTranslateAndTranslate { "" } }
+
+            LocalUiEvent.AskTestEvent -> {
+
+            }
+
+            is LocalUiEvent.RequestRecognizeSpeech -> {
+                try {
+                    event.speechRecognizeContract.launch("en")
+                }catch (e:ActivityNotFoundException) {
+                    event.uiScope.launch {
+                        event.snackbarHostState.showSnackbar(
+                            event.context.getString(R.string.could_not_found_app_for_recognize_speech)
+                        )
+                    }
+                }
+            }
+
+            is LocalUiEvent.SpeechRecognizedEvent -> {
+                updateTextForTranslateAndTranslate { it + event.text }
+            }
         }
+    }
+
+    private fun updateTextForTranslateAndTranslate(
+        onUpdate:(String) -> String
+    ) {
+        textForTranslate.update(onUpdate)
     }
 
     private val textForTranslate = MutableStateFlow("")

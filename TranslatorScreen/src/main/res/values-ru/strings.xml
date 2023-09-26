@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="translator">Translator</string>
+    <string name="enter_the_text_for_translate">Enter the text for translate</string>
+    <string name="text_for_translate_is_empty">Text for translate is empty</string>
+    <string name="start_typing">Start typing</string>
+    <string name="could_not_found_app_for_recognize_speech">Could not found app for recognize speech</string>
+</resources>
