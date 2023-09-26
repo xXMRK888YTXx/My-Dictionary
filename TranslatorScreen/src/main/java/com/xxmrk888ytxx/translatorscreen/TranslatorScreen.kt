@@ -38,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -60,6 +61,9 @@ fun TranslatorScreen(
     val snackbarHostState = remember {
         SnackbarHostState()
     }
+
+    val clipboardManager = LocalClipboardManager.current
+
 
     val context = LocalContext.current
 
@@ -98,7 +102,7 @@ fun TranslatorScreen(
                 onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
                 onClear = { onEvent(LocalUiEvent.ClearTextForTranslate) },
                 onAskText = { onEvent(LocalUiEvent.AskTestEvent) },
-                onPastFromClipboard = {  },
+                onPastFromClipboard = { if(clipboardManager.hasText()) onEvent(LocalUiEvent.PastTextFromClipboard(clipboardManager.getText()?.text)) },
                 onDetectTextByCamera = {  },
                 onRecognizeVoice = { onEvent(LocalUiEvent.RequestRecognizeSpeech(speechRecognizeContract,snackbarHostState,context,uiScope)) }
             )

@@ -48,6 +48,12 @@ class TranslatorViewModel @Inject constructor(
             is LocalUiEvent.SpeechRecognizedEvent -> {
                 updateTextForTranslateAndTranslate { it + event.text }
             }
+
+            is LocalUiEvent.PastTextFromClipboard -> {
+                val text = event.text ?: return
+
+                updateTextForTranslateAndTranslate { it + text }
+            }
         }
     }
 
