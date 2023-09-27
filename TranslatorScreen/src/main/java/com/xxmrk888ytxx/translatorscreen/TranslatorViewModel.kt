@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.coreandroid.getWithCast
+import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
 import com.xxmrk888ytxx.translatorscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 class TranslatorViewModel @Inject constructor(
     private val textToSpeechContract: TextToSpeechContract,
+    private val provideSupportedLanguages: ProvideSupportedLanguages
 ) : ViewModel(), UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {

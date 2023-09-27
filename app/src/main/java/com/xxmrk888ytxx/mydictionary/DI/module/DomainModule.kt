@@ -24,10 +24,14 @@ import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepo
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.WordRepository.WordRepositoryImpl
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProvider
 import com.xxmrk888ytxx.mydictionary.domain.RestoreBackupStrategyProvider.RestoreBackupStrategyProviderImpl
+import com.xxmrk888ytxx.mydictionary.domain.SupportedLanguagesForTranslateProvider.SupportedLanguagesForTranslateProvider
+import com.xxmrk888ytxx.mydictionary.domain.SupportedLanguagesForTranslateProvider.SupportedLanguagesForTranslateProviderImpl
 import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolder
 import com.xxmrk888ytxx.mydictionary.domain.TelegramDataHolder.TelegramDataHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProvider
 import com.xxmrk888ytxx.mydictionary.domain.VersionProvider.VersionProviderImpl
+import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ProvideSupportedLanguagesImpl
+import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -92,6 +96,16 @@ interface DomainModule {
     fun bindAutoBackupToTelegramLastBackupHashHolder(
         autoBackupToTelegramLastBackupHashHolderImpl: AutoBackupToTelegramLastBackupHashHolderImpl
     ) : AutoBackupToTelegramLastBackupHashHolder
+
+    @Binds
+    fun bindSupportedLanguagesForTranslateProvider(
+        supportedLanguagesForTranslateProviderImpl: SupportedLanguagesForTranslateProviderImpl
+    ) : SupportedLanguagesForTranslateProvider
+
+    @Binds
+    fun bindProvideSupportedLanguages(
+        provideSupportedLanguagesImpl: ProvideSupportedLanguagesImpl
+    ) : ProvideSupportedLanguages
 
 
     companion object {
