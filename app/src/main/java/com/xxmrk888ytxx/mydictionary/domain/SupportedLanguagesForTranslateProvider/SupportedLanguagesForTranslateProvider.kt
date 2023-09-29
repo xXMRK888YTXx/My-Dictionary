@@ -3,4 +3,6 @@ package com.xxmrk888ytxx.mydictionary.domain.SupportedLanguagesForTranslateProvi
 interface SupportedLanguagesForTranslateProvider {
 
     val supportedLanguageForTranslate:List<SupportedLanguageForTranslate>
+
+    val supportedLanguageForTranslateMap:Map<String,SupportedLanguageForTranslate>
 }

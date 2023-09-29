@@ -70,4 +70,14 @@ class SupportedLanguagesForTranslateProviderImpl @Inject constructor(
         SupportedLanguageForTranslate("vi", R.string.vietnamese),
         SupportedLanguageForTranslate("zh", R.string.chinese),
     )
+
+    override val supportedLanguageForTranslateMap: Map<String,SupportedLanguageForTranslate> by lazy {
+        val outputMap = mutableMapOf<String,SupportedLanguageForTranslate>()
+
+        supportedLanguageForTranslate.forEach {
+            outputMap[it.code] = it
+        }
+
+        outputMap
+    }
 }
