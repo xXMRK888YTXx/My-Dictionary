@@ -9,11 +9,11 @@ class SupportedLanguagesForTranslateProviderImpl @Inject constructor(
 ) : SupportedLanguagesForTranslateProvider {
 
     @SuppressLint("ResourceType")
-    override val defaultLanguageForOriginalLanguage: SupportedLanguageForTranslate = SupportedLanguageForTranslate("ru", R.string.russian)
+    override val defaultLanguageForOriginalLanguage: SupportedLanguageForTranslate = SupportedLanguageForTranslate("en", R.string.english)
 
 
     @SuppressLint("ResourceType")
-    override val defaultLanguageForTranslate: SupportedLanguageForTranslate = SupportedLanguageForTranslate("en", R.string.english)
+    override val defaultLanguageForTranslate: SupportedLanguageForTranslate = SupportedLanguageForTranslate("ru", R.string.russian)
 
     @SuppressLint("ResourceType")
     override val supportedLanguageForTranslate: List<SupportedLanguageForTranslate> = listOf(
