@@ -53,6 +53,7 @@ import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
 import kotlinx.collections.immutable.persistentListOf
 
+@SuppressLint("ResourceType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TranslatorScreen(
@@ -105,7 +106,8 @@ fun TranslatorScreen(
             
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
                         top = 10.dp,
                         start = 30.dp,
@@ -114,7 +116,7 @@ fun TranslatorScreen(
                     )
             ) {
                 TextButton(onClick = { /*TODO*/ }) {
-                    Text(text = "English")
+                    Text(text = stringResource(id = screenState.currentOriginalLanguage.name))
                 }
                 
                 Spacer(modifier = Modifier.weight(1f))
@@ -128,8 +130,8 @@ fun TranslatorScreen(
                 
                 Spacer(modifier = Modifier.weight(1f))
 
-                TextButton(onClick = { /*TODO*/ }) {
-                    Text(text = "Russian")
+                TextButton(onClick = {  }) {
+                    Text(text = stringResource(id = screenState.currentLanguageForTranslate.name))
                 }
                 
             }

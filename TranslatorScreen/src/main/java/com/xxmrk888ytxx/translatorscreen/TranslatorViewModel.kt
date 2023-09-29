@@ -24,8 +24,8 @@ import javax.inject.Inject
 class TranslatorViewModel @Inject constructor(
     private val textToSpeechContract: TextToSpeechContract,
     private val provideSupportedLanguages: ProvideSupportedLanguages,
-    private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate,
-    private val managerCurrentOriginalWordLanguage: ManagerCurrentOriginalWordLanguage
+    private val managerCurrentOriginalWordLanguage: ManagerCurrentOriginalWordLanguage,
+    private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate
 ) : ViewModel(), UiModel<ScreenState> {
 
     override fun handleEvent(event: UiEvent) {
@@ -78,9 +78,15 @@ class TranslatorViewModel @Inject constructor(
 
     private val textForTranslate = MutableStateFlow("")
 
-    override val state: Flow<ScreenState> = combine(textForTranslate) { flowArray: Array<Any> ->
+    override val state: Flow<ScreenState> = combine(
+        textForTranslate,
+        managerCurrentOriginalWordLanguage.currentLanguage,
+        managerCurrentLanguageForTranslate.currentLanguage
+    ) { flowArray: Array<Any> ->
         ScreenState(
-            textForState = flowArray.getWithCast(0)
+            textForState = flowArray.getWithCast(0),
+            currentOriginalLanguage = flowArray.getWithCast(1),
+            currentLanguageForTranslate = flowArray.getWithCast(2)
         ).also {
             cashedState = it
         }
