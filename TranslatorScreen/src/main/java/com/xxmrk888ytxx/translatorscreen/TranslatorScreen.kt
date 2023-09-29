@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.annotation.IdRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,14 +31,21 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,8 +58,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.xxmrk888ytxx.coreandroid.ActivityContracts.SpeechRecognizeContract.SpeechRecognizeContract
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
+import com.xxmrk888ytxx.translatorscreen.models.SupportedLanguage
 import kotlinx.collections.immutable.persistentListOf
 
 @SuppressLint("ResourceType")
@@ -74,6 +85,8 @@ fun TranslatorScreen(
 
     val uiScope = rememberCoroutineScope()
 
+    val scope = rememberCoroutineScope()
+
     val speechRecognizeContract = rememberLauncherForActivityResult(
         contract = SpeechRecognizeContract(),
         onResult = { recognizedText ->
@@ -95,7 +108,7 @@ fun TranslatorScreen(
                 },
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -103,39 +116,39 @@ fun TranslatorScreen(
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
                         top = 10.dp,
-                        start = 30.dp,
-                        end = 30.dp,
+                        start = 40.dp,
+                        end = 40.dp,
                         bottom = 10.dp
                     )
             ) {
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = { onEvent(LocalUiEvent.ShowListForChangeOriginalLanguage) }) {
                     Text(text = stringResource(id = screenState.currentOriginalLanguage.name))
                 }
-                
+
                 Spacer(modifier = Modifier.weight(1f))
 
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { onEvent(LocalUiEvent.ExchangeLanguages) }) {
                     Icon(painter = painterResource(
                         id = R.drawable.baseline_compare_arrows_24),
                         contentDescription = ""
                     )
                 }
-                
+
                 Spacer(modifier = Modifier.weight(1f))
 
-                TextButton(onClick = {  }) {
+                TextButton(onClick = { onEvent(LocalUiEvent.ShowListForChangeLanguageForTranslate)  }) {
                     Text(text = stringResource(id = screenState.currentLanguageForTranslate.name))
                 }
-                
+
             }
-            
+
             TranslateCard(
                 text = screenState.textForState,
                 onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
@@ -145,6 +158,19 @@ fun TranslatorScreen(
                 onDetectTextByCamera = {  },
                 onRecognizeVoice = { onEvent(LocalUiEvent.RequestRecognizeSpeech(speechRecognizeContract,snackbarHostState,context,uiScope)) }
             )
+        }
+
+        if(screenState.changeLanguageBottomSheetState !is ChangeLanguageBottomSheetState.Hidden) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    onEvent(LocalUiEvent.BottomSheetDismissRequest)
+                },
+            ) {
+                LanguageSelectList(
+                    languageList = screenState.supportedLanguageList,
+                    onLanguageSelected = { onEvent(LocalUiEvent.ChangeSelectedLanguage(it)) }
+                )
+            }
         }
     }
 }
@@ -290,5 +316,69 @@ fun ColumnScope.TranslateCard(
                style = MaterialTheme.typography.titleMedium
            )
        }
+    }
+}
+
+@SuppressLint("ResourceType")
+@Composable
+fun ColumnScope.LanguageSelectList(
+    languageList:List<SupportedLanguage>,
+    onLanguageSelected:(SupportedLanguage) -> Unit,
+) {
+    var searchText by rememberSaveable {
+        mutableStateOf("")
+    }
+
+    val context = LocalContext.current
+
+    val searchedList = remember(languageList,searchText) {
+        if(searchText.isEmpty()) languageList
+        else languageList.filter { context.getString(it.name).lowercase().contains(searchText.lowercase()) }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+
+        TextField(
+            value = searchText,
+            onValueChange = { searchText = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    start = 15.dp,
+                    end = 15.dp
+                ),
+            label = { Text(
+                text = stringResource(R.string.search),
+                style = MaterialTheme.typography.bodyLarge
+            ) },
+            singleLine = true,
+            shape = RoundedCornerShape(20.dp),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Black.copy(0f),
+                unfocusedIndicatorColor = Color.Black.copy(0f)
+
+            )
+        )
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(searchedList) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .clickable {
+                            onLanguageSelected(it)
+                        }
+                ) {
+                    Text(text = stringResource(id = it.name))
+                }
+            }
+        }
     }
 }
