@@ -20,7 +20,7 @@ sealed interface LocalUiEvent : UiEvent {
 
     class SpeechRecognizedEvent(val text: String) : LocalUiEvent
 
-    class RequestRecognizeSpeech(
+    class RequestRecognizeSpeechForTextToTranslate(
         val speechRecognizeContract: ManagedActivityResultLauncher<String, String?>,
         val snackbarHostState: SnackbarHostState,
         val context: Context,
@@ -34,4 +34,12 @@ sealed interface LocalUiEvent : UiEvent {
     object BottomSheetDismissRequest : LocalUiEvent
 
     object ExchangeLanguages : LocalUiEvent
+
+    object DismissLoadingModelsDialogStateDialog : LocalUiEvent
+
+    class RequestToDownloadModelsForTranslate(
+        val snackbarHostState: SnackbarHostState,
+        val context: Context,
+        val uiScope:CoroutineScope
+    ) : LocalUiEvent
 }

@@ -3,7 +3,8 @@ package com.xxmrk888ytxx.translatorscreen
 import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.annotation.IdRes
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -15,26 +16,30 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -56,12 +61,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ActivityContracts.SpeechRecognizeContract.SpeechRecognizeContract
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
+import com.xxmrk888ytxx.translatorscreen.models.LoadingModelsDialogState
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
 import com.xxmrk888ytxx.translatorscreen.models.SupportedLanguage
+import com.xxmrk888ytxx.translatorscreen.models.TranslateState
 import kotlinx.collections.immutable.persistentListOf
 
 @SuppressLint("ResourceType")
@@ -71,8 +79,6 @@ fun TranslatorScreen(
     screenState: ScreenState,
     onEvent:(UiEvent) -> Unit
 ) {
-    
-    
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -149,14 +155,26 @@ fun TranslatorScreen(
 
             }
 
-            TranslateCard(
-                text = screenState.textForState,
+            TranslateCardForInputText(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .padding(16.dp),
+                text = screenState.textForTranslate,
                 onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
                 onClear = { onEvent(LocalUiEvent.ClearTextForTranslate) },
                 onAskText = { onEvent(LocalUiEvent.AskTestEvent) },
                 onPastFromClipboard = { if(clipboardManager.hasText()) onEvent(LocalUiEvent.PastTextFromClipboard(clipboardManager.getText()?.text)) },
                 onDetectTextByCamera = {  },
-                onRecognizeVoice = { onEvent(LocalUiEvent.RequestRecognizeSpeech(speechRecognizeContract,snackbarHostState,context,uiScope)) }
+                onRecognizeVoice = { onEvent(LocalUiEvent.RequestRecognizeSpeechForTextToTranslate(speechRecognizeContract,snackbarHostState,context,uiScope)) }
+            )
+
+            TranslationCardResult(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .weight(1f),
+                screenState.translateState,
             )
         }
 
@@ -172,12 +190,185 @@ fun TranslatorScreen(
                 )
             }
         }
+
+        if(screenState.loadingModelsDialogState !is LoadingModelsDialogState.Hidden) {
+            LoadingModelsDialogStateDialog(
+                screenState.loadingModelsDialogState,
+                onDismiss = { onEvent(LocalUiEvent.DismissLoadingModelsDialogStateDialog) },
+                onRequestToDownloadModel = {
+                    onEvent(LocalUiEvent.RequestToDownloadModelsForTranslate(snackbarHostState, context.applicationContext, uiScope))
+                }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoadingModelsDialogStateDialog(
+    loadingModelsDialogState: LoadingModelsDialogState,
+    onDismiss: () -> Unit,
+    onRequestToDownloadModel:() -> Unit
+) {
+
+    val isCanDismiss = remember(loadingModelsDialogState) {
+        when(loadingModelsDialogState) {
+            LoadingModelsDialogState.Error -> true
+            LoadingModelsDialogState.Hidden -> true
+            LoadingModelsDialogState.Loading -> false
+            LoadingModelsDialogState.OfferToDownload -> true
+        }
+    }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(
+            dismissOnBackPress = isCanDismiss,
+            dismissOnClickOutside = isCanDismiss
+        )
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth()
+                .wrapContentHeight()
+                .padding(16.dp),
+            shape = MaterialTheme.shapes.large,
+            tonalElevation = AlertDialogDefaults.TonalElevation
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                when(loadingModelsDialogState) {
+
+                    LoadingModelsDialogState.Error -> {
+                        Text(
+                            text = stringResource(R.string.an_error_occurred_while_models_for_translate_loading),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Text(
+                            text = stringResource(R.string.check_your_internet_connection_and_retry_again),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+
+                    LoadingModelsDialogState.Hidden -> {}
+
+                    LoadingModelsDialogState.Loading -> {
+                        Text(text = stringResource(id = R.string.please_wait))
+
+                        LinearProgressIndicator()
+                    }
+
+                    LoadingModelsDialogState.OfferToDownload -> {
+                        Text(
+                            text = stringResource(R.string.download_required),
+                            style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Text(
+                            text = stringResource(R.string.for_translating_to_selected_your_languages_needed_to_download_models_for_translate_weight_of_models_about_30_60_mb),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
+
+                }
+
+                Row(
+                    Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End)
+                ) {
+                    when(loadingModelsDialogState) {
+
+                        LoadingModelsDialogState.Error -> {
+                            TextButton(onClick = onDismiss) {
+                                Text(text = stringResource(R.string.got_it))
+                            }
+                        }
+
+                        LoadingModelsDialogState.Hidden -> {}
+
+                        LoadingModelsDialogState.Loading -> {}
+
+                        LoadingModelsDialogState.OfferToDownload -> {
+
+                            TextButton(onClick = onDismiss) {
+                                Text(text = stringResource(R.string.cancel))
+                            }
+
+                            TextButton(onClick = onRequestToDownloadModel) {
+                                Text(text = stringResource(R.string.download))
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun ColumnScope.TranslationCardResult(
+    modifier: Modifier = Modifier,
+    translateState: TranslateState
+) {
+
+    AnimatedContent(
+        targetState = translateState,
+        label = "",
+        modifier = modifier
+    ) { state ->
+        when(state) {
+
+            is TranslateState.Error -> {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.an_error_occurred_while_translating_a_word),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    Text(
+                        text = stringResource(id = state.errorText),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+
+            TranslateState.Loading -> {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Text(text = stringResource(R.string.please_wait))
+
+                    LinearProgressIndicator()
+                }
+            }
+
+            TranslateState.None -> {}
+
+            is TranslateState.Translated -> {
+                Text(text = state.translatedText)
+            }
+        }
     }
 }
 
 @SuppressLint("ResourceType")
 @Composable
-fun ColumnScope.TranslateCard(
+fun ColumnScope.TranslateCardForInputText(
+    modifier: Modifier = Modifier,
     text:String,
     onChangeText:(String) -> Unit,
     onClear:() -> Unit,
@@ -224,11 +415,7 @@ fun ColumnScope.TranslateCard(
     }
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .padding(16.dp)
-        ,
+        modifier = modifier,
         shape = RoundedCornerShape(
             20.dp
         ),
@@ -292,30 +479,6 @@ fun ColumnScope.TranslateCard(
             )
 
         }
-    }
-
-    AnimatedVisibility(
-        true,
-        modifier = Modifier
-            .fillMaxWidth()
-    ) {
-       Column(
-           modifier = Modifier
-               .fillMaxWidth()
-               .weight(1f),
-           verticalArrangement = Arrangement.spacedBy(16.dp,Alignment.CenterVertically),
-           horizontalAlignment = Alignment.CenterHorizontally
-       ) {
-           Text(
-               text = stringResource(R.string.text_for_translate_is_empty),
-               style = MaterialTheme.typography.titleLarge
-           )
-
-           Text(
-               text = stringResource(R.string.start_typing),
-               style = MaterialTheme.typography.titleMedium
-           )
-       }
     }
 }
 

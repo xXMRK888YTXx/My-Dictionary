@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen
 import com.xxmrk888ytxx.translator.Translator
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideTranslatorContract
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class ProvideTranslatorContractImpl @Inject constructor(
@@ -20,8 +21,10 @@ class ProvideTranslatorContractImpl @Inject constructor(
     override fun isModelDownloaded(
         sourceLanguageCode: String,
         targetLanguageCode: String,
-    ): Flow<Result<Boolean>> {
-        return translator.isModelDownloaded(sourceLanguageCode, targetLanguageCode)
+    ): Flow<Boolean> {
+        return translator.isModelDownloaded(sourceLanguageCode, targetLanguageCode).map {
+            it.getOrNull() ?: false
+        }
     }
 
     override fun downloadModel(

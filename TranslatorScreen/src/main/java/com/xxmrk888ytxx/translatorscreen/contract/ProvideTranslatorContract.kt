@@ -13,7 +13,7 @@ interface ProvideTranslatorContract {
     fun isModelDownloaded(
         sourceLanguageCode: String,
         targetLanguageCode: String,
-    ) : Flow<Result<Boolean>>
+    ) : Flow<Boolean>
 
     fun downloadModel(
         sourceLanguageCode: String,
