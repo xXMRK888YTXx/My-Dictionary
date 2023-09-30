@@ -10,6 +10,7 @@ import com.xxmrk888ytxx.coreandroid.getWithCast
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentLanguageForTranslate
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentOriginalWordLanguage
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
+import com.xxmrk888ytxx.translatorscreen.contract.ProvideTranslatorContract
 import com.xxmrk888ytxx.translatorscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
@@ -28,7 +29,8 @@ class TranslatorViewModel @Inject constructor(
     private val textToSpeechContract: TextToSpeechContract,
     private val provideSupportedLanguages: ProvideSupportedLanguages,
     private val managerCurrentOriginalWordLanguage: ManagerCurrentOriginalWordLanguage,
-    private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate
+    private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate,
+    private val provideTranslatorContract: ProvideTranslatorContract
 ) : ViewModel(), UiModel<ScreenState> {
 
     @OptIn(ExperimentalMaterial3Api::class)
