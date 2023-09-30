@@ -163,18 +163,20 @@ fun TranslatorScreen(
                 text = screenState.textForTranslate,
                 onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
                 onClear = { onEvent(LocalUiEvent.ClearTextForTranslate) },
-                onAskText = { onEvent(LocalUiEvent.AskTestEvent) },
+                onAskText = { onEvent(LocalUiEvent.AskTextForTranslateEvent) },
                 onPastFromClipboard = { if(clipboardManager.hasText()) onEvent(LocalUiEvent.PastTextFromClipboard(clipboardManager.getText()?.text)) },
                 onDetectTextByCamera = {  },
                 onRecognizeVoice = { onEvent(LocalUiEvent.RequestRecognizeSpeechForTextToTranslate(speechRecognizeContract,snackbarHostState,context,uiScope)) }
             )
 
-            TranslationCardResult(
+            TranslationResult(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
                     .weight(1f),
                 screenState.translateState,
+                onAskText = { onEvent(LocalUiEvent.AskTranslatedTextEvent) },
+                onCopyText = { onEvent(LocalUiEvent.CopyTranslatedTextingBuffer(clipboardManager)) }
             )
         }
 
@@ -228,7 +230,8 @@ fun LoadingModelsDialogStateDialog(
         )
     ) {
         Surface(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(16.dp),
             shape = MaterialTheme.shapes.large,
@@ -310,12 +313,33 @@ fun LoadingModelsDialogStateDialog(
     }
 }
 
+@SuppressLint("ResourceType")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ColumnScope.TranslationCardResult(
+fun ColumnScope.TranslationResult(
     modifier: Modifier = Modifier,
-    translateState: TranslateState
+    translateState: TranslateState,
+    onAskText:() -> Unit,
+    onCopyText:() -> Unit
 ) {
+
+    data class Action(
+        @IdRes val icon:Int,
+        val onClick:() -> Unit
+    )
+
+    val actions = remember {
+        persistentListOf(
+            Action(
+                icon = R.drawable.baseline_volume_up_24,
+                onClick = onAskText,
+            ),
+            Action(
+                icon = R.drawable.baseline_content_copy_24,
+                onClick = onCopyText
+            )
+        )
+    }
 
     AnimatedContent(
         targetState = translateState,
@@ -359,7 +383,29 @@ fun ColumnScope.TranslationCardResult(
             TranslateState.None -> {}
 
             is TranslateState.Translated -> {
-                Text(text = state.translatedText)
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    Text(
+                        text = state.translatedText,
+                        modifier = Modifier
+                            .weight(1f)
+                            .verticalScroll(rememberScrollState()),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+
+                    LazyColumn {
+                        items(actions) {
+                            IconButton(onClick = it.onClick) {
+                                Icon(
+                                    painter = painterResource(id = it.icon),
+                                    contentDescription = "",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }

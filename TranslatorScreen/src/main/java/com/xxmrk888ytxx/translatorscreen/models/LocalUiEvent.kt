@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.translatorscreen.models
 import android.content.Context
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.ui.platform.ClipboardManager
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import kotlinx.coroutines.CoroutineScope
 
@@ -10,7 +11,9 @@ sealed interface LocalUiEvent : UiEvent {
 
     object ClearTextForTranslate : LocalUiEvent
 
-    object AskTestEvent : LocalUiEvent
+    object AskTextForTranslateEvent : LocalUiEvent
+
+    object AskTranslatedTextEvent : LocalUiEvent
 
     object ShowListForChangeOriginalLanguage : LocalUiEvent
 
@@ -42,4 +45,6 @@ sealed interface LocalUiEvent : UiEvent {
         val context: Context,
         val uiScope:CoroutineScope
     ) : LocalUiEvent
+
+    class CopyTranslatedTextingBuffer(val clipboardManager: ClipboardManager) : LocalUiEvent
 }

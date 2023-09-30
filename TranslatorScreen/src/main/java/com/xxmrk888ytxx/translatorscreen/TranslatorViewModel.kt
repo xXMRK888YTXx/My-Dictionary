@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.ui.text.AnnotatedString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TranslatorViewModel @Inject constructor(
@@ -61,7 +63,7 @@ class TranslatorViewModel @Inject constructor(
                 updateTextForTranslateAndTranslate { "" }
             }
 
-            LocalUiEvent.AskTestEvent -> {
+            LocalUiEvent.AskTextForTranslateEvent -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     textToSpeechContract.textToSpeech(textForTranslate.value)
                 }
@@ -149,6 +151,28 @@ class TranslatorViewModel @Inject constructor(
 
             is LocalUiEvent.RequestToDownloadModelsForTranslate -> {
                 startLoadingTranslateModels(event.snackbarHostState,event.uiScope,event.context)
+            }
+
+            LocalUiEvent.AskTranslatedTextEvent -> {
+                viewModelScope.launch(Dispatchers.Default) {
+                    val screenState = state.first()
+
+                    val text = (screenState.translateState as? TranslateState.Translated)?.translatedText ?: return@launch
+
+                    textToSpeechContract.textToSpeech(text)
+                }
+            }
+
+            is LocalUiEvent.CopyTranslatedTextingBuffer -> {
+                viewModelScope.launch {
+                    val screenState = state.first()
+
+                    val text = (screenState.translateState as? TranslateState.Translated)?.translatedText ?: return@launch
+
+                    withContext(Dispatchers.Main) {
+                        event.clipboardManager.setText(AnnotatedString(text))
+                    }
+                }
             }
         }
     }
