@@ -1,28 +1,24 @@
 package com.xxmrk888ytxx.translator
 
+import kotlinx.coroutines.flow.Flow
+
 interface Translator {
 
     fun translate(
         text:String,
         sourceLanguageCode:String,
-        targetLanguageCode:String,
-        onTranslated:(String) -> Unit,
-        onError:(Throwable) -> Unit
-    )
+        targetLanguageCode:String
+    ) : Flow<Result<String>>
 
     fun isModelDownloaded(
         sourceLanguageCode: String,
         targetLanguageCode: String,
-        onResult:(Boolean) -> Unit,
-        onError: (Throwable) -> Unit
-    )
+    ) : Flow<Result<Boolean>>
 
     fun downloadModel(
         sourceLanguageCode: String,
-        targetLanguageCode: String,
-        onSuccess:() -> Unit,
-        onError: (Throwable) -> Unit
-    )
+        targetLanguageCode: String
+    ) : Flow<Result<Unit>>
 
     companion object {
         fun create() : Translator = TranslatorImpl()
