@@ -68,10 +68,12 @@ class TranslatorViewModel @Inject constructor(
             }
 
             is LocalUiEvent.RequestRecognizeSpeechForTextToTranslate -> {
-                try {
-                    event.speechRecognizeContract.launch("en")
-                } catch (e: ActivityNotFoundException) {
-                    event.uiScope.launch {
+                event.uiScope.launch {
+                    try {
+                        val screenState = state.first()
+
+                        event.speechRecognizeContract.launch(screenState.currentOriginalLanguage.code)
+                    } catch (e: ActivityNotFoundException) {
                         event.snackbarHostState.showSnackbar(
                             event.context.getString(R.string.could_not_found_app_for_recognize_speech)
                         )
