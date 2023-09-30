@@ -82,7 +82,7 @@ dependencies {
     implementation(project(Project.CryptoManager))
     implementation(project(Project.BackupWorker))
     implementation(project(Project.TranslatorScreen))
-
+    implementation(project(Project.Translator))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

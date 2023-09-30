@@ -28,4 +28,5 @@ object Project {
     const val CryptoManager = ":CryptoManager"
     const val BackupWorker = ":BackupWorker"
     const val TranslatorScreen = ":TranslatorScreen"
+    const val Translator = ":Translator"
 }
