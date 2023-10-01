@@ -130,6 +130,8 @@ class TranslatorViewModel @Inject constructor(
 
                         ChangeLanguageBottomSheetState.Hidden -> {}
                     }
+
+                    updateTextForTranslateAndTranslate(false) { it }
                 }
             }
 
@@ -142,6 +144,14 @@ class TranslatorViewModel @Inject constructor(
 
                     managerCurrentLanguageForTranslate.setupLanguage(originalLanguage)
                     managerCurrentOriginalWordLanguage.setupLanguage(languageForTranslate)
+
+                    val screenState = state.first()
+
+                    if(screenState.translateState is TranslateState.Translated) {
+                        val translatedText = (screenState.translateState as? TranslateState.Translated)?.translatedText ?: return@launch
+
+                        updateTextForTranslateAndTranslate(false) { translatedText }
+                    }
                 }
             }
 
@@ -197,6 +207,8 @@ class TranslatorViewModel @Inject constructor(
                 .onSuccess {
                     loadingModelsDialogState.update { LoadingModelsDialogState.Hidden }
 
+                    updateTextForTranslateAndTranslate(false) { it }
+
                     uiScope.launch {
                         snackbarHostState.showSnackbar(context.getString(R.string.models_for_translating_was_download_successfully))
                     }
@@ -206,51 +218,57 @@ class TranslatorViewModel @Inject constructor(
     }
 
     private fun updateTextForTranslateAndTranslate(
+        isNeedDelayBeforeTranslating:Boolean = true,
         onUpdate: (String) -> String,
     ) {
         textForTranslate.update(onUpdate)
 
-        sendTranslateRequest()
+        translateScope.cancelChildrenAndLaunch {
+            if(isNeedDelayBeforeTranslating) {
+                delay(250)
+
+                if(!isActive) return@cancelChildrenAndLaunch
+            }
+
+            sendTranslateRequest()
+        }
     }
 
-    private fun sendTranslateRequest() {
-        translateScope.cancelChildrenAndLaunch {
+    private suspend fun sendTranslateRequest() {
+        val screenState = state.first()
 
-            delay(500)
-
-            if(!isActive) return@cancelChildrenAndLaunch
-
-
-            val screenState = state.first()
-
+        if(screenState.textForTranslate.isNotEmpty())
             translateStateFlow.update { TranslateState.Loading }
+        else {
+            translateStateFlow.update { TranslateState.None }
+            return
+        }
 
 
-            val idModelDownloaded = provideTranslatorContract.isModelDownloaded(
+        val idModelDownloaded = provideTranslatorContract.isModelDownloaded(
+            screenState.currentOriginalLanguage.code,
+            screenState.currentLanguageForTranslate.code
+        ).first()
+
+        if (idModelDownloaded) {
+
+            val translateResult = provideTranslatorContract.translate(
+                screenState.textForTranslate,
                 screenState.currentOriginalLanguage.code,
                 screenState.currentLanguageForTranslate.code
             ).first()
 
-            if (idModelDownloaded) {
+            translateResult
+                .onSuccess { text ->
+                    translateStateFlow.update { TranslateState.Translated(text) }
+                }
+                .onFailure {
+                    translateStateFlow.update { TranslateState.Error(R.string.maybe_models_for_translating_didn_t_install_retry_one_more_time) }
+                }
 
-                val translateResult = provideTranslatorContract.translate(
-                    screenState.textForTranslate,
-                    screenState.currentOriginalLanguage.code,
-                    screenState.currentLanguageForTranslate.code
-                ).first()
-
-                translateResult
-                    .onSuccess { text ->
-                        translateStateFlow.update { TranslateState.Translated(text) }
-                    }
-                    .onFailure {
-                        translateStateFlow.update { TranslateState.Error(R.string.maybe_models_for_translating_didn_t_install_retry_one_more_time) }
-                    }
-
-            } else {
-                loadingModelsDialogState.update { LoadingModelsDialogState.OfferToDownload }
-                translateStateFlow.update { TranslateState.None }
-            }
+        } else {
+            loadingModelsDialogState.update { LoadingModelsDialogState.OfferToDownload }
+            translateStateFlow.update { TranslateState.None }
         }
     }
 

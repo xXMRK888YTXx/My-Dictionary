@@ -391,7 +391,9 @@ fun ColumnScope.TranslationResult(
                         modifier = Modifier
                             .weight(1f)
                             .verticalScroll(rememberScrollState()),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontSize = 25.sp
+                        )
                     )
 
                     LazyColumn {
