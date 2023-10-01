@@ -224,6 +224,13 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            override fun showTranslatorScreenAd() {
+                activityViewModel.showInterstitialAd(
+                    key = getString(R.string.TranslatorScreenAdKey),
+                    activity = this@MainActivity
+                )
+            }
+
         }
     }
 

@@ -16,4 +16,6 @@ interface AdInterstitialController {
     fun showWordGroupScreenToViewWordOfWordGroup()
 
     fun showWordGroupScreenToCreateWordGroupScreen()
+
+    fun showTranslatorScreenAd()
 }
