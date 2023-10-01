@@ -5,5 +5,5 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class ScreenState(
     val translateModelList:ImmutableList<TranslateModel> = persistentListOf(),
-    val isLoading:Boolean = true
+    val isDeleting:Boolean = false
 )
