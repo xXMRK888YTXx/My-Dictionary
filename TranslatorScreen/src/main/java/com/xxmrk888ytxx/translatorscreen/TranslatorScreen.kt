@@ -50,7 +50,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -133,39 +132,15 @@ fun TranslatorScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 10.dp,
-                        start = 40.dp,
-                        end = 40.dp,
-                        bottom = 10.dp
-                    )
-            ) {
-                TextButton(onClick = { onEvent(LocalUiEvent.ShowListForChangeOriginalLanguage) }) {
-                    Text(text = stringResource(id = screenState.currentOriginalLanguage.name))
-                }
+            SelectLanguagesForTranslateWidget(
+                onOpenSelectLanguageDialogForOriginalLanguage = { onEvent(LocalUiEvent.ShowListForChangeOriginalLanguage) },
+                originLanguageName = stringResource(id = screenState.currentOriginalLanguage.name),
+                exchangeLanguages = { onEvent(LocalUiEvent.ExchangeLanguages) },
+                onOpenSelectLanguageDialogForLanguageForTranslate = { onEvent(LocalUiEvent.ShowListForChangeLanguageForTranslate) },
+                languageForTranslateName = stringResource(id = screenState.currentLanguageForTranslate.name)
+            )
 
-                Spacer(modifier = Modifier.weight(1f))
 
-                IconButton(onClick = { onEvent(LocalUiEvent.ExchangeLanguages) }) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.baseline_compare_arrows_24
-                        ),
-                        contentDescription = ""
-                    )
-                }
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                TextButton(onClick = { onEvent(LocalUiEvent.ShowListForChangeLanguageForTranslate) }) {
-                    Text(text = stringResource(id = screenState.currentLanguageForTranslate.name))
-                }
-
-            }
 
             TranslateCardForInputText(
                 modifier = Modifier
@@ -213,6 +188,9 @@ fun TranslatorScreen(
                 onDismissRequest = {
                     onEvent(LocalUiEvent.BottomSheetDismissRequest)
                 },
+                sheetState = rememberModalBottomSheetState(
+                    skipPartiallyExpanded = true
+                )
             ) {
                 LanguageSelectList(
                     languageList = screenState.supportedLanguageList,
@@ -257,6 +235,49 @@ fun TranslatorScreen(
                 }
             )
         }
+    }
+}
+
+@Composable
+fun ColumnScope.SelectLanguagesForTranslateWidget(
+    onOpenSelectLanguageDialogForOriginalLanguage:() -> Unit,
+    originLanguageName:String,
+    exchangeLanguages:() -> Unit,
+    onOpenSelectLanguageDialogForLanguageForTranslate:() -> Unit,
+    languageForTranslateName:String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                top = 10.dp,
+                start = 40.dp,
+                end = 40.dp,
+                bottom = 10.dp
+            )
+    ) {
+        TextButton(onClick = onOpenSelectLanguageDialogForOriginalLanguage) {
+            Text(text = originLanguageName)
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = { exchangeLanguages() }) {
+            Icon(
+                painter = painterResource(
+                    id = R.drawable.baseline_compare_arrows_24
+                ),
+                contentDescription = ""
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        TextButton(onClick = onOpenSelectLanguageDialogForLanguageForTranslate) {
+            Text(text = languageForTranslateName)
+        }
+
     }
 }
 
