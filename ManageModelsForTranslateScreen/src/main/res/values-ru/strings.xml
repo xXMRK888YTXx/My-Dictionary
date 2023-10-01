@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="downloaded_models">Downloaded Models</string>
-    <string name="no_name">[No name]</string>
-    <string name="language_code">Language code:%1$s</string>
-    <string name="model_has_been_deleted">Model has been deleted</string>
-    <string name="couldn_t_delete_the_model">Couldn\'t delete the model</string>
-    <string name="please_wait">Please, wait</string>
+    <string name="downloaded_models">Загруженные модели</string>
+    <string name="no_name">[Нет имени]</string>
+    <string name="language_code">Код языка:%1$s</string>
+    <string name="model_has_been_deleted">Модель была удалена</string>
+    <string name="couldn_t_delete_the_model">Не удалось удалить модель</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
 </resources>
