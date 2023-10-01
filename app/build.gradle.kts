@@ -83,6 +83,7 @@ dependencies {
     implementation(project(Project.BackupWorker))
     implementation(project(Project.TranslatorScreen))
     implementation(project(Project.Translator))
+    implementation(project(Project.ManageModelsForTranslateScreen))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

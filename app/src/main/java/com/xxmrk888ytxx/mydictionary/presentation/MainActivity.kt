@@ -22,6 +22,7 @@ import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.setContentWithThemeAndAdController
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateViewModel
 import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
@@ -90,6 +91,9 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var translatorViewModel: Provider<TranslatorViewModel>
 
+    @Inject
+    lateinit var manageModelsForTranslateViewModel: Provider<ManageModelsForTranslateViewModel>
+
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -142,6 +146,8 @@ class MainActivity : ComponentActivity() {
                     restoreBackupScreen(restoreBackupViewModel)
 
                     manageLanguageScreen(manageLanguageViewModel)
+
+                    manageModelsForTranslateScreen(manageModelsForTranslateViewModel)
 
                     autoBackupToTelegramScreen(autoBackupToTelegramViewModel)
                 }

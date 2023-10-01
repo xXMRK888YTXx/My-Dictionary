@@ -29,4 +29,5 @@ object Project {
     const val BackupWorker = ":BackupWorker"
     const val TranslatorScreen = ":TranslatorScreen"
     const val Translator = ":Translator"
+    const val ManageModelsForTranslateScreen = ":ManageModelsForTranslateScreen"
 }

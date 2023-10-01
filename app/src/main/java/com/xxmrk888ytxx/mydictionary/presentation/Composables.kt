@@ -26,6 +26,8 @@ import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageScreen
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateScreen
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateViewModel
 import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupScreen
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
@@ -381,3 +383,20 @@ fun NavGraphBuilder.autoBackupToTelegramScreen(
     }
 }
 
+
+fun NavGraphBuilder.manageModelsForTranslateScreen(
+    manageModelsForTranslateViewModel: Provider<ManageModelsForTranslateViewModel>
+) {
+    composable(Screen.ManageModelsForTranslateScreen.route) {
+        val viewModel = composeViewModel {
+            manageModelsForTranslateViewModel.get()
+        }
+
+        val state by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
+
+        ManageModelsForTranslateScreen(
+            screenState = state,
+            onEvent = viewModel::handleEvent
+        )
+    }
+}
