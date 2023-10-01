@@ -40,6 +40,10 @@ sealed interface LocalUiEvent : UiEvent {
 
     object DismissLoadingModelsDialogStateDialog : LocalUiEvent
 
+    object ShowFastAddWordInDictionaryBottomSheet : LocalUiEvent
+
+    object DismissFastAddWordInDictionaryBottomSheet : LocalUiEvent
+
     class RequestToDownloadModelsForTranslate(
         val snackbarHostState: SnackbarHostState,
         val context: Context,
@@ -47,4 +51,6 @@ sealed interface LocalUiEvent : UiEvent {
     ) : LocalUiEvent
 
     class CopyTranslatedTextingBuffer(val clipboardManager: ClipboardManager) : LocalUiEvent
+    class UpdateStateForFastAddWordInDictionaryBottomSheet(val state: FastAddWordInDictionaryBottomSheetState.Showed) :
+        LocalUiEvent
 }

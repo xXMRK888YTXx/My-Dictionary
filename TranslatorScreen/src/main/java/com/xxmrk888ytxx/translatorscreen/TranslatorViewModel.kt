@@ -15,8 +15,10 @@ import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentLanguageForTrans
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentOriginalWordLanguage
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideTranslatorContract
+import com.xxmrk888ytxx.translatorscreen.contract.ProvideWordGroupInfo
 import com.xxmrk888ytxx.translatorscreen.contract.TextToSpeechContract
 import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
+import com.xxmrk888ytxx.translatorscreen.models.FastAddWordInDictionaryBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.LoadingModelsDialogState
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
@@ -43,6 +45,7 @@ class TranslatorViewModel @Inject constructor(
     private val managerCurrentOriginalWordLanguage: ManagerCurrentOriginalWordLanguage,
     private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate,
     private val provideTranslatorContract: ProvideTranslatorContract,
+    private val provideWordGroupInfo: ProvideWordGroupInfo
 ) : ViewModel(), UiModel<ScreenState> {
 
     private val translateScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -184,6 +187,29 @@ class TranslatorViewModel @Inject constructor(
                     }
                 }
             }
+
+            LocalUiEvent.ShowFastAddWordInDictionaryBottomSheet -> {
+                viewModelScope.launch {
+                    val screenState = state.first()
+
+                    fastAddWordInDictionaryBottomSheetState.update {
+                        FastAddWordInDictionaryBottomSheetState.Showed(
+                            originalWord = screenState.textForTranslate,
+                            translation = (screenState.translateState as? TranslateState.Translated)?.translatedText ?: "",
+                        )
+                    }
+                }
+            }
+
+            LocalUiEvent.DismissFastAddWordInDictionaryBottomSheet -> {
+                fastAddWordInDictionaryBottomSheetState.update { FastAddWordInDictionaryBottomSheetState.Hidden }
+            }
+
+            is LocalUiEvent.UpdateStateForFastAddWordInDictionaryBottomSheet -> {
+                if(fastAddWordInDictionaryBottomSheetState.value !is FastAddWordInDictionaryBottomSheetState.Showed) return
+
+                fastAddWordInDictionaryBottomSheetState.update { event.state }
+            }
         }
     }
 
@@ -282,6 +308,9 @@ class TranslatorViewModel @Inject constructor(
     private val changeLanguageBottomSheetStateFlow =
         MutableStateFlow<ChangeLanguageBottomSheetState>(ChangeLanguageBottomSheetState.Hidden)
 
+    private val fastAddWordInDictionaryBottomSheetState = MutableStateFlow<FastAddWordInDictionaryBottomSheetState>(FastAddWordInDictionaryBottomSheetState.Hidden)
+
+
     override val state: Flow<ScreenState> = combine(
         textForTranslate,
         flowOf(provideSupportedLanguages.supportedLanguages),
@@ -289,7 +318,9 @@ class TranslatorViewModel @Inject constructor(
         managerCurrentLanguageForTranslate.currentLanguage,
         changeLanguageBottomSheetStateFlow,
         translateStateFlow,
-        loadingModelsDialogState
+        loadingModelsDialogState,
+        fastAddWordInDictionaryBottomSheetState,
+        provideWordGroupInfo.wordGroups
     ) { flowArray: Array<Any> ->
         ScreenState(
             textForTranslate = flowArray.getWithCast(0),
@@ -298,7 +329,9 @@ class TranslatorViewModel @Inject constructor(
             currentLanguageForTranslate = flowArray.getWithCast(3),
             changeLanguageBottomSheetState = flowArray.getWithCast(4),
             translateState = flowArray.getWithCast(5),
-            loadingModelsDialogState = flowArray.getWithCast(6)
+            loadingModelsDialogState = flowArray.getWithCast(6),
+            fastAddWordInDictionaryBottomSheetState = flowArray.getWithCast(7),
+            availableWordGroups = flowArray.getWithCast(8)
         ).also {
             cashedState = it
         }

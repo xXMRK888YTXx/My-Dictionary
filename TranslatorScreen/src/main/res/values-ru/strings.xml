@@ -17,4 +17,12 @@
     <string name="cancel">Cancel</string>
     <string name="download">Download</string>
     <string name="models_for_translating_was_download_successfully">Models for translating was download successfully</string>
+    <string name="word">Word</string>
+    <string name="translate_of_word">Translate of word</string>
+    <string name="transcription_of_word">Transcription of word</string>
+    <string name="save">Save</string>
+    <string name="selected_group_of_word">Selected group of word:</string>
+    <string name="not_selected">Not selected</string>
+    <string name="you_are_haven_t_a_group_of_words">You are haven\'t a group of words</string>
+    <string name="you_need_to_add_group_of_words_and_come_back_here">You need to add group of words and come back here</string>
 </resources>
