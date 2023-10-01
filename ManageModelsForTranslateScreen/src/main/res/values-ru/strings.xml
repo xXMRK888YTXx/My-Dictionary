@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="downloaded_models">Downloaded Models</string>
+    <string name="no_name">[No name]</string>
+    <string name="language_code">Language code:%1$s</string>
 </resources>

@@ -18,6 +18,16 @@ class ManageModelsForTranslateViewModel @Inject constructor(
 
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
+
+        when(event) {
+            is LocalUiEvent.BackScreenEvent -> {
+                event.navigator.backScreen()
+            }
+
+            is LocalUiEvent.RemoveTranslateModel -> {
+
+            }
+        }
     }
 
     private val isLoadingState = MutableStateFlow(true)
