@@ -70,6 +70,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ActivityContracts.SpeechRecognizeContract.SpeechRecognizeContract
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
+import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.FastAddWordInDictionaryBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.LoadingModelsDialogState
@@ -88,6 +89,8 @@ fun TranslatorScreen(
     screenState: ScreenState,
     onEvent: (UiEvent) -> Unit,
 ) {
+
+    val adController = LocalAdController.current
 
     val snackbarHostState = remember {
         SnackbarHostState()
@@ -148,17 +151,17 @@ fun TranslatorScreen(
                     .weight(1f)
                     .padding(16.dp),
                 text = screenState.textForTranslate,
-                onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
+                onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it,adController)) },
                 onClear = { onEvent(LocalUiEvent.ClearTextForTranslate) },
                 onAskText = { onEvent(LocalUiEvent.AskTextForTranslateEvent) },
                 onPastFromClipboard = {
                     if (clipboardManager.hasText()) onEvent(
                         LocalUiEvent.PastTextFromClipboard(
-                            clipboardManager.getText()?.text
+                            clipboardManager.getText()?.text,
+                            adController
                         )
                     )
                 },
-                onDetectTextByCamera = { },
                 onRecognizeVoice = {
                     onEvent(
                         LocalUiEvent.RequestRecognizeSpeechForTextToTranslate(
@@ -679,7 +682,6 @@ fun ColumnScope.TranslateCardForInputText(
     onClear: () -> Unit,
     onAskText: () -> Unit,
     onPastFromClipboard: () -> Unit,
-    onDetectTextByCamera: () -> Unit,
     onRecognizeVoice: () -> Unit,
 ) {
     data class Action(

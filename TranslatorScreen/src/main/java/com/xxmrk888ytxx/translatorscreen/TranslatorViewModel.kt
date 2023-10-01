@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.translatorscreen
 
+import AdController
 import android.content.ActivityNotFoundException
 import android.content.Context
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -64,7 +65,7 @@ class TranslatorViewModel @Inject constructor(
         when (event) {
 
             is LocalUiEvent.TextForTranslateInput -> {
-                updateTextForTranslateAndTranslate { event.text }
+                updateTextForTranslateAndTranslate(adController = event.adController) { event.text }
             }
 
             LocalUiEvent.ClearTextForTranslate -> {
@@ -98,7 +99,7 @@ class TranslatorViewModel @Inject constructor(
             is LocalUiEvent.PastTextFromClipboard -> {
                 val text = event.text ?: return
 
-                updateTextForTranslateAndTranslate { it + text }
+                updateTextForTranslateAndTranslate(adController = event.adController) { it + text }
             }
 
             is LocalUiEvent.BottomSheetDismissRequest -> {
@@ -284,6 +285,7 @@ class TranslatorViewModel @Inject constructor(
 
     private fun updateTextForTranslateAndTranslate(
         isNeedDelayBeforeTranslating:Boolean = true,
+        adController: AdController? = null,
         onUpdate: (String) -> String,
     ) {
         textForTranslate.update(onUpdate)
@@ -295,11 +297,11 @@ class TranslatorViewModel @Inject constructor(
                 if(!isActive) return@cancelChildrenAndLaunch
             }
 
-            sendTranslateRequest()
+            sendTranslateRequest(adController)
         }
     }
 
-    private suspend fun sendTranslateRequest() {
+    private suspend fun sendTranslateRequest(adController: AdController?) {
         val screenState = state.first()
 
         if(screenState.textForTranslate.isNotEmpty())
@@ -326,6 +328,7 @@ class TranslatorViewModel @Inject constructor(
             translateResult
                 .onSuccess { text ->
                     translateStateFlow.update { TranslateState.Translated(text) }
+                    adController?.showTranslatorScreenAd()
                 }
                 .onFailure {
                     translateStateFlow.update { TranslateState.Error(R.string.maybe_models_for_translating_didn_t_install_retry_one_more_time) }

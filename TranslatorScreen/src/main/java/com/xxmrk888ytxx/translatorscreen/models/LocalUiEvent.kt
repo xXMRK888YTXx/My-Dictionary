@@ -1,5 +1,6 @@
 package com.xxmrk888ytxx.translatorscreen.models
 
+import AdController
 import android.content.Context
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.material3.SnackbarHostState
@@ -19,7 +20,10 @@ sealed interface LocalUiEvent : UiEvent {
 
     object ShowListForChangeLanguageForTranslate : LocalUiEvent
 
-    data class TextForTranslateInput(val text:String) : LocalUiEvent
+    data class TextForTranslateInput(
+        val text:String,
+        val adController: AdController
+    ) : LocalUiEvent
 
     class SpeechRecognizedEvent(val text: String) : LocalUiEvent
 
@@ -30,7 +34,7 @@ sealed interface LocalUiEvent : UiEvent {
         val uiScope:CoroutineScope
     ) : LocalUiEvent
 
-    class PastTextFromClipboard(val text: String?) : LocalUiEvent
+    class PastTextFromClipboard(val text: String?,val adController: AdController) : LocalUiEvent
 
     class ChangeSelectedLanguage(val language: SupportedLanguage) : LocalUiEvent
 
