@@ -709,10 +709,6 @@ fun ColumnScope.TranslateCardForInputText(
                 onClick = onPastFromClipboard
             ),
             Action(
-                icon = R.drawable.baseline_photo_camera_24,
-                onClick = onDetectTextByCamera
-            ),
-            Action(
                 icon = R.drawable.baseline_keyboard_voice_24,
                 onClick = onRecognizeVoice
             )
