@@ -11,6 +11,7 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiModel
 import com.xxmrk888ytxx.coreandroid.cancelChildrenAndLaunch
 import com.xxmrk888ytxx.coreandroid.getWithCast
+import com.xxmrk888ytxx.translatorscreen.contract.FastSaveWordInWordGroupContract
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentLanguageForTranslate
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentOriginalWordLanguage
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
@@ -45,7 +46,8 @@ class TranslatorViewModel @Inject constructor(
     private val managerCurrentOriginalWordLanguage: ManagerCurrentOriginalWordLanguage,
     private val managerCurrentLanguageForTranslate: ManagerCurrentLanguageForTranslate,
     private val provideTranslatorContract: ProvideTranslatorContract,
-    private val provideWordGroupInfo: ProvideWordGroupInfo
+    private val provideWordGroupInfo: ProvideWordGroupInfo,
+    private val fastSaveWordInWordGroupContract: FastSaveWordInWordGroupContract
 ) : ViewModel(), UiModel<ScreenState> {
 
     private val translateScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
@@ -209,6 +211,33 @@ class TranslatorViewModel @Inject constructor(
                 if(fastAddWordInDictionaryBottomSheetState.value !is FastAddWordInDictionaryBottomSheetState.Showed) return
 
                 fastAddWordInDictionaryBottomSheetState.update { event.state }
+            }
+
+            is LocalUiEvent.FastSaveWordEvent -> {
+                val dialogState = (fastAddWordInDictionaryBottomSheetState.value as? FastAddWordInDictionaryBottomSheetState.Showed) ?: return
+
+                if(dialogState.selectedWordGroup == null) return
+
+                fastAddWordInDictionaryBottomSheetState.update { FastAddWordInDictionaryBottomSheetState.Hidden }
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    fastSaveWordInWordGroupContract.saveWord(
+                        wordGroupId = dialogState.selectedWordGroup.id,
+                        word = dialogState.originalWord,
+                        translation = dialogState.translation,
+                        transcription = dialogState.transcription
+                    )
+                        .onSuccess {
+                            event.uiScope.launch {
+                                event.snackbarHostState.showSnackbar( event.context.getString(R.string.the_word_was_successfully_added))
+                            }
+                        }
+                        .onFailure {
+                            event.uiScope.launch {
+                                event.snackbarHostState.showSnackbar(event.context.getString(R.string.an_error_occurred_while_word_adding))
+                            }
+                        }
+                }
             }
         }
     }

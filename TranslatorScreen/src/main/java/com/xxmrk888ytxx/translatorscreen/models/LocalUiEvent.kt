@@ -53,4 +53,10 @@ sealed interface LocalUiEvent : UiEvent {
     class CopyTranslatedTextingBuffer(val clipboardManager: ClipboardManager) : LocalUiEvent
     class UpdateStateForFastAddWordInDictionaryBottomSheet(val state: FastAddWordInDictionaryBottomSheetState.Showed) :
         LocalUiEvent
+
+    class FastSaveWordEvent(
+        val uiScope: CoroutineScope,
+        val snackbarHostState: SnackbarHostState,
+        val context: Context
+    ) : LocalUiEvent
 }

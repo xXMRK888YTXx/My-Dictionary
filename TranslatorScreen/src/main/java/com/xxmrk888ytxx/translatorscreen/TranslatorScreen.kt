@@ -228,7 +228,7 @@ fun TranslatorScreen(
                     onEvent(LocalUiEvent.DismissFastAddWordInDictionaryBottomSheet)
                 },
                 onCompleteAdding = {
-
+                    onEvent(LocalUiEvent.FastSaveWordEvent(scope,snackbarHostState,context))
                 },
                 onUpdateDialogState = {
                     onEvent(LocalUiEvent.UpdateStateForFastAddWordInDictionaryBottomSheet(it))

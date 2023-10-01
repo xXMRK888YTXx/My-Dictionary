@@ -25,4 +25,6 @@
     <string name="not_selected">Not selected</string>
     <string name="you_are_haven_t_a_group_of_words">You are haven\'t a group of words</string>
     <string name="you_need_to_add_group_of_words_and_come_back_here">You need to add group of words and come back here</string>
+    <string name="the_word_was_successfully_added">The word was successfully added</string>
+    <string name="an_error_occurred_while_word_adding">An error occurred while word adding</string>
 </resources>

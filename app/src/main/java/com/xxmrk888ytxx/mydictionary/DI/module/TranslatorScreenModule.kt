@@ -1,10 +1,12 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
+import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.FastSaveWordInWordGroupContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ManagerCurrentLanguageForTranslateImpl
 import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ManagerCurrentOriginalWordLanguageImpl
 import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ProvideTranslatorContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ProvideWordGroupInfoImpl
 import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.TextToSpeechContractImpl
+import com.xxmrk888ytxx.translatorscreen.contract.FastSaveWordInWordGroupContract
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentLanguageForTranslate
 import com.xxmrk888ytxx.translatorscreen.contract.ManagerCurrentOriginalWordLanguage
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideTranslatorContract
@@ -40,4 +42,9 @@ interface TranslatorScreenModule {
     fun bindProvideWordGroupInfo(
         provideWordGroupInfoImpl: ProvideWordGroupInfoImpl
     ) : ProvideWordGroupInfo
+
+    @Binds
+    fun bindFastSaveWordInWordGroupContract(
+        fastSaveWordInWordGroupContractImpl: FastSaveWordInWordGroupContractImpl
+    ) : FastSaveWordInWordGroupContract
 }
