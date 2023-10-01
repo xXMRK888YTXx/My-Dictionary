@@ -8,6 +8,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.xxmrk888ytxx.androidcore.runOnUiThread
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 internal class AdMobManagerImpl @Inject constructor(
@@ -33,7 +35,7 @@ internal class AdMobManagerImpl @Inject constructor(
      * [En]
      * Show interstitial ads
      */
-    override fun showInterstitialAd(key:String,activity: Activity) {
+    override fun showInterstitialAd(key:String,activity: Activity) = runOnUiThread {
 
         InterstitialAd.load(
             context,
