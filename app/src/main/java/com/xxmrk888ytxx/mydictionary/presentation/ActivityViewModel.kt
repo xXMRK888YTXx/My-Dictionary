@@ -107,6 +107,10 @@ class ActivityViewModel @Inject constructor(
         navigate(Screen.AutoBackupToTelegramScreen)
     }
 
+    override fun toManageModelsForTranslateScreen() {
+        navigate(Screen.ManageModelsForTranslateScreen)
+    }
+
 
     private fun navigate(screen:Screen) = runOnUiThread {
         navController?.navigate(screen.route) {

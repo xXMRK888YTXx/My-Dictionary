@@ -23,4 +23,6 @@ interface Navigator {
     fun toMainScreen()
 
     fun toAutoBackupToTelegramScreen()
+
+    fun toManageModelsForTranslateScreen()
 }

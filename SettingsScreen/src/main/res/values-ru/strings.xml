@@ -16,4 +16,6 @@
     <string name="restore_purchases">Восстановление покупок</string>
     <string name="advertisement">Реклама</string>
     <string name="automatic_backup_in_telegram">Автоматическое резервное копирование в telegram</string>
+    <string name="translator_settings">Настройки переводчика</string>
+    <string name="managing_uploaded_models_for_translation">Управление загруженными моделями для перевода</string>
 </resources>

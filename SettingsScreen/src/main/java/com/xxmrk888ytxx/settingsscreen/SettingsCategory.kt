@@ -124,3 +124,20 @@ internal fun LazyListScope.advertisement(
         )
     )
 }
+
+internal fun LazyListScope.translatorSettingsCategory(
+    context: Context,
+    openManageModelsForTranslateScreen:() -> Unit
+) {
+    settingsCategory(
+        title = context.getString(R.string.translator_settings),
+        contents = persistentListOf(
+            {
+                ButtonItem(
+                    text = context.getString(R.string.managing_uploaded_models_for_translation),
+                    onClick = openManageModelsForTranslateScreen
+                )
+            }
+        )
+    )
+}

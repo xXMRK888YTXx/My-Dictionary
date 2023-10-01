@@ -75,6 +75,10 @@ class SettingsViewModel @Inject constructor(
             is LocalUiEvent.OpenAutoBackupToTelegramEvent -> {
                 event.navigator.toAutoBackupToTelegramScreen()
             }
+
+            is LocalUiEvent.OpenManageModelsForTranslateScreen -> {
+                event.navigator.toManageModelsForTranslateScreen()
+            }
         }
     }
 
