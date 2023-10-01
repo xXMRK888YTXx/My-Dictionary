@@ -7,10 +7,19 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.update
 
 internal class TranslatorImpl : Translator {
-    override fun translate(
+
+
+    private val _downloadedModels = MutableStateFlow<List<TranslationModel>>(emptyList())
+
+    override val downloadedModel: Flow<List<TranslationModel>> = _downloadedModels.asStateFlow()
+
+        override fun translate(
         text: String,
         sourceLanguageCode: String,
         targetLanguageCode: String,
@@ -78,6 +87,7 @@ internal class TranslatorImpl : Translator {
             translator.downloadModelIfNeeded()
                 .addOnSuccessListener {
                     trySendBlocking(Result.success(Unit))
+                    updateDownloadedModels()
                 }
                 .addOnFailureListener {
                     trySendBlocking(Result.failure(it))
@@ -89,5 +99,42 @@ internal class TranslatorImpl : Translator {
             awaitClose { translator.close() }
         }
     }
+
+    override fun removeModel(languageCode: String): Flow<Result<Unit>> {
+        return callbackFlow {
+            val modelManager = RemoteModelManager.getInstance()
+
+            modelManager.deleteDownloadedModel(TranslateRemoteModel.Builder(languageCode).build())
+                .addOnSuccessListener {
+                    trySendBlocking(Result.success(Unit))
+                    updateDownloadedModels()
+                }
+                .addOnFailureListener {
+                    trySendBlocking(Result.failure(it))
+                }
+                .addOnCompleteListener {
+                    close()
+                }
+
+            awaitClose {  }
+        }
+    }
+
+    private fun updateDownloadedModels() {
+        val modelManager = RemoteModelManager.getInstance()
+
+        modelManager.getDownloadedModels(TranslateRemoteModel::class.java)
+            .addOnSuccessListener { models ->
+                _downloadedModels.update { models.map { TranslationModel(it.language) } }
+            }
+    }
+
+    init {
+        updateDownloadedModels()
+    }
+
+
+
+
 
 }

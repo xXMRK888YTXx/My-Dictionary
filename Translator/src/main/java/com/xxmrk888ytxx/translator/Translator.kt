@@ -20,6 +20,12 @@ interface Translator {
         targetLanguageCode: String
     ) : Flow<Result<Unit>>
 
+    fun removeModel(
+        languageCode:String
+    ) : Flow<Result<Unit>>
+
+    val downloadedModel:Flow<List<TranslationModel>>
+
     companion object {
         fun create() : Translator = TranslatorImpl()
     }
