@@ -332,7 +332,7 @@ fun FastAddWordInDictionaryBottomSheet(
 
             TextButton(onClick = { onUpdateDialogState(state.copy(isSelectingWordGroupState = true)) }) {
                 Text(
-                    text = state.selectedWordGroup?.name ?: stringResource(R.string.not_selected)
+                    text = state.selectedWordGroup?.name ?: stringResource(R.string._not_selected)
                 )
             }
         }
