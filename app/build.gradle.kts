@@ -14,7 +14,7 @@ android {
         applicationId = "com.xxmrk888ytxx.mydictionary"
         minSdk = Config.minSdk
         targetSdk = Config.compileSdk
-        versionCode = 7
+        versionCode = 9
         versionName = Config.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -81,6 +81,9 @@ dependencies {
     implementation(project(Project.TelegramApi))
     implementation(project(Project.CryptoManager))
     implementation(project(Project.BackupWorker))
+    implementation(project(Project.TranslatorScreen))
+    implementation(project(Project.Translator))
+    implementation(project(Project.ManageModelsForTranslateScreen))
 
     kapt(Deps.Dagger.DaggerKaptCompiler)
 

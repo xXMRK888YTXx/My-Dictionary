@@ -83,6 +83,11 @@ fun SettingsScreen(
                 onOpenLanguageConfigurationScreen = { onEvent(LocalUiEvent.OpenLanguageManageScreen(navigator)) }
             )
 
+            translatorSettingsCategory(
+                context = context,
+                openManageModelsForTranslateScreen = { onEvent(LocalUiEvent.OpenManageModelsForTranslateScreen(navigator)) }
+            )
+
             backupCategory(
                 onOpenCreateBackupScreen = { onEvent(LocalUiEvent.OpenCreateBackupScreenEvent(navigator)) },
                 onOpenRestoreBackupScreen = { onEvent(LocalUiEvent.OpenRestoreBackupScreenEvent(navigator)) },

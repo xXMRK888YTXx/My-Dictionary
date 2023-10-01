@@ -22,11 +22,13 @@ import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.appComponent
 import com.xxmrk888ytxx.goals.extensions.setContentWithThemeAndAdController
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateViewModel
 import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
 import com.xxmrk888ytxx.settingsscreen.SettingsViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
+import com.xxmrk888ytxx.translatorscreen.TranslatorViewModel
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordbyeartrainingscreen.WordByEarTrainingViewModel
 import com.xxmrk888ytxx.wordgroupscreen.WordGroupViewModel
@@ -86,6 +88,13 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var autoBackupToTelegramViewModel: Provider<AutoBackupToTelegramViewModel>
 
+    @Inject
+    lateinit var translatorViewModel: Provider<TranslatorViewModel>
+
+    @Inject
+    lateinit var manageModelsForTranslateViewModel: Provider<ManageModelsForTranslateViewModel>
+
+
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +129,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     featureViewScreen(featureViewViewModel)
 
-                    mainScreen(wordGroupViewModel, trainingActionViewModel, settingsViewModel)
+                    mainScreen(wordGroupViewModel, trainingActionViewModel, settingsViewModel,translatorViewModel)
 
                     createWordGroupScreen(createWordGroupViewModel)
 
@@ -137,6 +146,8 @@ class MainActivity : ComponentActivity() {
                     restoreBackupScreen(restoreBackupViewModel)
 
                     manageLanguageScreen(manageLanguageViewModel)
+
+                    manageModelsForTranslateScreen(manageModelsForTranslateViewModel)
 
                     autoBackupToTelegramScreen(autoBackupToTelegramViewModel)
                 }
@@ -209,6 +220,13 @@ class MainActivity : ComponentActivity() {
             override fun showWordGroupScreenToCreateWordGroupScreen() {
                 activityViewModel.showInterstitialAd(
                     key = getString(R.string.WordGroupScreenToCreateWordGroupScreenKey),
+                    activity = this@MainActivity
+                )
+            }
+
+            override fun showTranslatorScreenAd() {
+                activityViewModel.showInterstitialAd(
+                    key = getString(R.string.TranslatorScreenAdKey),
                     activity = this@MainActivity
                 )
             }

@@ -26,6 +26,8 @@ import com.xxmrk888ytxx.featureviewscreen.FeatureViewViewModel
 import com.xxmrk888ytxx.goals.extensions.composeViewModel
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageScreen
 import com.xxmrk888ytxx.managelanguagescreen.ManageLanguageViewModel
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateScreen
+import com.xxmrk888ytxx.managetranslatedmodelsscreen.ManageModelsForTranslateViewModel
 import com.xxmrk888ytxx.mydictionary.R
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupScreen
 import com.xxmrk888ytxx.restorebackupscreen.RestoreBackupViewModel
@@ -33,6 +35,8 @@ import com.xxmrk888ytxx.settingsscreen.SettingsScreen
 import com.xxmrk888ytxx.settingsscreen.SettingsViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionViewModel
 import com.xxmrk888ytxx.trainingactionsscreen.TrainingActionsScreen
+import com.xxmrk888ytxx.translatorscreen.TranslatorScreen
+import com.xxmrk888ytxx.translatorscreen.TranslatorViewModel
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsScreen
 import com.xxmrk888ytxx.viewgroupwordsscreen.ViewGroupWordsViewModel
 import com.xxmrk888ytxx.wordbyeartrainingscreen.WordByEarTrainingScreen
@@ -68,6 +72,7 @@ fun NavGraphBuilder.mainScreen(
     wordGroupViewModel: Provider<WordGroupViewModel>,
     trainingActionViewModel: Provider<TrainingActionViewModel>,
     settingsViewModel: Provider<SettingsViewModel>,
+    translatorViewModel: Provider<TranslatorViewModel>
 ) {
     composable(Screen.MainScreen.route) {
         val adController = LocalAdController.current
@@ -97,18 +102,39 @@ fun NavGraphBuilder.mainScreen(
             initialValue = viewModelForSettingScreen.defValue
         )
         //
+        
+        //TranslatorScreen
+        
+        val viewModelForTranslatorScreen = composeViewModel {
+            translatorViewModel.get()
+        }
+        
+        val screenStateForTranslatorScreen by viewModelForTranslatorScreen.state.collectAsStateWithLifecycle(
+            initialValue = viewModelForTranslatorScreen.defValue
+        )
+        
+        //
 
         BottomBarScreen(
             bottomBarScreens = persistentListOf(
                 BottomBarScreenModel(
                     title = stringResource(R.string.words),
-                    icon = R.drawable.baseline_translate_24,
+                    icon = R.drawable.list,
                     content = {
                         WordGroupScreen(
                             screenState = screenStateForWordGroupScreen,
                             onEvent = viewModelForWordGroupScreen::handleEvent
                         )
                     }
+                ),
+
+                BottomBarScreenModel(
+                    title = stringResource(R.string.translator),
+                    icon = R.drawable.baseline_translate_24,
+                    content = { TranslatorScreen(
+                        screenState = screenStateForTranslatorScreen,
+                        onEvent = viewModelForTranslatorScreen::handleEvent
+                    ) }
                 ),
 
                 BottomBarScreenModel(
@@ -357,3 +383,20 @@ fun NavGraphBuilder.autoBackupToTelegramScreen(
     }
 }
 
+
+fun NavGraphBuilder.manageModelsForTranslateScreen(
+    manageModelsForTranslateViewModel: Provider<ManageModelsForTranslateViewModel>
+) {
+    composable(Screen.ManageModelsForTranslateScreen.route) {
+        val viewModel = composeViewModel {
+            manageModelsForTranslateViewModel.get()
+        }
+
+        val state by viewModel.state.collectAsStateWithLifecycle(initialValue = viewModel.defValue)
+
+        ManageModelsForTranslateScreen(
+            screenState = state,
+            onEvent = viewModel::handleEvent
+        )
+    }
+}

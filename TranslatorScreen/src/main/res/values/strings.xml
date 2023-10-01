@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="translator">Translator</string>
+    <string name="enter_the_text_for_translate">Enter the text for translate</string>
+    <string name="could_not_found_app_for_recognize_speech">Could not found app for recognize speech</string>
+    <string name="search">Search</string>
+    <string name="an_error_occurred_while_translating_a_word">An error occurred while translating</string>
+    <string name="maybe_models_for_translating_didn_t_install_retry_one_more_time">Maybe models for translating didn\'t install. Retry one more time</string>
+    <string name="check_your_internet_connection_and_retry_again">Check your internet connection and retry again</string>
+    <string name="an_error_occurred_while_models_for_translate_loading">An error occurred while models for translate loading</string>
+    <string name="please_wait">Please,wait</string>
+    <string name="download_required">Download required</string>
+    <string name="for_translating_to_selected_your_languages_needed_to_download_models_for_translate_weight_of_models_about_30_60_mb">For translating to selected your languages needed to download models for translate. Weight of models about 30-60 MB</string>
+    <string name="got_it">Got it</string>
+    <string name="cancel">Cancel</string>
+    <string name="download">Download</string>
+    <string name="models_for_translating_was_download_successfully">Models for translating was download successfully</string>
+    <string name="word">Word</string>
+    <string name="translate_of_word">Translate of word</string>
+    <string name="transcription_of_word">Transcription of word</string>
+    <string name="save">Save</string>
+    <string name="selected_group_of_word">Selected group of word:</string>
+    <string name="_not_selected">Not selected</string>
+    <string name="you_are_haven_t_a_group_of_words">You are haven\'t a group of words</string>
+    <string name="you_need_to_add_group_of_words_and_come_back_here">You need to add group of words and come back here</string>
+    <string name="the_word_was_successfully_added">The word was successfully added</string>
+    <string name="an_error_occurred_while_word_adding">An error occurred while word adding</string>
+</resources>

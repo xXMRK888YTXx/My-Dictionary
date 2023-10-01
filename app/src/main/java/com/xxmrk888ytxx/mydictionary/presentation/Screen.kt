@@ -23,4 +23,6 @@ sealed class Screen(val route:String) {
     object FeatureViewScreen : Screen("FeatureViewScreen")
 
     object AutoBackupToTelegramScreen : Screen("AutoBackupToTelegramScreen")
+
+    object ManageModelsForTranslateScreen : Screen("ManageModelsForTranslateScreen")
 }

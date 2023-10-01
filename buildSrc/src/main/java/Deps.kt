@@ -153,6 +153,7 @@ object Deps {
 
     object MLKit {
         const val LanguageIdentification = "com.google.mlkit:language-id:17.0.4"
+        const val Tranlator = "com.google.mlkit:translate:17.0.1"
     }
 
     object Zip {

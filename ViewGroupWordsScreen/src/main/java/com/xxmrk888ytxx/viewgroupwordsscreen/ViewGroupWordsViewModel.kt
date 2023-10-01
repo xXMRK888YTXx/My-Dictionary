@@ -92,7 +92,7 @@ class ViewGroupWordsViewModel @AssistedInject constructor(
             isValidForSearch(it,searchState)
         }
 
-        list.toImmutableList()
+        list.reversed().toImmutableList()
     }
 
     private suspend fun isValidForSearch(word: Word, searchState: SearchState) : Boolean {

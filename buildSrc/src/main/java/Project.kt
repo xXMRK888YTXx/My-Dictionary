@@ -27,4 +27,7 @@ object Project {
     const val TelegramApi = ":TelegramApi"
     const val CryptoManager = ":CryptoManager"
     const val BackupWorker = ":BackupWorker"
+    const val TranslatorScreen = ":TranslatorScreen"
+    const val Translator = ":Translator"
+    const val ManageModelsForTranslateScreen = ":ManageModelsForTranslateScreen"
 }

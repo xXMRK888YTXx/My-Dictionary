@@ -6,6 +6,13 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.core.content.getSystemService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 inline fun Context.buildNotificationChannel(
     id: String,
@@ -32,4 +39,14 @@ inline fun Context.buildNotification(
     }
 
     return notificationBuilder.apply(configuration).build()
+}
+
+fun CoroutineScope.cancelChildrenAndLaunch(
+    context: CoroutineContext = EmptyCoroutineContext,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    block: suspend CoroutineScope.() -> Unit
+) : Job {
+    coroutineContext.cancelChildren()
+
+    return launch(context, start, block)
 }

@@ -21,11 +21,14 @@ import com.xxmrk888ytxx.mydictionary.DI.module.DatabaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.FeatureViewScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.LanguageIndicatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ManageLanguageScreenModule
+import com.xxmrk888ytxx.mydictionary.DI.module.ManageModelsForTranslateScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.PreferencesStorageModule
 import com.xxmrk888ytxx.mydictionary.DI.module.RestoreBackupScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.SettingsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TTSManagerModule
 import com.xxmrk888ytxx.mydictionary.DI.module.TelegramApiModule
+import com.xxmrk888ytxx.mydictionary.DI.module.TranslatorModule
+import com.xxmrk888ytxx.mydictionary.DI.module.TranslatorScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.UseCaseModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ViewGroupWordsScreenModule
 import com.xxmrk888ytxx.mydictionary.DI.module.WordByEarTrainingScreenModule
@@ -63,7 +66,10 @@ import dagger.Component
         AutoBackupToTelegramScreenModule::class,
         TelegramApiModule::class,
         CryptoManagerModule::class,
-        BackupToTelegramWorkerModule::class
+        BackupToTelegramWorkerModule::class,
+        TranslatorScreenModule::class,
+        TranslatorModule::class,
+        ManageModelsForTranslateScreenModule::class
     ]
 )
 @AppScope

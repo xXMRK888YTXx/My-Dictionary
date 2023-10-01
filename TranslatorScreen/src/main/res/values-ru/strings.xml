@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="translator">Переводчик</string>
+    <string name="enter_the_text_for_translate">Введите текст для перевода</string>
+    <string name="could_not_found_app_for_recognize_speech">Не удалось найти приложение для распознавания речи</string>
+    <string name="search">Поиск</string>
+    <string name="an_error_occurred_while_translating_a_word">Произошла ошибка при переводе слова</string>
+    <string name="maybe_models_for_translating_didn_t_install_retry_one_more_time">Возможно, модели для перевода не были установлены. Повторите попытку еще раз</string>
+    <string name="check_your_internet_connection_and_retry_again">Проверьте свое подключение к Интернету и повторите попытку еще раз</string>
+    <string name="an_error_occurred_while_models_for_translate_loading">Произошла ошибка при загрузке моделей для перевода</string>
+    <string name="please_wait">Пожалуйста, подождите</string>
+    <string name="download_required">Требуется загрузка</string>
+    <string name="for_translating_to_selected_your_languages_needed_to_download_models_for_translate_weight_of_models_about_30_60_mb">Для перевода на выбранные вами языки необходимо загрузить модели для перевода. Вес моделей обычно состовляет 30–60 МБ</string>
+    <string name="got_it">Понял</string>
+    <string name="cancel">Отмена</string>
+    <string name="download">Загрузить</string>
+    <string name="models_for_translating_was_download_successfully">Модели для перевода были успешно загружены</string>
+    <string name="word">Слово</string>
+    <string name="translate_of_word">Перевод слова</string>
+    <string name="transcription_of_word">Транскрипция слова</string>
+    <string name="save">Сохранить</string>
+    <string name="selected_group_of_word">Выбранная группа слов:</string>
+    <string name="_not_selected">Не выбрана</string>
+    <string name="you_are_haven_t_a_group_of_words">У вас нет групп слов</string>
+    <string name="you_need_to_add_group_of_words_and_come_back_here">Вам нужно добавить группу слов и вернуться сюда</string>
+    <string name="the_word_was_successfully_added">Слово было успешно добавлено</string>
+    <string name="an_error_occurred_while_word_adding">Произошла ошибка при добавлении слова</string>
+</resources>
