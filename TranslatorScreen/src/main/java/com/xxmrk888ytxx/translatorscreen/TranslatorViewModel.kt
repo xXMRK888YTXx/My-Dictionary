@@ -24,6 +24,7 @@ import com.xxmrk888ytxx.translatorscreen.models.LoadingModelsDialogState
 import com.xxmrk888ytxx.translatorscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.translatorscreen.models.ScreenState
 import com.xxmrk888ytxx.translatorscreen.models.TranslateState
+import com.xxmrk888ytxx.translatorscreen.models.WordGroup
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -53,6 +54,8 @@ class TranslatorViewModel @Inject constructor(
     private val translateScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private val loadingModelsScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
+    private var lastSelectedForFastAddingWordGroup:WordGroup? = null
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun handleEvent(event: UiEvent) {
@@ -198,6 +201,11 @@ class TranslatorViewModel @Inject constructor(
                         FastAddWordInDictionaryBottomSheetState.Showed(
                             originalWord = screenState.textForTranslate,
                             translation = (screenState.translateState as? TranslateState.Translated)?.translatedText ?: "",
+                            selectedWordGroup = if(lastSelectedForFastAddingWordGroup != null)
+                                screenState.availableWordGroups.firstOrNull {
+                                    it.id == (lastSelectedForFastAddingWordGroup?.id ?: Int.MIN_VALUE)
+                                }
+                                else null
                         )
                     }
                 }
@@ -219,6 +227,8 @@ class TranslatorViewModel @Inject constructor(
                 if(dialogState.selectedWordGroup == null) return
 
                 fastAddWordInDictionaryBottomSheetState.update { FastAddWordInDictionaryBottomSheetState.Hidden }
+
+                lastSelectedForFastAddingWordGroup = dialogState.selectedWordGroup
 
                 viewModelScope.launch(Dispatchers.IO) {
                     fastSaveWordInWordGroupContract.saveWord(
