@@ -75,7 +75,7 @@ fun WordTranslateTrainingScreen(
 
     val navigator = LocalNavigator.current
 
-    val pager = rememberPagerState()
+    val pager = rememberPagerState { screenState.question.size }
 
     val scope = rememberCoroutineScope()
 
@@ -217,7 +217,6 @@ fun WordTranslateTrainingScreen(
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
                         pager = pager,
-                        questionCount = screenState.question.size,
                         answerText = screenState.trainingProgress.currentAnswer,
                         onChangeAnswerText = {
                             onEvent(LocalUiEvent.ChangeAnswerTextEvent(it))
@@ -254,7 +253,6 @@ fun WordTranslateTrainingScreen(
 @Composable
 private fun TrainingScreenType(
     pager: PagerState,
-    questionCount: Int,
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onGetCurrentQuestion: (Int) -> String,
@@ -262,7 +260,6 @@ private fun TrainingScreenType(
 ) {
 
     HorizontalPager(
-        pageCount = questionCount,
         userScrollEnabled = false,
         state = pager
     ) { currentPage ->

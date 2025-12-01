@@ -7,6 +7,7 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -42,7 +43,7 @@ class BillingManagerImpl @Inject constructor(
     private val billingClient by lazy {
         BillingClient.newBuilder(context)
             .setListener(purchasesUpdatedListener)
-            .enablePendingPurchases()
+            .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts() .build())
             .build()
     }
 
@@ -121,7 +122,7 @@ class BillingManagerImpl @Inject constructor(
             .build()
 
         billingClient.queryProductDetailsAsync(params) { _, prodDetailsList ->
-            prodDetailsList.forEach {
+            prodDetailsList.productDetailsList.forEach {
                 if (it.productId == DISABLE_ADS_PRODUCT_ID) {
                     disableAdProduct = it
                 }

@@ -209,7 +209,7 @@ fun ViewGroupWordsScreen(
                 ) {
 
                     items(screenState.words, key = { it.id }) {
-                        Box(modifier = Modifier.animateItemPlacement()) {
+                        Box(modifier = Modifier.animateItem()) {
                             WordItem(
                                 word = it,
                                 onTextToSpeechRequest = { text ->

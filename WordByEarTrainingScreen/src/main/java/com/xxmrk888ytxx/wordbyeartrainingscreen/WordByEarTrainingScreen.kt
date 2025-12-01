@@ -71,7 +71,7 @@ fun WordByEarTrainingScreen(
 ) {
     val navigator = LocalNavigator.current
 
-    val pager = rememberPagerState()
+    val pager = rememberPagerState { screenState.questions.size }
 
     val scope = rememberCoroutineScope()
 
@@ -146,7 +146,6 @@ fun WordByEarTrainingScreen(
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
                         pager = pager,
-                        questionCount = screenState.questions.size,
                         answerText = screenState.trainingProgress.currentAnswer,
                         onChangeAnswerText = {
                             onEvent(LocalUiEvent.ChangeAnswerTextEvent(it))
@@ -289,7 +288,6 @@ private fun TopBar(
 @Composable
 private fun TrainingScreenType(
     pager: PagerState,
-    questionCount: Int,
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onPlayCurrentQuestion: (Int) -> Unit,
@@ -297,7 +295,6 @@ private fun TrainingScreenType(
 ) {
 
     HorizontalPager(
-        pageCount = questionCount,
         userScrollEnabled = false,
         state = pager
     ) { currentPage ->

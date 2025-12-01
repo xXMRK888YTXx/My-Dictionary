@@ -84,10 +84,10 @@ fun CreateWordGroupScreen(
     onEvent: (UiEvent) -> Unit,
 ) {
     val pages = remember {
-        Pages.values()
+        Pages.entries.toTypedArray()
     }
 
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState { pages.size }
 
     val scope = rememberCoroutineScope()
 
@@ -134,7 +134,6 @@ fun CreateWordGroupScreen(
         ) {
 
             HorizontalPager(
-                pageCount = pages.size,
                 userScrollEnabled = false,
                 state = pagerState
             ) { currentPage ->
@@ -415,7 +414,7 @@ fun SelectLanguagesState(
                 horizontalArrangement = Arrangement.Center
             ) {
                 items(availableLanguage, key = { it.id }) {
-                    Box(modifier = Modifier.animateItemPlacement()) {
+                    Box(modifier = Modifier.animateItem()) {
                         FilterChip(
                             selected = it.id == primaryLanguage?.id,
                             onClick = { onSelectPrimaryLanguage(it) },
@@ -590,10 +589,10 @@ fun EnterGroupNameStatePrevDark() = WithLocalProviderForPreview {
 fun SelectLanguagesStatePrevWhite() = WithLocalProviderForPreview {
 
     SelectLanguagesState(
-        availableLanguage = persistentListOf(Language(0,"English"),Language(1,"Russian")),
+        availableLanguage = persistentListOf(Language(0, "English"), Language(1, "Russian")),
         primaryLanguage = null,
-        secondaryLanguage = Language(1,"Russian"),
-        {},{},{},{}
+        secondaryLanguage = Language(1, "Russian"),
+        {}, {}, {}, {}
     )
 }
 
@@ -602,10 +601,10 @@ fun SelectLanguagesStatePrevWhite() = WithLocalProviderForPreview {
 fun SelectLanguagesStatePrevDark() = WithLocalProviderForPreview {
 
     SelectLanguagesState(
-        availableLanguage = persistentListOf(Language(0,"English"),Language(1,"Russian")),
+        availableLanguage = persistentListOf(Language(0, "English"), Language(1, "Russian")),
         primaryLanguage = null,
-        secondaryLanguage = Language(1,"Russian"),
-        {},{},{},{}
+        secondaryLanguage = Language(1, "Russian"),
+        {}, {}, {}, {}
     )
 }
 
@@ -615,7 +614,7 @@ fun SelectImageStatePrevWhite() = WithLocalProviderForPreview {
 
     SelectImageState(
         selectedImageUrl = null,
-        {},{},{},false
+        {}, {}, {}, false
     )
 }
 
@@ -625,6 +624,6 @@ fun SelectImageStatePrevDark() = WithLocalProviderForPreview {
 
     SelectImageState(
         selectedImageUrl = null,
-        {},{},{},false
+        {}, {}, {}, false
     )
 }

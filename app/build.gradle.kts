@@ -1,21 +1,23 @@
 plugins {
-    id ("com.android.application")
-    id ("org.jetbrains.kotlin.android")
-    id (Deps.Dagger.DaggerKaptPlugin)
-    id (Deps.GoogleServices.gmsServicePlugin)
-    id (Deps.Firebase.crashlyticsPlugin)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
-    namespace = "com.xxmrk888ytxx.mydictionary"
-    compileSdk = Config.compileSdk
+    namespace = libs.versions.packageName.get()
+    compileSdk = libs.versions.targetSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "com.xxmrk888ytxx.mydictionary"
-        minSdk = Config.minSdk
-        targetSdk = Config.compileSdk
+        applicationId = libs.versions.packageName.get()
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 9
-        versionName = Config.versionName
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -25,28 +27,32 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = Config.isR8ProGuardEnableForRelease
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = libs.versions.minifyEnabledRelease.get().toBoolean()
+            isShrinkResources = libs.versions.minifyEnabledRelease.get().toBoolean()
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         debug {
-            isMinifyEnabled = Config.isR8ProGuardEnableForDebug
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = libs.versions.minifyEnabledDebug.get().toBoolean()
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
-        sourceCompatibility = Config.sourceCompatibility
-        targetCompatibility = Config.targetCompatibility
+        sourceCompatibility = JavaVersion.valueOf(libs.versions.javaCompatibilityVersion.get())
+        targetCompatibility = JavaVersion.valueOf(libs.versions.javaCompatibilityVersion.get())
     }
     kotlinOptions {
-        jvmTarget = Config.jvmTarget
+        jvmTarget = libs.versions.jvmTarget.get()
     }
     buildFeatures {
-        compose = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Deps.Compose.ComposeKotlinCompiler
+        compose = true
     }
     packaging {
         resources {
@@ -56,46 +62,45 @@ android {
 }
 
 dependencies {
-    implementation(project(Project.CoreCompose))
-    implementation(project(Project.WordGroupScreen))
-    implementation(project(Project.CreateWordGroupScreen))
-    implementation(project(Project.Database))
-    implementation(project(Project.ViewGroupWordsScreen))
-    implementation(project(Project.EditWordScreen))
-    implementation(project(Project.TTSManager))
-    implementation(project(Project.BottomBarScreen))
-    implementation(project(Project.TrainingActionsScreen))
-    implementation(project(Project.WordTranslateTrainingScreen))
-    implementation(project(Project.SettingsScreen))
-    implementation(project(Project.LanguageDeterminant))
-    implementation(project(Project.WordByEarTrainingScreen))
-    implementation(project(Project.CreateBackupScreen))
-    implementation(project(Project.ArchiverCreator))
-    implementation(project(Project.BackupConverter))
-    implementation(project(Project.RestoreBackupScreen))
-    implementation(project(Project.ManageLanguageScreen))
-    implementation(project(Project.FeatureViewScreen))
-    implementation(project(Project.PreferencesStorage))
-    implementation(project(Project.AdmobManager))
-    implementation(project(Project.AutoBackupToTelegramScreen))
-    implementation(project(Project.TelegramApi))
-    implementation(project(Project.CryptoManager))
-    implementation(project(Project.BackupWorker))
-    implementation(project(Project.TranslatorScreen))
-    implementation(project(Project.Translator))
-    implementation(project(Project.ManageModelsForTranslateScreen))
+    implementation(project(":CoreCompose"))
+    implementation(project(":WordGroupScreen"))
+    implementation(project(":CreateWordGroupScreen"))
+    implementation(project(":Database"))
+    implementation(project(":ViewGroupWordsScreen"))
+    implementation(project(":EditWordScreen"))
+    implementation(project(":TTSManager"))
+    implementation(project(":BottomBarScreen"))
+    implementation(project(":TrainingActionsScreen"))
+    implementation(project(":WordTranslateTrainingScreen"))
+    implementation(project(":SettingsScreen"))
+    implementation(project(":LanguageDeterminant"))
+    implementation(project(":WordByEarTrainingScreen"))
+    implementation(project(":CreateBackupScreen"))
+    implementation(project(":ArchiverCreator"))
+    implementation(project(":BackupConverter"))
+    implementation(project(":RestoreBackupScreen"))
+    implementation(project(":ManageLanguageScreen"))
+    implementation(project(":FeatureViewScreen"))
+    implementation(project(":PreferencesStorage"))
+    implementation(project(":AdmobManager"))
+    implementation(project(":AutoBackupToTelegramScreen"))
+    implementation(project(":TelegramApi"))
+    implementation(project(":CryptoManager"))
+    implementation(project(":BackupWorker"))
+    implementation(project(":TranslatorScreen"))
+    implementation(project(":Translator"))
+    implementation(project(":ManageModelsForTranslateScreen"))
 
-    kapt(Deps.Dagger.DaggerKaptCompiler)
+    ksp(libs.dagger.compiler)
 
     //Navigation
-    implementation(Deps.Compose.Navigation)
+    implementation(libs.androidx.navigation.compose)
 
     //Firebase
-    implementation(platform(Deps.Firebase.FirebaseBom))
-    implementation(Deps.Firebase.analytics)
-    implementation(Deps.Firebase.crashlytics)
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics.ktx)
 
     //Billing
-    implementation(Deps.Billing.billing)
+    implementation(libs.billing.ktx)
 
 }

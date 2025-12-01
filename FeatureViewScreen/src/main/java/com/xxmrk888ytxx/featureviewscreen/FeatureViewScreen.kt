@@ -67,11 +67,7 @@ fun FeatureViewScreen(
     onEvent: (UiEvent) -> Unit,
 ) {
 
-    val pager = rememberPagerState()
-
-    val pageCount = remember {
-        ScreenType.values().size
-    }
+    val pager = rememberPagerState { ScreenType.entries.size }
 
     val scope = rememberCoroutineScope()
 
@@ -90,7 +86,6 @@ fun FeatureViewScreen(
         }
     ) { paddings ->
         HorizontalPager(
-            pageCount = pageCount,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddings),
