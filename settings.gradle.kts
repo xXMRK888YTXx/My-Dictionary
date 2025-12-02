@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "MyDictionary"
-include (":app")
+include(":app")
 include(":CoreAndroid")
 include(":CoreCompose")
 include(":WordGroupScreen")
@@ -32,11 +32,10 @@ include(":BaseTrainingComponents")
 include(":CreateBackupScreen")
 include(":ArchiverCreator")
 include(":BackupConverter")
-include(":RestoreBackupScreen")
+include("RestoreBackupScreen")
 include(":ManageLanguageScreen")
 include(":FeatureViewScreen")
 include(":PreferencesStorage")
-include(":AdmobManager")
 include(":AutoBackupToTelegramScreen")
 include(":TelegramApi")
 include(":CryptoManager")

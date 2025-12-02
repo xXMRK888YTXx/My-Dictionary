@@ -19,10 +19,6 @@ sealed class LocalUiEvent : UiEvent {
 
     object OpenTermsOfUse : LocalUiEvent()
 
-    class RequestBuyRemoveAdsEvent(val context: Context) : LocalUiEvent()
-
     class OpenAutoBackupToTelegramEvent(val navigator: Navigator) : LocalUiEvent()
     class OpenManageModelsForTranslateScreen(val navigator: Navigator) : LocalUiEvent()
-
-    object RestorePurchasesEvent : LocalUiEvent()
 }

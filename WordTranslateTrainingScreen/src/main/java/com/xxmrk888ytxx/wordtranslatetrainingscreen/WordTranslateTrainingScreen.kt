@@ -48,7 +48,6 @@ import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
@@ -75,11 +74,9 @@ fun WordTranslateTrainingScreen(
 
     val navigator = LocalNavigator.current
 
-    val pager = rememberPagerState()
+    val pager = rememberPagerState { screenState.question.size }
 
     val scope = rememberCoroutineScope()
-
-    val adController = LocalAdController.current
 
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
@@ -141,8 +138,6 @@ fun WordTranslateTrainingScreen(
                     }
                     ScreenType.LOADING -> {}
                 }
-
-                adController.TrainingBanner()
             }
         },
         topBar = {
@@ -217,7 +212,6 @@ fun WordTranslateTrainingScreen(
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
                         pager = pager,
-                        questionCount = screenState.question.size,
                         answerText = screenState.trainingProgress.currentAnswer,
                         onChangeAnswerText = {
                             onEvent(LocalUiEvent.ChangeAnswerTextEvent(it))
@@ -254,7 +248,6 @@ fun WordTranslateTrainingScreen(
 @Composable
 private fun TrainingScreenType(
     pager: PagerState,
-    questionCount: Int,
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onGetCurrentQuestion: (Int) -> String,
@@ -262,7 +255,6 @@ private fun TrainingScreenType(
 ) {
 
     HorizontalPager(
-        pageCount = questionCount,
         userScrollEnabled = false,
         state = pager
     ) { currentPage ->

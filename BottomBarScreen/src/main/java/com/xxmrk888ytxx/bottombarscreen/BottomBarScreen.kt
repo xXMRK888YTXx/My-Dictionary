@@ -40,9 +40,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun BottomBarScreen(
     bottomBarScreens:ImmutableList<BottomBarScreenModel>,
-    bannerAd: @Composable (() -> Unit)? = null
 ) {
-    val pager = rememberPagerState()
+    val pager = rememberPagerState { bottomBarScreens.size }
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -55,13 +54,10 @@ fun BottomBarScreen(
                     onScrollPage = {
                         scope.launch { pager.animateScrollToPage(it) }
                     })
-
-                bannerAd?.invoke()
             }
         }
     ) {
         HorizontalPager(
-            pageCount = bottomBarScreens.size,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it),
@@ -79,7 +75,7 @@ fun BottomBar(
     currentPage:Int,
     onScrollPage:(Int) -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(windowInsets = WindowInsets()) {
         bottomBarScreens.forEachIndexed { index, bottomBarScreenModel ->
             NavigationBarItem(
                 selected = index == currentPage,

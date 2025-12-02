@@ -13,12 +13,6 @@ class App : Application(), DepsProvider {
         DaggerAppComponent.factory().create(this)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        appComponent.billingManager.connectToGooglePlay()
-        appComponent.billingManager.restorePurchases()
-    }
-
     private val depsMap: Map<KClass<*>, () -> Any> by lazy {
         mapOf(
             appComponent.logger.toProvidedDeps(),

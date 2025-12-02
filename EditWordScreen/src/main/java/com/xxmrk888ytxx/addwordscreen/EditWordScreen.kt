@@ -208,7 +208,7 @@ fun LazyListScope.phrasesList(
     items(phrases, key = { it.localId }) { model ->
         Card(
             modifier = Modifier
-                .animateItemPlacement()
+                .animateItem()
                 .fillMaxWidth()
                 .padding(16.dp),
         ) {

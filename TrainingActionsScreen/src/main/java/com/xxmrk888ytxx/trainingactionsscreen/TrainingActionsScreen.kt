@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.trainingactionsscreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.trainingactionsscreen.models.Actions
 import com.xxmrk888ytxx.trainingactionsscreen.models.LocalUiEvent
@@ -48,17 +48,15 @@ fun TrainingActionsScreen(
 
     val navigator = LocalNavigator.current
 
-    val adController = LocalAdController.current
-
     val actionList = remember(key1 = navigator) {
         persistentListOf(
             Actions(
                 text = R.string.word_translation,
-                onClick = { onEvent(LocalUiEvent.OpenWordTranslateTraining(navigator,adController)) }
+                onClick = { onEvent(LocalUiEvent.OpenWordTranslateTraining(navigator)) }
             ),
             Actions(
                 text = R.string.words_by_ear,
-                onClick = { onEvent(LocalUiEvent.OpenWordsByEarTraining(navigator,adController)) }
+                onClick = { onEvent(LocalUiEvent.OpenWordsByEarTraining(navigator)) }
             )
         )
     }
@@ -67,8 +65,10 @@ fun TrainingActionsScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(text = stringResource(R.string.select_a_training)) },
+                windowInsets = WindowInsets(),
+                expandedHeight = 0.dp
             )
-        }
+        },
     ) { paddings ->
         LazyColumn(
             modifier = Modifier.padding(paddings)

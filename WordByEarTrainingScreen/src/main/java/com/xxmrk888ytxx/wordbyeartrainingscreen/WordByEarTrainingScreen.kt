@@ -47,7 +47,6 @@ import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenState
@@ -71,11 +70,9 @@ fun WordByEarTrainingScreen(
 ) {
     val navigator = LocalNavigator.current
 
-    val pager = rememberPagerState()
+    val pager = rememberPagerState { screenState.questions.size }
 
     val scope = rememberCoroutineScope()
-
-    val adController = LocalAdController.current
 
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
@@ -112,8 +109,6 @@ fun WordByEarTrainingScreen(
                     onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
                     onBackScreen = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) }
                 )
-
-                adController.TrainingBanner()
             }
         }
     ) { paddings ->
@@ -146,7 +141,6 @@ fun WordByEarTrainingScreen(
                 ScreenType.TRAINING -> {
                     TrainingScreenType(
                         pager = pager,
-                        questionCount = screenState.questions.size,
                         answerText = screenState.trainingProgress.currentAnswer,
                         onChangeAnswerText = {
                             onEvent(LocalUiEvent.ChangeAnswerTextEvent(it))
@@ -289,7 +283,6 @@ private fun TopBar(
 @Composable
 private fun TrainingScreenType(
     pager: PagerState,
-    questionCount: Int,
     answerText: String,
     onChangeAnswerText: (String) -> Unit,
     onPlayCurrentQuestion: (Int) -> Unit,
@@ -297,7 +290,6 @@ private fun TrainingScreenType(
 ) {
 
     HorizontalPager(
-        pageCount = questionCount,
         userScrollEnabled = false,
         state = pager
     ) { currentPage ->

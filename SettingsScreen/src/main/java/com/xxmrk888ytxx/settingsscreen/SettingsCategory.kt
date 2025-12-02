@@ -98,33 +98,6 @@ internal fun LazyListScope.languageConfiguration(
     )
 }
 
-internal fun LazyListScope.advertisement(
-    context: Context,
-    isAdsEnabled:Boolean,
-    onBuyRemoveAdRequest:() -> Unit,
-    onRestorePurchases:() -> Unit
-) {
-    settingsCategory(
-        title = context.getString(R.string.advertisement),
-        contents = persistentListOf(
-            {
-                if(isAdsEnabled) {
-                    ButtonItem(
-                        text = stringResource(R.string.remove_ads),
-                        onClick = onBuyRemoveAdRequest
-                    )
-                }
-            },
-            {
-                ButtonItem(
-                    text = stringResource(R.string.restore_purchases),
-                    onClick = onRestorePurchases
-                )
-            }
-        )
-    )
-}
-
 internal fun LazyListScope.translatorSettingsCategory(
     context: Context,
     openManageModelsForTranslateScreen:() -> Unit

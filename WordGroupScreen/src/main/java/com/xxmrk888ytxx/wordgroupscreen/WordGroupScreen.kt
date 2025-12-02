@@ -10,6 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,11 +38,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Wallpapers
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.WithLocalProviderForPreview
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
@@ -80,8 +81,6 @@ fun WordGroupScreen(
         screenState.wordList.isEmpty()
     }
 
-    val adController = LocalAdController.current
-
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
@@ -93,8 +92,7 @@ fun WordGroupScreen(
             FloatingActionButton(onClick = {
                 onEvent(
                     LocalUiEvent.FloatButtonClickEvent(
-                        navigator,
-                        adController
+                        navigator
                     )
                 )
             }) {
@@ -113,7 +111,9 @@ fun WordGroupScreen(
                         style = MaterialTheme.typography.titleLarge
                     )
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                windowInsets = WindowInsets(),
+                expandedHeight = 0.dp
             )
         }
     ) { paddings ->
@@ -172,8 +172,6 @@ fun WordListState(
 ) {
     val navigator = LocalNavigator.current
 
-    val adController = LocalAdController.current
-
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(wordList, key = { it.id }) {
             Card(
@@ -185,8 +183,7 @@ fun WordListState(
                             onEvent(
                                 LocalUiEvent.OpenWordGroupEvent(
                                     navigator,
-                                    it,
-                                    adController
+                                    it
                                 )
                             )
                         },
@@ -275,8 +272,6 @@ fun WordGroupDialogOption(
 private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
     val navigator = LocalNavigator.current
 
-    val adController = LocalAdController.current
-
     Column(
         Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -294,7 +289,6 @@ private fun EmptyWordGroupState(onEvent: (UiEvent) -> Unit) {
                 onEvent(
                     LocalUiEvent.AddFirstWordGroupButtonClickEvent(
                         navigator,
-                        adController
                     )
                 )
             }
@@ -314,7 +308,9 @@ fun EmptyWordGroupStateWhite() = WithLocalProviderForPreview {
 }
 
 @Composable
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL,
+    wallpaper = Wallpapers.NONE
+)
 fun EmptyWordGroupStateDark() = WithLocalProviderForPreview {
     val screenState = ScreenState()
 

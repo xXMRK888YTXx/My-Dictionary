@@ -5,7 +5,7 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="it_is_free">It is free</string>
-    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">All features of the application are completely free, except for disabling the display of ads.</string>
+    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">All features of the application are completely free.</string>
     <string name="train_your_words">Train your words</string>
     <string name="you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words">You can train the words that you have written down to consolidate your result or learn new words.</string>
     <string name="save_the_translation_of_words">Save the translation of words</string>
