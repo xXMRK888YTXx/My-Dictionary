@@ -5,7 +5,7 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="terms_of_use">Условия использования</string>
     <string name="it_is_free">Это бесплатно</string>
-    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">Все возможности приложения полностью бесплатны, за исключением отключения показа рекламы.</string>
+    <string name="all_features_of_the_application_are_completely_free_except_for_disabling_the_display_of_ads">Все возможности приложения полностью бесплатны.</string>
     <string name="train_your_words">Тренируйте свои слова</string>
     <string name="you_can_train_the_words_that_you_have_written_down_to_consolidate_your_result_or_learn_new_words">Вы можете тренировать записанные слова, чтобы закрепить полученный результат или выучить новые слова.</string>
     <string name="save_the_translation_of_words">Сохраните перевод слов</string>
