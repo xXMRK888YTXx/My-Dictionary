@@ -48,7 +48,6 @@ import com.xxmrk888ytxx.basetrainingcomponents.ResultScreen
 import com.xxmrk888ytxx.basetrainingcomponents.models.CheckResultState
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordtranslatetrainingscreen.models.ScreenState
@@ -78,8 +77,6 @@ fun WordTranslateTrainingScreen(
     val pager = rememberPagerState { screenState.question.size }
 
     val scope = rememberCoroutineScope()
-
-    val adController = LocalAdController.current
 
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
@@ -141,8 +138,6 @@ fun WordTranslateTrainingScreen(
                     }
                     ScreenType.LOADING -> {}
                 }
-
-                adController.TrainingBanner()
             }
         },
         topBar = {

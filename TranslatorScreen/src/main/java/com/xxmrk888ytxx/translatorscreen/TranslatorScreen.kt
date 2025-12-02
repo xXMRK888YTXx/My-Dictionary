@@ -70,7 +70,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.DialogProperties
 import com.xxmrk888ytxx.coreandroid.ActivityContracts.SpeechRecognizeContract.SpeechRecognizeContract
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.translatorscreen.models.ChangeLanguageBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.FastAddWordInDictionaryBottomSheetState
 import com.xxmrk888ytxx.translatorscreen.models.LoadingModelsDialogState
@@ -89,9 +88,6 @@ fun TranslatorScreen(
     screenState: ScreenState,
     onEvent: (UiEvent) -> Unit,
 ) {
-
-    val adController = LocalAdController.current
-
     val snackbarHostState = remember {
         SnackbarHostState()
     }
@@ -151,14 +147,12 @@ fun TranslatorScreen(
                     .weight(1f)
                     .padding(16.dp),
                 text = screenState.textForTranslate,
-                onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it,adController)) },
+                onChangeText = { onEvent(LocalUiEvent.TextForTranslateInput(it)) },
                 onClear = { onEvent(LocalUiEvent.ClearTextForTranslate) },
                 onAskText = { onEvent(LocalUiEvent.AskTextForTranslateEvent) },
                 onPastFromClipboard = {
                     if (clipboardManager.hasText()) onEvent(
-                        LocalUiEvent.PastTextFromClipboard(
-                            clipboardManager.getText()?.text,
-                            adController
+                        LocalUiEvent.PastTextFromClipboard(clipboardManager.getText()?.text,
                         )
                     )
                 },
@@ -231,7 +225,7 @@ fun TranslatorScreen(
                     onEvent(LocalUiEvent.DismissFastAddWordInDictionaryBottomSheet)
                 },
                 onCompleteAdding = {
-                    onEvent(LocalUiEvent.FastSaveWordEvent(scope,snackbarHostState,context))
+                    onEvent(LocalUiEvent.FastSaveWordEvent(scope, snackbarHostState, context))
                 },
                 onUpdateDialogState = {
                     onEvent(LocalUiEvent.UpdateStateForFastAddWordInDictionaryBottomSheet(it))
@@ -243,11 +237,11 @@ fun TranslatorScreen(
 
 @Composable
 fun ColumnScope.SelectLanguagesForTranslateWidget(
-    onOpenSelectLanguageDialogForOriginalLanguage:() -> Unit,
-    originLanguageName:String,
-    exchangeLanguages:() -> Unit,
-    onOpenSelectLanguageDialogForLanguageForTranslate:() -> Unit,
-    languageForTranslateName:String
+    onOpenSelectLanguageDialogForOriginalLanguage: () -> Unit,
+    originLanguageName: String,
+    exchangeLanguages: () -> Unit,
+    onOpenSelectLanguageDialogForLanguageForTranslate: () -> Unit,
+    languageForTranslateName: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

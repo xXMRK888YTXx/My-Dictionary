@@ -2,8 +2,6 @@ package com.xxmrk888ytxx.mydictionary.DI.module
 
 import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.BillingScopeQualifier
 import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
-import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
-import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolder
@@ -76,11 +74,6 @@ interface DomainModule {
     fun bindBillingManager(
         billingManagerImpl: BillingManagerImpl
     ) : BillingManager
-
-    @Binds
-    fun bindAdsStateManager(
-        adsStateManagerImpl: AdsStateManagerImpl
-    ) : AdsStateManager
 
     @Binds
     fun bindTelegramDataHolder(

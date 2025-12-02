@@ -10,7 +10,6 @@ import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenSourceCodeContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
 import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersionContract
-import com.xxmrk888ytxx.settingsscreen.contract.ProvideIsAdsEnabledInfoContract
 import com.xxmrk888ytxx.settingsscreen.contract.RestorePurchasesContract
 import com.xxmrk888ytxx.settingsscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.settingsscreen.models.ScreenState
@@ -28,8 +27,10 @@ class SettingsViewModel @Inject constructor(
     private val openEmailClientForWriteDeveloperContract: OpenEmailClientForWriteDeveloperContract,
     private val buyRemoveAdsContract: BuyRemoveAdsContract,
     private val restorePurchasesContract: RestorePurchasesContract,
-    private val provideIsAdsEnabledInfoContract: ProvideIsAdsEnabledInfoContract
 ) : ViewModel(),UiModel<ScreenState> {
+
+    private var cashedScreenState = ScreenState(applicationVersion = provideApplicationVersionContract.applicationVersion)
+
     override fun handleEvent(event: UiEvent) {
         if(event !is LocalUiEvent) return
 
@@ -82,15 +83,7 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    override val state: Flow<ScreenState> = provideIsAdsEnabledInfoContract.isAdsEnabled.map {
-        ScreenState(
-            applicationVersion = provideApplicationVersionContract.applicationVersion,
-            isAdsEnabled = it
-        ).also { cashedScreenState = it }
-    }
-
-
-    private var cashedScreenState = ScreenState()
+    override val state: Flow<ScreenState> = flowOf(cashedScreenState)
 
     override val defValue: ScreenState
         get() = cashedScreenState

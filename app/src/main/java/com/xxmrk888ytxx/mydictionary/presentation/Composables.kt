@@ -16,7 +16,6 @@ import com.xxmrk888ytxx.autobackuptotelegramscreen.AutoBackupToTelegramViewModel
 import com.xxmrk888ytxx.bottombarscreen.BottomBarScreen
 import com.xxmrk888ytxx.bottombarscreen.models.BottomBarScreenModel
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupScreen
 import com.xxmrk888ytxx.createbackupscreen.CreateBackupViewModel
@@ -75,8 +74,6 @@ fun NavGraphBuilder.mainScreen(
     translatorViewModel: Provider<TranslatorViewModel>
 ) {
     composable(Screen.MainScreen.route) {
-        val adController = LocalAdController.current
-
         //WordGroupScreen
         val viewModelForWordGroupScreen = composeViewModel() {
             wordGroupViewModel.get()
@@ -157,8 +154,7 @@ fun NavGraphBuilder.mainScreen(
                         )
                     }
                 )
-            ),
-            bannerAd = { adController.MainScreenBanner() }
+            )
         )
     }
 }

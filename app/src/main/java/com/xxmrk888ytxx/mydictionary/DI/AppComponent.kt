@@ -4,7 +4,6 @@ import android.content.Context
 import com.xxmrk888ytxx.backupworker.workers.BackupToTelegramWorker.BackupMaker
 import com.xxmrk888ytxx.backupworker.workers.BackupToTelegramWorker.IsBackupNeededChecker
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
-import com.xxmrk888ytxx.mydictionary.DI.module.AdmobModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ApplicationScopeModule
 import com.xxmrk888ytxx.mydictionary.DI.module.ArchiverCreatorModule
 import com.xxmrk888ytxx.mydictionary.DI.module.AutoBackupToTelegramScreenModule
@@ -62,7 +61,6 @@ import dagger.Component
         FeatureViewScreenModule::class,
         PreferencesStorageModule::class,
         ApplicationScopeModule::class,
-        AdmobModule::class,
         AutoBackupToTelegramScreenModule::class,
         TelegramApiModule::class,
         CryptoManagerModule::class,

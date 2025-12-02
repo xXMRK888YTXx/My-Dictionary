@@ -6,7 +6,6 @@ import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenPrivacyPolicyContra
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenSourceCodeContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.OpenTermsOfUseContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideApplicationVersionContractImpl
-import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.ProvideIsAdsEnabledInfoContractImpl
 import com.xxmrk888ytxx.mydictionary.glue.SettingsScreen.RestorePurchasesContractImpl
 import com.xxmrk888ytxx.settingsscreen.contract.BuyRemoveAdsContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenEmailClientForWriteDeveloperContract
@@ -14,7 +13,6 @@ import com.xxmrk888ytxx.settingsscreen.contract.OpenPrivacyPolicyContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenSourceCodeContract
 import com.xxmrk888ytxx.settingsscreen.contract.OpenTermsOfUseContract
 import com.xxmrk888ytxx.settingsscreen.contract.ProvideApplicationVersionContract
-import com.xxmrk888ytxx.settingsscreen.contract.ProvideIsAdsEnabledInfoContract
 import com.xxmrk888ytxx.settingsscreen.contract.RestorePurchasesContract
 import dagger.Binds
 import dagger.Module
@@ -56,9 +54,4 @@ interface SettingsScreenModule {
     fun bindRestorePurchasesContract(
         restorePurchasesContractImpl: RestorePurchasesContractImpl
     ) : RestorePurchasesContract
-
-    @Binds
-    fun bindProvideIsAdsEnabledInfoContract(
-        provideIsAdsEnabledInfoContractImpl: ProvideIsAdsEnabledInfoContractImpl
-    ) : ProvideIsAdsEnabledInfoContract
 }

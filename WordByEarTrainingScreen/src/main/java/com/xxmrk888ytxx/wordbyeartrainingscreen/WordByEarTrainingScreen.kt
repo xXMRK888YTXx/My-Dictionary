@@ -47,7 +47,6 @@ import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingParams
 import com.xxmrk888ytxx.basetrainingcomponents.models.TrainingProgress
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.LocalUiEvent
 import com.xxmrk888ytxx.wordbyeartrainingscreen.models.ScreenState
@@ -74,8 +73,6 @@ fun WordByEarTrainingScreen(
     val pager = rememberPagerState { screenState.questions.size }
 
     val scope = rememberCoroutineScope()
-
-    val adController = LocalAdController.current
 
     BackHandler(
         enabled = screenState.screenType == ScreenType.TRAINING
@@ -112,8 +109,6 @@ fun WordByEarTrainingScreen(
                     onNextQuestion = { onEvent(LocalUiEvent.NextQuestion(pager, scope)) },
                     onBackScreen = { onEvent(LocalUiEvent.BackScreenEvent(navigator)) }
                 )
-
-                adController.TrainingBanner()
             }
         }
     ) { paddings ->

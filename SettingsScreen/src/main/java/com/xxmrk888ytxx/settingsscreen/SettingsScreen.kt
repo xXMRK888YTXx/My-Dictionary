@@ -70,14 +70,6 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(paddings)
         ) {
-
-            advertisement(
-                context = context,
-                onBuyRemoveAdRequest = { onEvent(LocalUiEvent.RequestBuyRemoveAdsEvent(context)) },
-                onRestorePurchases = { onEvent(LocalUiEvent.RestorePurchasesEvent) },
-                isAdsEnabled = screenState.isAdsEnabled
-            )
-
             languageConfiguration(
                 context = context,
                 onOpenLanguageConfigurationScreen = { onEvent(LocalUiEvent.OpenLanguageManageScreen(navigator)) }

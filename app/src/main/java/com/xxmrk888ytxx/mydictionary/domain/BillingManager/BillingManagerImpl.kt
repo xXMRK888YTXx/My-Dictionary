@@ -17,10 +17,8 @@ import com.xxmrk888ytxx.coreandroid.ShareInterfaces.Logger
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.ToastManager
 import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.BillingScopeQualifier
 import com.xxmrk888ytxx.mydictionary.R
-import com.xxmrk888ytxx.mydictionary.domain.AdsStateManager.AdsStateManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +27,6 @@ class BillingManagerImpl @Inject constructor(
     @BillingScopeQualifier private val billingScope:CoroutineScope,
     private val logger: Logger,
     private val toastManager: ToastManager,
-    private val adsStateManager: AdsStateManager
 ) : BillingManager {
 
     private var disableAdProduct:ProductDetails? = null
@@ -79,8 +76,6 @@ class BillingManagerImpl @Inject constructor(
             billingClient.acknowledgePurchase(acknowledgePurchaseParams) { billingClient ->
                 if (billingClient.responseCode == BillingClient.BillingResponseCode.OK && purchase.products.contains(DISABLE_ADS_PRODUCT_ID)) {
                     billingScope.launch {
-                        if(!adsStateManager.isAdsEnabledFlow.first()) return@launch
-                        adsStateManager.disableAds()
                         toastManager.showToast(context.getString(R.string.the_ads_has_been_removed_thanks_for_the_purchase))
                     }
                 }

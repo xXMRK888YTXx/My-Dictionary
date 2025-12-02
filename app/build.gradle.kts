@@ -82,7 +82,6 @@ dependencies {
     implementation(project(":ManageLanguageScreen"))
     implementation(project(":FeatureViewScreen"))
     implementation(project(":PreferencesStorage"))
-    implementation(project(":AdmobManager"))
     implementation(project(":AutoBackupToTelegramScreen"))
     implementation(project(":TelegramApi"))
     implementation(project(":CryptoManager"))

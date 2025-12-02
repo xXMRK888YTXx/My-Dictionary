@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.trainingactionsscreen.models.Actions
 import com.xxmrk888ytxx.trainingactionsscreen.models.LocalUiEvent
@@ -48,17 +47,15 @@ fun TrainingActionsScreen(
 
     val navigator = LocalNavigator.current
 
-    val adController = LocalAdController.current
-
     val actionList = remember(key1 = navigator) {
         persistentListOf(
             Actions(
                 text = R.string.word_translation,
-                onClick = { onEvent(LocalUiEvent.OpenWordTranslateTraining(navigator,adController)) }
+                onClick = { onEvent(LocalUiEvent.OpenWordTranslateTraining(navigator)) }
             ),
             Actions(
                 text = R.string.words_by_ear,
-                onClick = { onEvent(LocalUiEvent.OpenWordsByEarTraining(navigator,adController)) }
+                onClick = { onEvent(LocalUiEvent.OpenWordsByEarTraining(navigator)) }
             )
         )
     }

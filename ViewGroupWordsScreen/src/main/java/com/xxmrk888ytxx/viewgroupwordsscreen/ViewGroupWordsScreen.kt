@@ -47,7 +47,6 @@ import androidx.compose.ui.unit.sp
 import com.xxmrk888ytxx.coreandroid.ShareInterfaces.MVI.UiEvent
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BackNavigationButton
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.BottomSheetDialog
-import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalAdController
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.LocalNavigator
 import com.xxmrk888ytxx.corecompose.theme.ui.theme.models.BottomSheetDialogItem
 import com.xxmrk888ytxx.viewgroupwordsscreen.models.LocalUiEvent
@@ -80,8 +79,6 @@ fun ViewGroupWordsScreen(
     val isWordListEmpty = remember(screenState.words) {
         screenState.words.isEmpty()
     }
-
-    val adController = LocalAdController.current
 
     val lazyListState = rememberLazyListState()
 
@@ -185,9 +182,6 @@ fun ViewGroupWordsScreen(
             }
 
 
-        },
-        bottomBar = {
-            adController.WordGroupScreenBanner()
         },
 
     ) { paddings ->
