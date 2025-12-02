@@ -3,6 +3,7 @@ package com.xxmrk888ytxx.trainingactionsscreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -64,8 +65,10 @@ fun TrainingActionsScreen(
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text(text = stringResource(R.string.select_a_training)) },
+                windowInsets = WindowInsets(),
+                expandedHeight = 0.dp
             )
-        }
+        },
     ) { paddings ->
         LazyColumn(
             modifier = Modifier.padding(paddings)
