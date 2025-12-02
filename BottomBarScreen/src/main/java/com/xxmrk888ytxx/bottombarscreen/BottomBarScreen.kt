@@ -75,7 +75,7 @@ fun BottomBar(
     currentPage:Int,
     onScrollPage:(Int) -> Unit
 ) {
-    NavigationBar {
+    NavigationBar(windowInsets = WindowInsets()) {
         bottomBarScreens.forEachIndexed { index, bottomBarScreenModel ->
             NavigationBarItem(
                 selected = index == currentPage,
