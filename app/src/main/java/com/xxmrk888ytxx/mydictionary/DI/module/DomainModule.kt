@@ -1,13 +1,9 @@
 package com.xxmrk888ytxx.mydictionary.DI.module
 
-import com.xxmrk888ytxx.mydictionary.DI.Qualifiers.BillingScopeQualifier
-import com.xxmrk888ytxx.mydictionary.DI.scope.AppScope
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolder
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupTelegramSettingsHolder.AutoBackupTelegramSettingsHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolder
 import com.xxmrk888ytxx.mydictionary.domain.AutoBackupToTelegramLastBackupHashHolder.AutoBackupToTelegramLastBackupHashHolderImpl
-import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManager
-import com.xxmrk888ytxx.mydictionary.domain.BillingManager.BillingManagerImpl
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolder
 import com.xxmrk888ytxx.mydictionary.domain.FirstStartAppStateHolder.FirstStartAppStateHolderImpl
 import com.xxmrk888ytxx.mydictionary.domain.Repositoryes.ImageRepository.ImageRepository
@@ -32,11 +28,6 @@ import com.xxmrk888ytxx.mydictionary.glue.TranslatorScreen.ProvideSupportedLangu
 import com.xxmrk888ytxx.translatorscreen.contract.ProvideSupportedLanguages
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
 
 @Module
 interface DomainModule {
@@ -70,12 +61,6 @@ interface DomainModule {
     ) : FirstStartAppStateHolder
 
     @Binds
-    @AppScope
-    fun bindBillingManager(
-        billingManagerImpl: BillingManagerImpl
-    ) : BillingManager
-
-    @Binds
     fun bindTelegramDataHolder(
         telegramDataHolderImpl: TelegramDataHolderImpl
     ) : TelegramDataHolder
@@ -99,16 +84,4 @@ interface DomainModule {
     fun bindProvideSupportedLanguages(
         provideSupportedLanguagesImpl: ProvideSupportedLanguagesImpl
     ) : ProvideSupportedLanguages
-
-
-    companion object {
-
-        @OptIn(ExperimentalCoroutinesApi::class)
-        @Provides
-        @AppScope
-        @BillingScopeQualifier
-        fun provideBullingScope() : CoroutineScope {
-            return CoroutineScope(Dispatchers.IO.limitedParallelism(1) + SupervisorJob())
-        }
-    }
 }

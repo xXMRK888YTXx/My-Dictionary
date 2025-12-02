@@ -35,7 +35,6 @@ lottie = "6.7.1"
 mlkit-language-id = "17.0.6"
 mlkit-translate = "17.0.3"
 zip4j = "2.11.5"
-billing = "8.1.0"
 ktor = "3.3.3"
 workmanager = "2.11.0"
 android-gradle-plugin = "8.13.1"
@@ -126,8 +125,6 @@ mlkit-language-id = { module = "com.google.mlkit:language-id", version.ref = "ml
 mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkit-translate" }
 
 zip4j = { module = "net.lingala.zip4j:zip4j", version.ref = "zip4j" }
-
-billing-ktx = { module = "com.android.billingclient:billing-ktx", version.ref = "billing" }
 
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
 ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }

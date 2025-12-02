@@ -98,8 +98,4 @@ dependencies {
     //Firebase
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.analytics.ktx)
-
-    //Billing
-    implementation(libs.billing.ktx)
-
 }
